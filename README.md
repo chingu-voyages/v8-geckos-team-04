@@ -7,13 +7,13 @@ Front End (Sabrina, Susanna, Ying)
 - React
 - React Hooks
 - Bootstrap
-- Jest
+- Jest / Snapshot Utilities
+- Enzyme
 - HTML5
 - CSS
 - YouTube API
 - Node.js
 - Bundler (ie. Webpack)
-- Express
 - Axios
 
 Back End (Carlos)
