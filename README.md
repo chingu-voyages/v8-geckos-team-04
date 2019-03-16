@@ -14,6 +14,7 @@ Front End (Sabrina, Susanna, Ying)
 - Node.js
 - Bundler (ie. Webpack)
 - Express
+- Axios
 
 Back End (Carlos)
 - Elixer
