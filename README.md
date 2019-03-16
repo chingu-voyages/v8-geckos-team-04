@@ -17,7 +17,7 @@ Front End (Sabrina, Susanna, Ying)
 - Axios
 
 Back End (Carlos)
-- Elixer
+- Elixir
 - Phoenix
 
 # Team members
