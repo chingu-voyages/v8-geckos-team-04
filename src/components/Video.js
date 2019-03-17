@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 
 function Video() {
-	// Variable initialVideo for testing only, can be deleted when the function is done
+	// Variable initialVideo & initialVideoTitle for testing only, can be deleted when the function is done
 	const initialVideo = 'https://www.youtube.com/embed/3FGc0zaIg2k';
-  	const [videoSrc, setVideoSrc] = useState(initialVideo);
+	const initialVideoTitle = 'English Speaking Vid';
+
+	const [videoSrc, setVideoSrc] = useState(initialVideo);
+	const [videoTitle, setVideoTitle] = useState(initialVideoTitle);  
   	const [choice1, setChoice1] = useState('choice1'); // initial value for testing only
   	const [choice2, setChoice2] = useState('choice2'); // initial value for testing only
   	const [choice3, setChoice3] = useState('choice3'); // initial value for testing only
@@ -13,6 +16,7 @@ function Video() {
 	// A function is needed to choose video src, choices and answer
 	function chooseAVideo() {
 		setVideoSrc();
+		setVideoTitle();
 		setChoice1();
 		setChoice2();
 		setChoice3();
@@ -32,7 +36,7 @@ function Video() {
 	return (
 		<div className="video">
 			<p className='video-title'>What language do you think it is?</p>
-			<iframe className='youtube-video' src={videoSrc}></iframe>
+			<iframe className='youtube-video' title={videoTitle} src={videoSrc}></iframe>
 			<div className='choices'>
 				<button id={choice1} onClick={(e) => {handleUserChoice(e)}}>{choice1}</button>
 				<button id={choice2} onClick={(e) => {handleUserChoice(e)}}>{choice2}</button>

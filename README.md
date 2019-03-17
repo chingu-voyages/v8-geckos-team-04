@@ -6,6 +6,7 @@ STACK
 Front End (Sabrina, Susanna, Ying)
 - React
 - React Hooks
+- React Router
 - Bootstrap
 - Jest / Snapshot Utilities
 - Enzyme
