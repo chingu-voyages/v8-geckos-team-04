@@ -1,4 +1,6 @@
 import React from 'react';
+
+// routing so we can visit an admin page or other navigation within the app.
 import { Switch, Route } from 'react-router-dom';
 import Main from './Main';
 import Admin from './Admin';
