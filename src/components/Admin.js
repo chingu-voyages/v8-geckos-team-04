@@ -9,8 +9,8 @@ function Admin() {
     const API_KEY = process.env.REACT_APP_YOUTUBE_DATA_API_V3_KEY;
     
     // use the useState hook to manage the local state for the fetched data.
-    // hits = matching YouTube videos.
-    const [videos, setVideos] = useState({ hits: [] });
+    // items = matching YouTube videos.
+    const [videos, setVideos] = useState({ items: []});
 
     // use the useEffect hook to fetch the data with axios from the YouTube API.
     useEffect(() => {
@@ -24,7 +24,9 @@ function Admin() {
                 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=UUBgWgQyEb5eTzvh4lLcuipQ&key=' + API_KEY
             );
 
-            setVideos(result.videos);
+            console.log(result.data.items);
+
+            setVideos(result.data.items);
         };
 
         fetchVideos();
@@ -38,14 +40,7 @@ function Admin() {
 
         <ul>
 
-            { videos.hits.map( video => (
 
-                    <li key={video.id}>
-                        {video.snippet.title}
-                    </li>
-
-                ))
-            }
 
         </ul>
     );
