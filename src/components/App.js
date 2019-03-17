@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { BrowserRouter } from 'react-router-dom'; // routing so we can visit an admin page.
+
 import Video from './Video';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <BrowserRouter>
 
         Pull me to local to set up a clean local development environment (if you need) then run npm install <br />
 
@@ -24,7 +26,7 @@ class App extends Component {
         <Video />
 
 
-      </div>
+      </BrowserRouter>
     );
   }
 }
