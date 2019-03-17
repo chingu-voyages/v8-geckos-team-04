@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Video from './Video';
 
 class App extends Component {
   render() {
@@ -19,6 +20,8 @@ class App extends Component {
         Images in public/images <br />
         Extra js scripts /public/js <br />
         Unit tests in /src/__tests__ <br />
+
+        <Video />
 
 
       </div>
