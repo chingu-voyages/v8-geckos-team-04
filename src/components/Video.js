@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 function Video() {
 	// Variable initialVideo for testing only, can be deleted when the function is done
 	const initialVideo = 'https://www.youtube.com/embed/3FGc0zaIg2k';
+
   	const [videoSrc, setVideoSrc] = useState(initialVideo);
   	const [choice1, setChoice1] = useState('choice1'); // initial value for testing only
   	const [choice2, setChoice2] = useState('choice2'); // initial value for testing only
@@ -32,7 +33,7 @@ function Video() {
 	return (
 		<div className="video">
 			<p className='video-title'>What language do you think it is?</p>
-			<iframe className='youtube-video' src={videoSrc}></iframe>
+			<iframe className='youtube-video' title='this-will-be-changed-per-video' src={videoSrc}></iframe>
 			<div className='choices'>
 				<button id={choice1} onClick={(e) => {handleUserChoice(e)}}>{choice1}</button>
 				<button id={choice2} onClick={(e) => {handleUserChoice(e)}}>{choice2}</button>
