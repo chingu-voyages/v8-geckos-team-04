@@ -1,6 +1,11 @@
 html,
 body {
   height: 100%;
-  margin: auto;
+  margin: 10px;
+}
+
+
+.video {
+	text-align: center;
 }
 
