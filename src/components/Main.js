@@ -1,4 +1,6 @@
 import React from 'react';
+import { Route } from 'react-router-dom'
+
 
 const Main = () => (
 
@@ -21,10 +23,23 @@ const Main = () => (
 
     Page path: <br />
     main: / <br />
-    video: /video <br />
+    game: /game <br />
     score: /score <br />
     history: /history <br />
     admin: /admin <br />
+    <br /><br />
+
+    *** Main content begins ***
+    <div className='home-page'>
+        <h1>Guess The Language</h1>
+        <h3>The game is simple, watch a short video and guess the language spoken.</h3>
+        <Route render={({history}) => (
+            <button onClick={() => { history.push('/game') }}>
+            Start Playing
+            </button>
+        )} />
+    </div>
+
 
   </div>
 

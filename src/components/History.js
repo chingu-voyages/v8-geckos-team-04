@@ -3,7 +3,10 @@ import React, { useState } from 'react';
 function History() {
 
 	return (
-		<div>History</div>
+		<div>
+			<h1>Guess The Language</h1>
+			<div>Playing History</div>
+		</div>
 	);
 }
 
