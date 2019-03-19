@@ -1,8 +1,5 @@
 import React from 'react';
 
-// video and choice buttons.
-import Video from './Video';
-
 const Main = () => (
 
   <div>
@@ -20,9 +17,14 @@ const Main = () => (
     styles.css is in /public/css <br />
     Images in public/images <br />
     Extra js scripts /public/js <br />
-    Unit tests in /src/__tests__ <br />
+    Unit tests in /src/__tests__ <br /><br />
 
-    <Video />
+    Page path: <br />
+    main: / <br />
+    video: /video <br />
+    score: /score <br />
+    history: /history <br />
+    admin: /admin <br />
 
   </div>
 
