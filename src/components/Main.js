@@ -1,7 +1,6 @@
 import React from 'react';
+import { Route } from 'react-router-dom'
 
-// video and choice buttons.
-import Video from './Video';
 
 const Main = () => (
 
@@ -20,9 +19,27 @@ const Main = () => (
     styles.css is in /public/css <br />
     Images in public/images <br />
     Extra js scripts /public/js <br />
-    Unit tests in /src/__tests__ <br />
+    Unit tests in /src/__tests__ <br /><br />
 
-    <Video />
+    Page path: <br />
+    main: / <br />
+    game: /game <br />
+    score: /score <br />
+    history: /history <br />
+    admin: /admin <br />
+    <br /><br />
+
+    *** Main content begins ***
+    <div className='home-page'>
+        <h1>Guess The Language</h1>
+        <h3>The game is simple, watch a short video and guess the language spoken.</h3>
+        <Route render={({history}) => (
+            <button onClick={() => { history.push('/game') }}>
+            Start Playing
+            </button>
+        )} />
+    </div>
+
 
   </div>
 
