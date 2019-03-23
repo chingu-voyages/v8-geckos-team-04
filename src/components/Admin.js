@@ -53,14 +53,28 @@ function Admin() {
 
                     // The YouTube API returns a collection of search results (i.e. an array of objects, data.items)
 
-                    let count = 0;
                     let itemslength = response.data.items.length;
+
+                    let title = '', languagestartindex = 0, language = '';
 
                     for (let i = 0; i < itemslength; i++) {
 
-                        videos.push(response.data.items[i]); // add each video object to the videos array. (update state?!?!)
+                        setVideos(videos.push(response.data.items[i])); // add each video object to the videos array. (update state?!?!)
 
-                        console.log(count++ + ' - ' + response.data.items[i].snippet.title); // titles.
+                        title = response.data.items[i].snippet.title;
+
+                        // extract the language from the title:
+                        languagestartindex = title.lastIndexOf('peaking ') + 7; // string after 'speaking ' is the language(s).
+                        if (languagestartindex === -1) {
+                            // speaking or Speaking is not present, so check for signing or Signinng:
+                            languagestartindex = title.lastIndexOf('igning ') + 6; // string after 'signing ' is the language(s).
+                        }
+                        
+                        language = title.slice(languagestartindex);
+
+                        console.log(language); // titles. I need to get the language from here.
+
+
 
                     }
                     
@@ -81,7 +95,7 @@ function Admin() {
 
         };
 
-        setVideos(fetchVideos());
+        fetchVideos();
 
      // the second argument is an empty array (below) so we only fetch the data
      // when the component mounts, not every time it is updated!
@@ -91,7 +105,7 @@ function Admin() {
     return(
 
         <ul>
-{  }
+{ videos }
         </ul>
     );
 
