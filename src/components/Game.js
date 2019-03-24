@@ -3,7 +3,7 @@ import Video from './Video';
 import { useGlobal } from 'reactn';
 
 function Game() {
-  const [score, setScore] = useGlobal('score');
+  const [global, setGlobal] = useGlobal();
 
   function newGame(){
     window.location.reload(); // refresh the page
@@ -15,7 +15,7 @@ function Game() {
         <Video />
         <div className='score-box'>
           Question: 1/10<br />
-          Score: {score}
+          Score: {global.score}
         </div>
         <button className='new-game-btn' onClick={newGame}>New Game</button>
     </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useGlobal } from 'reactn';
+import { useGlobal, setGlobal } from 'reactn';
 
 function Video() {
   // Variable initialVideo & initialVideoTitle for testing only, can be deleted when the function is done
@@ -13,7 +13,7 @@ function Video() {
   const [choice3, setChoice3] = useState('choice3'); // initial value for testing only
   const [answer, setAnswer] = useState('choice2'); // initial value for testing only
   const [feedback, setFeedback] = useState();
-  const [score, setScore] = useGlobal('score');
+  const [global, setGlobal] = useGlobal();
 
   // A function is needed to choose video src, choices and answer
   function chooseAVideo() {
@@ -28,7 +28,7 @@ function Video() {
   function handleUserChoice(e) {
     if (e.target.id === answer) {
       setFeedback('You are correct!');
-      setScore(score+10);
+      setGlobal({score: global.score + 10});
     }
     else {
       setFeedback('Oops! The answer was ' + answer);

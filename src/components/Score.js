@@ -3,12 +3,12 @@ import { Route } from 'react-router-dom';
 import { useGlobal } from 'reactn';
 
 function Score() {
-  const [score, setScore] = useGlobal('score');
+  const [global, setGlobal] = useGlobal();
 
   return (
     <div>
       <h1>Guess The Language</h1>
-      <div>Total Score: {score}</div>
+      <div>Total Score: {global.score}</div>
       <Route render={({history}) => (
          <button className='view-history-btn' onClick={() => { history.push('/history') }}>
            View History
