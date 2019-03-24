@@ -15,7 +15,8 @@ function Score() {
          </button>
       )} />
       <Route render={({history}) => (
-        <button className='new-game-btn' onClick={() => { history.push('/game') }}>
+        <button className='new-game-btn' onClick={() => { 
+          setGlobal({score: 0, qNum: 1});history.push('/game') }}>
           New Game
         </button>
       )} />

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Route } from 'react-router-dom';
 import { useGlobal, setGlobal } from 'reactn';
 
 function Video() {
@@ -35,9 +36,22 @@ function Video() {
     }
   }
 
-  function handleNext() { 
+  // Switch from next button to submit button when qNum hits 10
+  const nextButton = <button className='next-btn' onClick={() => handleNext()}>Next</button>
+  const submitButton = <Route render={({history}) => (
+        <button onClick={() => { history.push('/score') }}>
+          Submit
+        </button>
+      )} />
+  const [next, setNext] = useState(nextButton);    
+
+  function handleNext(history) { 
+    if (global.qNum === 9) {
+      setNext(submitButton)
+    }
     setFeedback(); // Hide feedback div
     chooseAVideo();
+    setGlobal({qNum: global.qNum + 1});  
   }
 
   return (
@@ -52,7 +66,7 @@ function Video() {
         <div className='feedback'>
           {feedback}
         </div>
-          <button className='next-btn' onClick={() => handleNext()}>Next</button>
+          {next}
         </div>
   );
 }

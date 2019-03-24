@@ -14,7 +14,7 @@ function Game() {
       <h1>Guess The Language</h1>
         <Video />
         <div className='score-box'>
-          Question: 1/10<br />
+          Question: {global.qNum}/10<br />
           Score: {global.score}
         </div>
         <button className='new-game-btn' onClick={newGame}>New Game</button>
