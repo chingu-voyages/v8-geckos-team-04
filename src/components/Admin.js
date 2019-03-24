@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 // axios for talking to the YouTube API.
 import axios from 'axios'; 
@@ -13,15 +13,24 @@ function Admin() {
     // items = matching YouTube videos.
     const [videos, setVideos] = useState([]);
     const [languages, setLanguages] = useState([]);
-    const [refresh, setRefresh] = useState(1);
-
-    let new_videos = [...videos]; // don't mutate state.
-    let new_languages = [...languages]; // don't mutate state.
+    const [refresh, setRefresh] = useState();
 
     let nextid = 1; // simple way to get a unique id to act as the key in the list of languages.
 
+    // check if this is the initial load.
+    const isFirstRun = useRef(true);
+
     // use the useEffect hook to fetch the data with axios from the YouTube API as a side effect.
     useEffect(() => {
+        
+        // only execute the rest of this is NOT the initial page load.
+        if (isFirstRun.current) {
+            isFirstRun.current = false;
+            return;
+        }
+
+        let new_videos = [...videos]; // don't mutate state.
+        let new_languages = [...languages]; // don't mutate state.
 
         const fetchVideos = async (next) => {
 
@@ -63,35 +72,40 @@ function Admin() {
 
                         // extract the language from the title. 
                         // FIRST check the rest of the string after 'speaking ' is the language(s).
-                        languagestartindex = title.lastIndexOf('peaking ') + 7;
-                        
-                        if (languagestartindex === -1) {
-                            // SECOND since speaking or Speaking is not present, check for signing or Signing:
+                        languagestartindex = title.lastIndexOf('peaking ');
+                        if (languagestartindex !== -1) {
+                            languagestartindex = title.lastIndexOf('peaking ') + 7;
+                        } else {
+                           // SECOND since speaking or Speaking is not present, check for signing or Signing:
                             // the rest of the string after 'signing ' is the language(s).
-                            languagestartindex = title.lastIndexOf('igning ') + 6;
+                            languagestartindex = title.lastIndexOf('igning ');
+                            if (languagestartindex !== -1) {
+                                languagestartindex = title.lastIndexOf('igning ') + 6; 
+                            }
                         }
 
-                        language = title.slice(languagestartindex);
+                        // Check if a language name still isn't present. If not, do not execute the below for this video.
+                        if (languagestartindex !== -1) {
 
-                        console.log(nextid++);
-                        
-                        new_languages.push({
-                            id: nextid,
-                            language
-                        });
+                            language = title.slice(languagestartindex);
+
+                            //console.log(nextid);
+                            
+                            new_languages.push({
+                                id: nextid++,
+                                language
+                            });
+                        }
 
                     }
-                    
+
                     if (nextPagetoken) {
 
                         // There are more videos to retrieve, so call fetchVideos again.
                         fetchVideos(nextPagetoken);
                     }
                     
-                }   
-
-                setVideos(new_videos);
-                setLanguages(new_languages);
+                } 
 
             } catch(error) {
 
@@ -101,19 +115,25 @@ function Admin() {
         };
 
         fetchVideos();
-        
-    },[]);
+
+        setVideos(new_videos); // set the state.
+        setLanguages(new_languages); // set the state.
+        console.log(new_languages);
+        return;
+
+    },[refresh]);
 
     // display the records.
     return(
 
         <div>
-            <button onClick={() => setRefresh(2)}>Refresh Video List</button>
+            <button onClick={() => setRefresh(1)}>Refresh Video List</button>
             <ul>
-            {refresh === 2 && languages.map(lang => (
-                <li key={lang.id}>{lang.language}</li>
+            {languages.map(lang => (
+                <li key={lang.id}>{lang.id} - {lang.language}</li>
             ))}
             </ul>
+            <div id="durr"></div>
         </div>
     );
 
