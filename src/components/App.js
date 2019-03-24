@@ -8,6 +8,7 @@ import Score from './Score';
 import History from './History';
 import Admin from './Admin';
 
+
 // The App component renders one of the provided
 // Routes. If the route is '/', then we will display
 // the Main component (contains the video and buttons).
