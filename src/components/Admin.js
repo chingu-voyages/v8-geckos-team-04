@@ -13,7 +13,12 @@ function Admin() {
     // items = matching YouTube videos.
     const [videos, setVideos] = useState([]);
     const [languages, setLanguages] = useState([]);
-    const [refresh, setRefresh] = useState(0);
+    const [refresh, setRefresh] = useState(1);
+
+    let new_videos = [...videos]; // don't mutate state.
+    let new_languages = [...languages]; // don't mutate state.
+
+    let nextid = 1; // simple way to get a unique id to act as the key in the list of languages.
 
     // use the useEffect hook to fetch the data with axios from the YouTube API as a side effect.
     useEffect(() => {
@@ -48,9 +53,6 @@ function Admin() {
 
                     let title = '', languagestartindex = 0, language = '';
 
-                    let new_videos = [...videos]; // don't mutate state.
-                    let new_languages = [...languages];
-
                     for (let i = 0; i < itemslength; i++) {
 
                         // add each video object to the copy of the videos array, new_videos.
@@ -68,15 +70,17 @@ function Admin() {
                             // the rest of the string after 'signing ' is the language(s).
                             languagestartindex = title.lastIndexOf('igning ') + 6;
                         }
-                        
+
                         language = title.slice(languagestartindex);
 
-                        new_languages.push(language);
+                        console.log(nextid++);
+                        
+                        new_languages.push({
+                            id: nextid,
+                            language
+                        });
 
                     }
-
-                    setVideos(new_videos);
-                    setLanguages(new_languages);
                     
                     if (nextPagetoken) {
 
@@ -86,25 +90,28 @@ function Admin() {
                     
                 }   
 
+                setVideos(new_videos);
+                setLanguages(new_languages);
+
             } catch(error) {
 
                 console.error(error);
             }
 
-        }
+        };
 
         fetchVideos();
         
-    },[refresh]);
+    },[]);
 
     // display the records.
     return(
 
         <div>
-            <button onClick={() => setRefresh(1)}>Refresh Video List</button>
+            <button onClick={() => setRefresh(2)}>Refresh Video List</button>
             <ul>
-            {languages.map(lang => (
-                <li key={lang}>{lang}</li>
+            {refresh === 2 && languages.map(lang => (
+                <li key={lang.id}>{lang.language}</li>
             ))}
             </ul>
         </div>
