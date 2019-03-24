@@ -103,7 +103,9 @@ function Admin() {
         <div>
             <button onClick={() => setRefresh(1)}>Refresh Video List</button>
             <ul>
-
+            {languages.map(lang => (
+                <li key={lang}>{lang}</li>
+            ))}
             </ul>
         </div>
     );
