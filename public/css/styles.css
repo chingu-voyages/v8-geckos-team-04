@@ -1,7 +1,8 @@
 html,
 body {
   height: 100%;
-  margin: 10px;
+	margin: 10px;
+	font-family: 'Open Sans', sans-serif;
 }
 
  h1 {
@@ -21,5 +22,17 @@ body {
 }
 
 .video-title {
+/* placeholder for styles */
+}
 
+.choices {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+#choice1, 
+#choice2, 
+#choice3 {
+	margin: .25rem;
 }
