@@ -14,6 +14,7 @@ function Admin() {
     const [videos, setVideos] = useState([]);
     const [languages, setLanguages] = useState([]);
     const [refresh, setRefresh] = useState();
+    const [loading, setLoading] = useState(true);
 
     let nextid = 1; // simple way to get a unique id to act as the key in the list of languages.
 
@@ -30,11 +31,13 @@ function Admin() {
         }
 
         let new_videos = [...videos]; // don't mutate state.
-        let new_languages = [...languages]; // don't mutate state.
+        let new_languages = [...languages];  // yeah, don't mutate state.
 
         const fetchVideos = async (next) => {
 
             try {
+
+                setLoading(true);
                 
                 // YouTube only allows 50 per API call, and we have (currently) 562 videos to get, so
                 // we use recursion to execute fetchVideos with the API's provided nextPageToken, until
@@ -60,7 +63,7 @@ function Admin() {
 
                     let itemslength = response.data.items.length; // number of results returned this axios call.
 
-                    let title = '', languagestartindex = 0, language = '';
+                    let title = '', languagefindindex = 0, languagestartindex = 0, language = '';
 
                     for (let i = 0; i < itemslength; i++) {
 
@@ -72,14 +75,14 @@ function Admin() {
 
                         // extract the language from the title. 
                         // FIRST check the rest of the string after 'speaking ' is the language(s).
-                        languagestartindex = title.lastIndexOf('peaking ');
-                        if (languagestartindex !== -1) {
+                        languagefindindex = title.lastIndexOf('peaking ');
+                        if (languagefindindex !== -1) {
                             languagestartindex = title.lastIndexOf('peaking ') + 7;
                         } else {
                            // SECOND since speaking or Speaking is not present, check for signing or Signing:
                             // the rest of the string after 'signing ' is the language(s).
-                            languagestartindex = title.lastIndexOf('igning ');
-                            if (languagestartindex !== -1) {
+                            languagefindindex = title.lastIndexOf('igning ');
+                            if (languagefindindex !== -1) {
                                 languagestartindex = title.lastIndexOf('igning ') + 6; 
                             }
                         }
@@ -89,15 +92,34 @@ function Admin() {
 
                             language = title.slice(languagestartindex);
 
-                            //console.log(nextid);
+                            // Check to see if "language" variable contains multiple languages. First delimit languages in
+                            // the title sentence with '|' character.
+                            let delimit_languages = language.replace(/(\s+&\s+|,\s+and\s+|\s+and\s+|,\s+)/gi,'|');
+
+                            // now create an array of languages from splitting them between the delimiter.
+                            let language_array = delimit_languages.split('|');
+
+                            // loop through the language array and add each one to new_languages.
+                            for (let i = 0; i < language_array.length; i++) {
+
+                                if (language_array[i] !== '') {
+
+                                    new_languages.push({
+                                        id: nextid++,
+                                        language: language_array[i]
+                                    });
+
+                                }
+
+                            }
                             
-                            new_languages.push({
-                                id: nextid++,
-                                language
-                            });
                         }
 
                     }
+
+                    //console.log(new_languages);
+                    setLanguages(new_languages);
+                    setVideos(new_videos);
 
                     if (nextPagetoken) {
 
@@ -110,16 +132,15 @@ function Admin() {
             } catch(error) {
 
                 console.error(error);
-            }
 
+            } finally {
+
+                setLoading(false);
+                // setRefresh(); // check if this resets the button properly?
+            }
         };
 
         fetchVideos();
-
-        setVideos(new_videos); // set the state.
-        setLanguages(new_languages); // set the state.
-        console.log(new_languages);
-        return;
 
     },[refresh]);
 
@@ -129,7 +150,7 @@ function Admin() {
         <div>
             <button onClick={() => setRefresh(1)}>Refresh Video List</button>
             <ul>
-            {languages.map(lang => (
+            {loading ? <div>Loading...</div> : languages.map(lang => (
                 <li key={lang.id}>{lang.id} - {lang.language}</li>
             ))}
             </ul>

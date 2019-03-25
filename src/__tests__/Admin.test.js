@@ -6,26 +6,29 @@ import axios from 'axios';
 
 import Admin from '../components/Admin';
 
-it('renders the admin page without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<Admin />, div);
-  ReactDOM.unmountComponentAtNode(div);
-});
+describe('Admin component', () => {
 
-it('can connect to the API with axios', () => {
+  it('renders the admin page without crashing', () => {
+    const div = document.createElement('div');
+    ReactDOM.render(<Admin />, div);
+    ReactDOM.unmountComponentAtNode(div);
+  });
   
+  it('calls axios and returns json', () => {
+    // We are only utilizing the axios.get function, so that's all we are going to mock.
+  
+  
+  });
+  
+  it('displays a list of videos', () => {
+  
+  
+  
+      
+  });  
+
 
 });
 
-it('returns JSON data from the API', () => {
 
 
-
-});
-
-it('displays a list of the first 50 video titles', () => {
-
-
-
-    
-});
