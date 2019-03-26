@@ -7,7 +7,7 @@ defmodule GuessTheLanguage.Game.Video do
     alias GuessTheLanguage.Game.Language
 
     schema "videos" do
-      field :uuid, :uuid
+      field :uuid, Ecto.UUID, autogenerate: true
       #field :duration, :int
       has_one :youtube_video, YoutubeVideo
       belongs_to :uploader, User
