@@ -14,6 +14,7 @@ function Video() {
   const [choice3, setChoice3] = useState('choice3'); // initial value for testing only
   const [answer, setAnswer] = useState('choice2'); // initial value for testing only
   const [feedback, setFeedback] = useState();
+  const [clicked, setClicked] = useState(false);
   const [global, setGlobal] = useGlobal();
 
   // A function is needed to choose video src, choices and answer
@@ -27,6 +28,7 @@ function Video() {
   }
 
   function handleUserChoice(e) {
+    setClicked(true);
     if (e.target.id === answer) {
       setFeedback('You are correct!');
       setGlobal({score: global.score + 10});
@@ -50,6 +52,7 @@ function Video() {
       setNext(submitButton)
     }
     setFeedback(); // Hide feedback div
+    setClicked(false); // Enable choice buttons
     chooseAVideo();
     setGlobal({qNum: global.qNum + 1});  
   }
@@ -59,9 +62,9 @@ function Video() {
       <p className='video-title'>What language do you think it is?</p>
         <iframe className='youtube-video' title={videoTitle} src={videoSrc}></iframe>
         <div className='choices'>
-          <button id={choice1} onClick={(e) => {handleUserChoice(e)}}>{choice1}</button>
-            <button id={choice2} onClick={(e) => {handleUserChoice(e)}}>{choice2}</button>
-              <button id={choice3} onClick={(e) => {handleUserChoice(e)}}>{choice3}</button>
+          <button id={choice1} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choice1}</button>
+            <button id={choice2} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choice2}</button>
+              <button id={choice3} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choice3}</button>
         </div>
         <div className='feedback'>
           {feedback}
