@@ -6,6 +6,13 @@ import { BrowserRouter } from 'react-router-dom';
 
 import App from './components/App';
 
+// Add global variable 'score'
+import { setGlobal } from 'reactn';
+setGlobal({
+  score: 0,
+  qNum: 1 // Question number
+});
+
 render((
 
   <BrowserRouter>

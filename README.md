@@ -8,7 +8,7 @@ Front End (Sabrina, Susanna, Ying)
 - React Hooks
 - React Router
 - Bootstrap
-- Jest / Snapshot Utilities
+- Jest with Snapshot Utilities
 - Enzyme
 - HTML5
 - CSS
@@ -25,4 +25,5 @@ Back End (Carlos)
 - Carlos Sisnett (@csisnett)
 - Ying Huang (@welcomeying)
 - Sabrina Markon (@sabrinamarkon)
+- Susanna Kline (@sdk-irl)
 
