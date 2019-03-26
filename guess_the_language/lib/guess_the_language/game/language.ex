@@ -2,6 +2,7 @@ defmodule GuessTheLanguage.Game.Language do
     use Ecto.Schema
     import Ecto.Changeset
 
+    alias GuessTheLanguage.Game.Language
     alias GuessTheLanguage.Accounts.User
     alias GuessTheLanguage.Game.Video
     #alias GuessTheLanguage.Game.Area
