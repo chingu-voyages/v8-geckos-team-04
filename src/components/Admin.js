@@ -3,12 +3,15 @@ import React, { useState, useEffect, useRef } from 'react';
 // axios for talking to the YouTube API.
 import axios from 'axios'; 
 
+// writeFiles.js for, uh, writing files.
+import { readFiles, writeFiles } from '../api/DatabaseFileBased.js';
+
 function Admin() {
 
     // get the YouTube API key from the .env file (environmental variables)
     const API_KEY = process.env.REACT_APP_YOUTUBE_DATA_API_V3_KEY;
     const API_URL = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=UUBgWgQyEb5eTzvh4lLcuipQ&key=' + API_KEY;
-    const VIDEO_URL = 'https://www.youtube.com/watch?v='
+    const VIDEO_URL = 'https://www.youtube.com/watch?v=';
 
     // use the useState hook to manage the local state for the fetched data.
     // items = matching YouTube videos.
@@ -122,6 +125,8 @@ function Admin() {
 
                     }
 
+                    await writeFiles([{ languages: new_languages }, { videos: new_videos }]);
+
                     //console.log(new_languages);
                     setLanguages(new_languages);
                     setVideos(new_videos);
@@ -148,11 +153,11 @@ function Admin() {
         fetchVideos();
 
     },[refresh]);
-
+  
     // display the records.
     /* NEXT:
-        GET FROM AXIOS and copy it ALL Into json file - when button clicked.
-        GET FROM JSON file when page is loaded otherwise, instead of from YouTube.
+        GET FROM AXIOS and make JSON file. ---done
+        GET FROM JSON file automatically when page is loaded (only from YouTube when button clicked!)
         MAKE TABLE WITH FORM PER LIST.
         CHECK FRONT END AND GET RANDOM STUFF FROM JSON FILE ON DEMAND (language, matching url etc)
     */
