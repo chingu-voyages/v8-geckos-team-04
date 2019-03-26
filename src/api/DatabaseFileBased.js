@@ -13,7 +13,7 @@ export const writeFiles = arr => {
             if (filename) {
 
                 let filepath = './DatabaseFiles/' + filename + '.txt';
-                let file = new File(filepath);
+                let file = new File([], filepath);
 
                 file.open('w'); // open file with write access.
                 file.write(content); // write the content into the file.
@@ -29,9 +29,26 @@ export const writeFiles = arr => {
 }
 
 // When using file-based operations, reads from the file passed.
-export const readFiles = file => {
+export const readFiles = filename => {
 
-    let content = file; // doesn't do anything yet.
+    if (filename) {
+
+        let filepath = './DatabaseFiles/' + filename;
+        let file = new File([], filepath);
+
+        file.open('r'); // open file with read access.
+        
+        let content = '';
+        
+        while (!file.eof) {
+
+            // read each line in the file.
+            content += file.readlin() + '\n';
+        }
+        
+        file.close(); // close the file.
+    }
 
     return content;
+
 }

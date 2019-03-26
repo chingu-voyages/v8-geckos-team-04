@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios'; 
 
 // writeFiles.js for, uh, writing files.
-import { readFiles, writeFiles } from '../api/DatabaseFileBased.js';
+// import { readFiles, writeFiles } from '../api/DatabaseFileBased.js';
 
 function Admin() {
 
@@ -17,6 +17,7 @@ function Admin() {
     // items = matching YouTube videos.
     const [videos, setVideos] = useState([]);
     const [languages, setLanguages] = useState([]);
+    const [languagetable, setLanguageTable] = useState();
     const [refresh, setRefresh] = useState();
     const [loading, setLoading] = useState(true);
 
@@ -125,7 +126,7 @@ function Admin() {
 
                     }
 
-                    await writeFiles([{ languages: new_languages }, { videos: new_videos }]);
+                    //await writeFiles([{ languages: new_languages }, { videos: new_videos }]); //
 
                     //console.log(new_languages);
                     setLanguages(new_languages);
@@ -135,6 +136,22 @@ function Admin() {
 
                         // There are more videos to retrieve, so call fetchVideos again.
                         fetchVideos(nextPagetoken);
+                    }
+
+                    // draw the language table.
+                    if (new_languages) {
+
+                        let languagetable = new_languages.map(lang => (
+                            
+                            <tr key={lang.id}>
+                                <th scope="row">{lang.id}</th>
+                                <td><a href={lang.url} target='_blank' rel='noopener noreferrer'>{lang.url}</a></td>
+                                <td>{lang.language}</td>
+                            </tr>
+
+                        ));
+                        // update the language table layout.
+                        setLanguageTable(languagetable);
                     }
                     
                 } 
@@ -147,13 +164,14 @@ function Admin() {
 
                 setLoading(false);
                 // setRefresh(); // check if this resets the button properly?
+                
             }
         };
 
         fetchVideos();
 
     },[refresh]);
-  
+
     // display the records.
     /* NEXT:
         GET FROM AXIOS and make JSON file. ---done
@@ -161,18 +179,31 @@ function Admin() {
         MAKE TABLE WITH FORM PER LIST.
         CHECK FRONT END AND GET RANDOM STUFF FROM JSON FILE ON DEMAND (language, matching url etc)
     */
+   
     return(
 
         <div>
             <button onClick={() => setRefresh(1)}>Refresh Video List</button>
-            <ul>
-            {loading ? <div>Loading...</div> : languages.map(lang => (
-                <div key={lang.id}><a href={lang.url} target='_blank' rel='noopener noreferrer'>{lang.id} - {lang.language}</a></div>
-            ))}
-            </ul>
+            {loading ? <div>Loading...</div> : 
+
+                <table className='table table-bordered'>
+                    <tbody>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Language</th>
+                            <th scope="col">URL</th>
+                        </tr>
+
+                        {languagetable}
+
+                    </tbody>
+                </table>
+
+            }
         </div>
     );
 
 }
 
 export default Admin;
+
