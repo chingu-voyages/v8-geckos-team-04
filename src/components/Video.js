@@ -17,6 +17,15 @@ function Video() {
   const [clicked, setClicked] = useState(false);
   const [global, setGlobal] = useGlobal();
 
+  // next and submit button
+  const nextButton = <button className='next-btn' onClick={() => handleNext()}>Next</button>
+  const submitButton = <Route render={({history}) => (
+        <button onClick={() => { history.push('/score') }}>
+          Submit
+        </button>
+      )} />
+  const [next, setNext] = useState(); 
+
   // A function is needed to choose video src, choices and answer
   function chooseAVideo() {
     setVideoSrc();
@@ -29,6 +38,16 @@ function Video() {
 
   function handleUserChoice(e) {
     setClicked(true);
+    // Show next/submit button
+    // Switch from next button to submit button when qNum hits 10
+    if (global.qNum === 9) {
+      setNext(submitButton)
+    }
+    else {
+      setNext(nextButton);
+    }
+
+    // Show feedback
     if (e.target.id === answer) {
       setFeedback('You are correct!');
       setGlobal({score: global.score + 10});
@@ -38,19 +57,8 @@ function Video() {
     }
   }
 
-  // Switch from next button to submit button when qNum hits 10
-  const nextButton = <button className='next-btn' onClick={() => handleNext()}>Next</button>
-  const submitButton = <Route render={({history}) => (
-        <button onClick={() => { history.push('/score') }}>
-          Submit
-        </button>
-      )} />
-  const [next, setNext] = useState(nextButton);    
-
-  function handleNext(history) { 
-    if (global.qNum === 9) {
-      setNext(submitButton)
-    }
+  function handleNext() { 
+    setNext();
     setFeedback(); // Hide feedback div
     setClicked(false); // Enable choice buttons
     chooseAVideo();
