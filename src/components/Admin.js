@@ -3,16 +3,21 @@ import React, { useState, useEffect, useRef } from 'react';
 // axios for talking to the YouTube API.
 import axios from 'axios'; 
 
+// writeFiles.js for, uh, writing files.
+// import { readFiles, writeFiles } from '../api/DatabaseFileBased.js';
+
 function Admin() {
 
     // get the YouTube API key from the .env file (environmental variables)
     const API_KEY = process.env.REACT_APP_YOUTUBE_DATA_API_V3_KEY;
     const API_URL = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=UUBgWgQyEb5eTzvh4lLcuipQ&key=' + API_KEY;
-    
+    const VIDEO_URL = 'https://www.youtube.com/watch?v=';
+
     // use the useState hook to manage the local state for the fetched data.
     // items = matching YouTube videos.
     const [videos, setVideos] = useState([]);
     const [languages, setLanguages] = useState([]);
+    const [languagetable, setLanguageTable] = useState();
     const [refresh, setRefresh] = useState();
     const [loading, setLoading] = useState(true);
 
@@ -63,12 +68,15 @@ function Admin() {
 
                     let itemslength = response.data.items.length; // number of results returned this axios call.
 
-                    let title = '', languagefindindex = 0, languagestartindex = 0, language = '';
+                    let url = '', title = '', languagefindindex = 0, languagestartindex = 0, language = '';
 
                     for (let i = 0; i < itemslength; i++) {
 
                         // add each video object to the copy of the videos array, new_videos.
                         new_videos.push(response.data.items[i]);
+
+                        // get the url field for the video.
+                        url = VIDEO_URL + response.data.items[i].snippet.resourceId.videoId;
 
                         // get the title field of the video.
                         title = response.data.items[i].snippet.title;
@@ -106,6 +114,7 @@ function Admin() {
 
                                     new_languages.push({
                                         id: nextid++,
+                                        url,
                                         language: language_array[i]
                                     });
 
@@ -117,6 +126,8 @@ function Admin() {
 
                     }
 
+                    //await writeFiles([{ languages: new_languages }, { videos: new_videos }]); //
+
                     //console.log(new_languages);
                     setLanguages(new_languages);
                     setVideos(new_videos);
@@ -125,6 +136,22 @@ function Admin() {
 
                         // There are more videos to retrieve, so call fetchVideos again.
                         fetchVideos(nextPagetoken);
+                    }
+
+                    // draw the language table.
+                    if (new_languages) {
+
+                        let languagetable = new_languages.map(lang => (
+                            
+                            <tr key={lang.id}>
+                                <th scope="row">{lang.id}</th>
+                                <td><a href={lang.url} target='_blank' rel='noopener noreferrer'>{lang.url}</a></td>
+                                <td>{lang.language}</td>
+                            </tr>
+
+                        ));
+                        // update the language table layout.
+                        setLanguageTable(languagetable);
                     }
                     
                 } 
@@ -137,6 +164,7 @@ function Admin() {
 
                 setLoading(false);
                 // setRefresh(); // check if this resets the button properly?
+                
             }
         };
 
@@ -145,19 +173,37 @@ function Admin() {
     },[refresh]);
 
     // display the records.
+    /* NEXT:
+        GET FROM AXIOS and make JSON file. ---done
+        GET FROM JSON file automatically when page is loaded (only from YouTube when button clicked!)
+        MAKE TABLE WITH FORM PER LIST.
+        CHECK FRONT END AND GET RANDOM STUFF FROM JSON FILE ON DEMAND (language, matching url etc)
+    */
+   
     return(
 
         <div>
             <button onClick={() => setRefresh(1)}>Refresh Video List</button>
-            <ul>
-            {loading ? <div>Loading...</div> : languages.map(lang => (
-                <li key={lang.id}>{lang.id} - {lang.language}</li>
-            ))}
-            </ul>
-            <div id="durr"></div>
+            {loading ? <div>Loading...</div> : 
+
+                <table className='table table-bordered'>
+                    <tbody>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Language</th>
+                            <th scope="col">URL</th>
+                        </tr>
+
+                        {languagetable}
+
+                    </tbody>
+                </table>
+
+            }
         </div>
     );
 
 }
 
 export default Admin;
+
