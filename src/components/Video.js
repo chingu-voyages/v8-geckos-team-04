@@ -40,7 +40,7 @@ function Video() {
     setClicked(true);
     // Show next/submit button
     // Switch from next button to submit button when qNum hits 10
-    if (global.qNum === 9) {
+    if (global.qNum === 10) {
       setNext(submitButton)
     }
     else {
