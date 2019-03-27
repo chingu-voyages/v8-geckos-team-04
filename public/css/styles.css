@@ -12,6 +12,10 @@ body {
 	text-align: center;
 	padding: .75rem;
 }
+ h1, a {
+	text-decoration: none;
+	color: white;
+ }
 
 .home-page {
 	text-align: center;

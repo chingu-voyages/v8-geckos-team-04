@@ -20,6 +20,7 @@
 
 # personal environment variables
 .env
+/mystuff
 
 npm-debug.log*
 yarn-debug.log*

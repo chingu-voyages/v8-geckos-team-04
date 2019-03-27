@@ -1,5 +1,12 @@
 # GuessTheLanguage
 
+To install elixir:
+https://elixir-lang.org/install.html
+
+To install Phoenix:
+https://hexdocs.pm/phoenix/installation.html
+
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
