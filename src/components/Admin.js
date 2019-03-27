@@ -1,8 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import AdminOneVideoForm from './AdminOneVideoForm';
 
+// Admin helper functions.
+import { getTitleStartIndex, getLanguageFromTitleStartIndex, sortLanguages } from '../api/Helpers.js';
+
 // axios for talking to the YouTube API.
 import axios from 'axios'; 
+
+// use reactn to store the language array.
+import { setGlobal } from 'reactn';
 
 // import { readFiles, writeFiles } from '../api/DatabaseFileBased.js'; // not yet - uncomment after.
 
@@ -15,7 +21,6 @@ export default function Admin() {
 
     // use the useState hook to manage the local state for the fetched data.
     // items = matching YouTube videos.
-    const [videos, setVideos] = useState([]);
     const [languages, setLanguages] = useState([]);
     const [languagetable, setLanguageTable] = useState();
     const [refresh, setRefresh] = useState();
@@ -54,8 +59,8 @@ export default function Admin() {
             return;
         }
 
-        let new_videos = [...videos]; // don't mutate state.
-        let new_languages = [...languages];  // yeah, don't mutate state.
+         // don't mutate state.
+        let new_languages = [...languages];
 
         const fetchVideos = async (next) => {
 
@@ -87,12 +92,9 @@ export default function Admin() {
 
                     let itemslength = response.data.items.length; // number of results returned this axios call.
 
-                    let url = '', title = '', languagefindindex = 0, languagestartindex = 0, language = '';
+                    let url = '', title = '', language = '';
 
                     for (let i = 0; i < itemslength; i++) {
-
-                        // add each video object to the copy of the videos array, new_videos.
-                        new_videos.push(response.data.items[i]);
 
                         // get the url field for the video.
                         url = VIDEO_URL + response.data.items[i].snippet.resourceId.videoId;
@@ -101,30 +103,12 @@ export default function Admin() {
                         title = response.data.items[i].snippet.title;
 
                         // extract the language from the title. 
-                        // FIRST check the rest of the string after 'speaking ' is the language(s).
-                        languagefindindex = title.lastIndexOf('peaking ');
-                        if (languagefindindex !== -1) {
-                            languagestartindex = title.lastIndexOf('peaking ') + 7;
-                        } else {
-                           // SECOND since speaking or Speaking is not present, check for signing or Signing:
-                            // the rest of the string after 'signing ' is the language(s).
-                            languagefindindex = title.lastIndexOf('igning ');
-                            if (languagefindindex !== -1) {
-                                languagestartindex = title.lastIndexOf('igning ') + 6; 
-                            }
-                        }
+                        let startindex = getTitleStartIndex(title);
 
                         // Check if a language name still isn't present. If not, do not execute the below for this video.
-                        if (languagestartindex !== -1) {
+                        if (startindex !== -1) {
 
-                            language = title.slice(languagestartindex);
-
-                            // Check to see if "language" variable contains multiple languages. First delimit languages in
-                            // the title sentence with '|' character.
-                            let delimit_languages = language.replace(/(\s+&\s+|,\s+and\s+|\s+and\s+|,\s+)/gi,'|');
-
-                            // now create an array of languages from splitting them between the delimiter.
-                            let language_array = delimit_languages.split('|');
+                            let language_array = getLanguageFromTitleStartIndex(startindex, title);
 
                             // loop through the language array and add each one to new_languages.
                             for (let i = 0; i < language_array.length; i++) {
@@ -148,15 +132,18 @@ export default function Admin() {
                     // sort the languages.
                     new_languages.sort(sortLanguages);
 
-                    //await writeFiles([{ languages: new_languages }, { videos: new_videos }]); //
+                    //await writeFiles([{ languages: new_languages }]); //
 
                     setLanguages(new_languages);
-                    setVideos(new_videos);
+
+                    setGlobal({
+                        languages: new_languages
+                    });
 
                     if (nextPagetoken) {
 
-                        //////////////////////////////////////////////////////////////////////////// ATTN ME
-                        // There are more videos to retrieve, so call fetchVideos again.
+                        //////////////////////////////////////////////////////////////////////////// ATTN SABRINA - UNCOMMENT LIVE:
+                        // There are more videos to retrieve, because API says nextPagetoken is not null, so call fetchVideos again.
                         //fetchVideos(nextPagetoken); // enable after testing so we don't hit youtube quota too soon.
                     }
 
@@ -190,28 +177,6 @@ export default function Admin() {
                 setLoading(false); // don't show loading indicator any more.          
             }
         };
-
-        function sortLanguages(a, b) {
-
-            // const languageA = a.language.toUpperCase();
-            // const languageB = b.language.toUpperCase();
-            const languageA = a.id;
-            const languageB = b.id;
-
-            let comparison = 0;
-
-            if (languageA > languageB) {
-
-                comparison = 1;
-
-            } else if (languageA < languageB) {
-
-                comparison = -1
-
-            }
-
-            return comparison;
-        }
 
         fetchVideos();
 
