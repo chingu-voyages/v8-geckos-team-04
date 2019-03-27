@@ -11,7 +11,7 @@ function Game() {
 
   return(
     <div>
-      <h1>Guess The Language</h1>
+      <h1><a href='/'>Guess The Language</a></h1>
         <Video />
         <div className='score-box'>
           Question: {global.qNum}/10<br />

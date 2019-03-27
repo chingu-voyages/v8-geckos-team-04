@@ -7,7 +7,7 @@ function Score() {
 
   return (
     <div>
-      <h1>Guess The Language</h1>
+      <h1><a href='/'>Guess The Language</a></h1>
       <div>Total Score: {global.score}</div>
       <Route render={({history}) => (
          <button className='view-history-btn' onClick={() => { history.push('/history') }}>

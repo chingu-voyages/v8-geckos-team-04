@@ -31,7 +31,7 @@ const Main = () => (
 
     *** Main content begins ***
     <div className='home-page'>
-      <h1>Guess The Language</h1>
+      <h1><a href='/'>Guess The Language</a></h1>
       <h3>The game is simple, watch a short video and guess the language spoken.</h3>
       <Route render={({history}) => (
         <button onClick={() => { history.push('/game') }}>
