@@ -2,10 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import AdminOneVideoForm from './AdminOneVideoForm';
 
 // Admin helper functions.
-import { getTitleStartIndex, getLanguageFromTitleStartIndex } from '../api/Helpers.js';
+import { getTitleStartIndex, getLanguageFromTitleStartIndex, sortLanguages } from '../api/Helpers.js';
 
 // axios for talking to the YouTube API.
 import axios from 'axios'; 
+
+// use reactn to store the language array.
+import { setGlobal } from 'reactn';
 
 // import { readFiles, writeFiles } from '../api/DatabaseFileBased.js'; // not yet - uncomment after.
 
@@ -18,7 +21,6 @@ export default function Admin() {
 
     // use the useState hook to manage the local state for the fetched data.
     // items = matching YouTube videos.
-    const [videos, setVideos] = useState([]);
     const [languages, setLanguages] = useState([]);
     const [languagetable, setLanguageTable] = useState();
     const [refresh, setRefresh] = useState();
@@ -58,7 +60,6 @@ export default function Admin() {
         }
 
          // don't mutate state.
-        let new_videos = [...videos];
         let new_languages = [...languages];
 
         const fetchVideos = async (next) => {
@@ -94,9 +95,6 @@ export default function Admin() {
                     let url = '', title = '', language = '';
 
                     for (let i = 0; i < itemslength; i++) {
-
-                        // add each video object to the copy of the videos array, new_videos.
-                        new_videos.push(response.data.items[i]);
 
                         // get the url field for the video.
                         url = VIDEO_URL + response.data.items[i].snippet.resourceId.videoId;
@@ -134,10 +132,13 @@ export default function Admin() {
                     // sort the languages.
                     new_languages.sort(sortLanguages);
 
-                    //await writeFiles([{ languages: new_languages }, { videos: new_videos }]); //
+                    //await writeFiles([{ languages: new_languages }]); //
 
                     setLanguages(new_languages);
-                    setVideos(new_videos);
+
+                    setGlobal({
+                        languages: new_languages
+                    });
 
                     if (nextPagetoken) {
 
@@ -176,28 +177,6 @@ export default function Admin() {
                 setLoading(false); // don't show loading indicator any more.          
             }
         };
-
-        function sortLanguages(a, b) {
-
-            // const languageA = a.language.toUpperCase();
-            // const languageB = b.language.toUpperCase();
-            const languageA = a.id;
-            const languageB = b.id;
-
-            let comparison = 0;
-
-            if (languageA > languageB) {
-
-                comparison = 1;
-
-            } else if (languageA < languageB) {
-
-                comparison = -1
-
-            }
-
-            return comparison;
-        }
 
         fetchVideos();
 

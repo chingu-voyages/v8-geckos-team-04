@@ -24,6 +24,7 @@ export function getTitleStartIndex(title) {
 
 }
 
+
 /**
  * Find the language(s) for the video from the start index of the title string.
  * @param {title} Full title of the video from YouTube JSON.
@@ -44,5 +45,30 @@ export function getLanguageFromTitleStartIndex(startindex, title) {
 }
 
 
+/**
+ * Sort the languages array.
+ * @param {sortby} The property of the languages we want to sort by.
+ * @param {a, b} Comparison parameters for each video array element.
+ * @return {comparison} The sorted languages array. 
+ */
+export function sortLanguages(a, b) {
 
+    // const languageA = a.language.toUpperCase();
+    // const languageB = b.language.toUpperCase();
+    const languageA = a.id;
+    const languageB = b.id;
 
+    let comparison = 0;
+
+    if (languageA > languageB) {
+
+        comparison = 1;
+
+    } else if (languageA < languageB) {
+
+        comparison = -1
+
+    }
+
+    return comparison;
+}
