@@ -23,18 +23,48 @@ export default function Admin() {
     const [global, setGlobal] = useGlobal(); // Store the languages array in the ReactN global state.
 
 
+    // Updates the admin table display after CRUD operations.
+    const redrawAdminTable = (updated_languages) => {
+
+        if (updated_languages) {
+    
+            let languagetable = updated_languages.map(lang => (
+                
+                <tr key={lang.id}>
+                    <td>{lang.id}</td>
+                    <td><a href={lang.url} target='_blank' rel='noopener noreferrer'>{lang.url}</a></td>
+                    <td>{lang.language}</td>
+                    <td><button onClick={() => handleSave(lang.id)}>Save</button></td>
+                    <td><button onClick={() => deleteVideo(lang.id)}>Delete</button></td>
+                </tr>
+    
+            ));
+    
+            // Update the language table layout.
+            setLanguageTable(languagetable);
+    
+            return languagetable;
+    
+        }    
+    
+    } 
+
+
     const deleteVideo = (id) => {
         
         setGlobal({languages: global.languages.filter(lang => lang.id !== id)}); // Remove the language record that matches.
 
-        //console.log(global.languages); - WORKS but does not update table yet.
+        // Update the admin table.
+        let languagetable = redrawAdminTable(global.languages);
 
     }
 
 
     const handleSave = (id) => {
 
-        console.log(id);
+
+        // Update the admin table.
+        let languagetable = redrawAdminTable(global.languages);
         
     }
 
@@ -129,24 +159,8 @@ export default function Admin() {
                         //fetchVideos(nextPagetoken); // enable after testing so we don't hit youtube quota too soon.
                     }
 
-                    // Draw the language table.
-                    if (new_languages) {
-
-                        let languagetable = new_languages.map(lang => (
-                            
-                            <tr key={lang.id}>
-                                <td>{lang.id}</td>
-                                <td><a href={lang.url} target='_blank' rel='noopener noreferrer'>{lang.url}</a></td>
-                                <td>{lang.language}</td>
-                                <td><button onClick={() => handleSave(lang.id)}>Save</button></td>
-                                <td><button onClick={() => deleteVideo(lang.id)}>Delete</button></td>
-                            </tr>
-
-                        ));
-
-                        // Update the language table layout.
-                        setLanguageTable(languagetable);
-                    }
+                    // Update the admin table.
+                    let languagetable = redrawAdminTable(new_languages);
 
                 } 
 
