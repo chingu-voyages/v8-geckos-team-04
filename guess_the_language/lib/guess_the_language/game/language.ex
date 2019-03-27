@@ -12,6 +12,6 @@ defmodule GuessTheLanguage.Game.Language do
       field :uuid, Ecto.UUID, autogenerate: true
       field :official, :boolean, default: false
       many_to_many :name, Language, join_through: "language_name"
-      many_to_many :video, Video, join_through: "language_video"
+      many_to_many :video, Video, join_through: "watched_video"
     end
 end
