@@ -10,7 +10,8 @@ import App from './components/App';
 import { setGlobal } from 'reactn';
 setGlobal({
   score: 0,
-  qNum: 1 // Question number
+  qNum: 1, // Question number
+  languages: [] // Languages array from YouTube.
 });
 
 render((

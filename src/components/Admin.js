@@ -1,38 +1,35 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useGlobal } from 'reactn'; // Import from reactn to store the language array global state.
 import AdminOneVideoForm from './AdminOneVideoForm';
-
-// Admin helper functions.
-import { getTitleStartIndex, getLanguageFromTitleStartIndex, sortLanguages } from '../api/Helpers.js';
-
-// axios for talking to the YouTube API.
-import axios from 'axios'; 
-
-// use reactn to store the language array.
-import { setGlobal } from 'reactn';
+import { getTitleStartIndex, getLanguageFromTitleStartIndex, sortLanguages } from '../api/Helpers.js'; // Admin helper functions.
+import axios from 'axios'; // Axios for talking to the YouTube API.
 
 // import { readFiles, writeFiles } from '../api/DatabaseFileBased.js'; // not yet - uncomment after.
 
 export default function Admin() {
 
-    // get the YouTube API key from the .env file (environmental variables)
+    // Get the YouTube API key from the .env file (environmental variables)
     const API_KEY = process.env.REACT_APP_YOUTUBE_DATA_API_V3_KEY;
-    const API_URL = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=UUBgWgQyEb5eTzvh4lLcuipQ&key=' + API_KEY;
+
+    ///////////////////////////////////// SABRINA CHANGE TO 50 WHEN DONE TESTING
+    const API_URL = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=5&playlistId=UUBgWgQyEb5eTzvh4lLcuipQ&key=' + API_KEY;
     const VIDEO_URL = 'https://www.youtube.com/watch?v=';
 
-    // use the useState hook to manage the local state for the fetched data.
-    // items = matching YouTube videos.
-    const [languages, setLanguages] = useState([]);
+    // Use the useState hooks to manage the local state for the fetched data.
     const [languagetable, setLanguageTable] = useState();
     const [refresh, setRefresh] = useState();
     const [loading, setLoading] = useState(false);
+    const [global, setGlobal] = useGlobal(); // Store the languages array in the ReactN global state.
+
 
     const deleteVideo = (id) => {
         
-        console.log(id);
-        // remove the language record that matches.
-        setLanguages(languages.filter(lang => lang.id !== id));
+        setGlobal({languages: global.languages.filter(lang => lang.id !== id)}); // Remove the language record that matches.
+
+        //console.log(global.languages); - WORKS but does not update table yet.
 
     }
+
 
     const handleSave = (id) => {
 
@@ -40,27 +37,21 @@ export default function Admin() {
         
     }
 
-    const extractLanguage = () => {
 
+    let nextid = 1; // Simple way to get a unique id to act as the key in the list of languages.
+    
+    const isFirstRun = useRef(true); // Check if this is the initial load.
 
-    }
-
-    let nextid = 1; // simple way to get a unique id to act as the key in the list of languages.
-
-    // check if this is the initial load.
-    const isFirstRun = useRef(true);
-
-    // use the useEffect hook to fetch the data with axios from the YouTube API as a side effect.
+    // Use the useEffect hook to fetch the data with axios from the YouTube API as a side effect.
     useEffect(() => {
         
-        // only execute the rest of this is NOT the initial page load.
+        // Only execute the rest of this is NOT the initial page load.
         if (isFirstRun.current) {
             isFirstRun.current = false;
             return;
         }
-
-         // don't mutate state.
-        let new_languages = [...languages];
+         
+        let new_languages = []; // Create a new array instead of mutating state.
 
         const fetchVideos = async (next) => {
 
@@ -68,49 +59,44 @@ export default function Admin() {
 
                 setLoading(true);
                 
-                // YouTube only allows 50 per API call, and we have (currently) 562 videos to get, so
+                // YouTube only allows 50 per API call, and we have many more than 50 videos to get, so
                 // we use recursion to execute fetchVideos with the API's provided nextPageToken, until
                 // it returns results that do not have nextPageToken, which means we have reached the end
                 // of the list and have all the videos.
                 
-                let pagetoken = ''; // default start page code.
+                let pagetoken = ''; // Default first page token code.
 
                 // if the 'next' property exists in the results, it is the code for the next starting index (next page).
                 if (next) {
-                    // so append the pageToken (next) value onto the API_URL query.
-                    pagetoken = '&pageToken=' + next; 
+                    
+                    pagetoken = '&pageToken=' + next; // So append the pageToken (next) value onto the API_URL query.
                 }
 
                 const response = await axios.get(API_URL + pagetoken);
 
                 if (response) {
 
-                    // provided by YouTube results to let us know if there are more results we can get.
+                    // Token (next page) provided by YouTube results to let us know if there are more results we can get.
                     let nextPagetoken = response.data.nextPageToken; 
 
                     // The YouTube API returns a collection of search results (i.e. an array of objects, data.items).
 
-                    let itemslength = response.data.items.length; // number of results returned this axios call.
+                    let itemslength = response.data.items.length; // Number of results returned this axios call.
 
-                    let url = '', title = '', language = '';
-
+                    let url = '', title = '';
                     for (let i = 0; i < itemslength; i++) {
 
-                        // get the url field for the video.
-                        url = VIDEO_URL + response.data.items[i].snippet.resourceId.videoId;
+                        url = VIDEO_URL + response.data.items[i].snippet.resourceId.videoId; // Get the url field for the video.
+                        title = response.data.items[i].snippet.title; // Get the title field of the video.
 
-                        // get the title field of the video.
-                        title = response.data.items[i].snippet.title;
-
-                        // extract the language from the title. 
-                        let startindex = getTitleStartIndex(title);
+                        let startindex = getTitleStartIndex(title); // Extract the language from the title.
 
                         // Check if a language name still isn't present. If not, do not execute the below for this video.
                         if (startindex !== -1) {
 
                             let language_array = getLanguageFromTitleStartIndex(startindex, title);
 
-                            // loop through the language array and add each one to new_languages.
+                            // Loop through the language array and add each one to new_languages.
                             for (let i = 0; i < language_array.length; i++) {
 
                                 if (language_array[i] !== '') {
@@ -129,25 +115,20 @@ export default function Admin() {
 
                     }
 
-                    // sort the languages.
-                    new_languages.sort(sortLanguages);
+                    new_languages.sort(sortLanguages); // Sort the languages.
 
-                    //await writeFiles([{ languages: new_languages }]); //
+                    // await writeFiles([{ languages: new_languages }]); //
 
-                    setLanguages(new_languages);
-
-                    setGlobal({
-                        languages: new_languages
-                    });
+                    setGlobal({ languages: new_languages }); // Update the global languages array.
 
                     if (nextPagetoken) {
 
-                        //////////////////////////////////////////////////////////////////////////// ATTN SABRINA - UNCOMMENT LIVE:
+                        ///////////////////////////////// ATTN SABRINA - UNCOMMENT WHEN DONE TESTING:
                         // There are more videos to retrieve, because API says nextPagetoken is not null, so call fetchVideos again.
                         //fetchVideos(nextPagetoken); // enable after testing so we don't hit youtube quota too soon.
                     }
 
-                    // draw the language table.
+                    // Draw the language table.
                     if (new_languages) {
 
                         let languagetable = new_languages.map(lang => (
@@ -162,7 +143,7 @@ export default function Admin() {
 
                         ));
 
-                        // update the language table layout.
+                        // Update the language table layout.
                         setLanguageTable(languagetable);
                     }
 
@@ -174,7 +155,7 @@ export default function Admin() {
 
             } finally {
 
-                setLoading(false); // don't show loading indicator any more.          
+                setLoading(false); // Don't show loading indicator any more.          
             }
         };
 
@@ -182,7 +163,7 @@ export default function Admin() {
 
     },[refresh]);
 
-    // display the records.
+    // Display the records.
 
     /* NEXT:
         GET FROM AXIOS and make JSON file. ---done
