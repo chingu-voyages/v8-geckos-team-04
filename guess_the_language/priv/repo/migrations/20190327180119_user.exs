@@ -3,5 +3,7 @@ defmodule GuessTheLanguage.Repo.Migrations.User do
 
   def change do
     create table(:user) do
+
+    end
     end 
 end
