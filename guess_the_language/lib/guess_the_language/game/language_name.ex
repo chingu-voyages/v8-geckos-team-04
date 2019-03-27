@@ -4,7 +4,7 @@ defmodule GuessTheLanguage.Game.LanguageName do
 
     alias GuessTheLanguage.Game.Language
 
-    schema "language_names" do
+    schema "language_name" do
       field :name, :string
       belongs_to :target, Language
       belongs_to :written, Language
