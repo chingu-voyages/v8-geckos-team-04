@@ -1,7 +1,7 @@
-defmodule GuessTheLanguage.Repo.Migrations.Users do
+defmodule GuessTheLanguage.Repo.Migrations.User do
   use Ecto.Migration
 
   def change do
-    create table(:users) do
+    create table(:user) do
     end 
 end

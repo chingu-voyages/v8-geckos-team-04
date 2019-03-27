@@ -8,7 +8,7 @@ defmodule GuessTheLanguage.Game.YoutubeChannel do
       field :youtube_id, :string
       field :name, :string
 
-      has_many :youtube_videos, YoutubeVideo
+      has_many :youtube_video, YoutubeVideo
 
 end
 end

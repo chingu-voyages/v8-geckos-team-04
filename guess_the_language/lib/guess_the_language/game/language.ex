@@ -8,13 +8,10 @@ defmodule GuessTheLanguage.Game.Language do
     #alias GuessTheLanguage.Game.Area
     #alias GuessTheLanguage.Game.LanguageFamily
 
-    schema "languages" do
+    schema "language" do
       field :uuid, Ecto.UUID, autogenerate: true
       field :official, :boolean, default: false
-      many_to_many :name, Language, join_through: "language_names"
-      many_to_many :videos, Video, join_through: "language_videos"
-      #has_many :descendants, Language
-      #has_many :language_children, through: [:descendants, :parents]
-      #many_to_many :scripts, Script
+      many_to_many :name, Language, join_through: "language_name"
+      many_to_many :video, Video, join_through: "language_video"
     end
 end

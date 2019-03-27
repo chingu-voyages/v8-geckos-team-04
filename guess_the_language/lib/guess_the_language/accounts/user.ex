@@ -4,6 +4,6 @@ defmodule GuessTheLanguage.Accounts.User do
     alias GuessTheLanguage.Game.Video
     alias GuessTheLanguage.Game.Language
 
-    schema "users" do
+    schema "user" do
     end
 end

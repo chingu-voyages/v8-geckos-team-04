@@ -4,7 +4,7 @@ defmodule GuessTheLanguage.Game.LanguageVideo do
     alias GuessTheLanguage.Game.Video
     alias GuessTheLanguage.Game.Language
 
-    schema "language_videos" do
+    schema "language_video" do
         belongs_to :video, Video
         belongs_to :language, Language
     end
