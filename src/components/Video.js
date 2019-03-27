@@ -36,7 +36,9 @@ function Video() {
 	return (
 		<div className="video">
 			<p className='video-title'>What language do you think it is?</p>
-			<iframe className='youtube-video' title={videoTitle} src={videoSrc}></iframe>
+			<div class="youtube-video-wrapper">
+				<iframe width="560" height="349" className='youtube-video-iframe' title={videoTitle} src={videoSrc}></iframe>
+			</div>
 			<div className='choices'>
 				<button id={choice1} onClick={(e) => {handleUserChoice(e)}}>{choice1}</button>
 				<button id={choice2} onClick={(e) => {handleUserChoice(e)}}>{choice2}</button>
