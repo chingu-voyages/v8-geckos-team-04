@@ -34,6 +34,8 @@ export default function Admin() {
                     <td>{lang.id}</td>
                     <td><a href={lang.url} target='_blank' rel='noopener noreferrer'>{lang.url}</a></td>
                     <td>{lang.language}</td>
+                    <td>{lang.starttime}</td>
+                    <td>{lang.endttime}</td>
                     <td><button onClick={() => handleSave(lang.id)}>Save</button></td>
                     <td><button onClick={() => deleteVideo(lang.id)}>Delete</button></td>
                 </tr>
@@ -135,6 +137,8 @@ export default function Admin() {
                                     new_languages.push({
                                         id: nextid++,
                                         url,
+                                        starttime: 10,
+                                        endtime: 120,
                                         language: language_array[i]
                                     });
 
@@ -198,6 +202,8 @@ export default function Admin() {
                             <th scope="col">ID</th>
                             <th scope="col">Language</th>
                             <th scope="col">URL</th>
+                            <th scope="col">Start Time</th>
+                            <th scope="col">End Time</th>
                             <th scope="col">Edit</th>
                             <th scope="col">Delete</th>
                         </tr>
