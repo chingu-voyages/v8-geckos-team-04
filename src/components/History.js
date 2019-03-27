@@ -4,7 +4,7 @@ function History() {
 
   return (
     <div>
-      <h1>Guess The Language</h1>
+      <h1><a href='/'>Guess The Language</a></h1>
       <div>Playing History</div>
     </div>
   );

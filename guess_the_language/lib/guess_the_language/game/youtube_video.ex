@@ -1,4 +1,4 @@
-defmodule GuessTheLanguage.Game.Video do
+defmodule GuessTheLanguage.Game.YoutubeVideo do
     use Ecto.Schema
     import Ecto.Changeset
 
@@ -13,7 +13,7 @@ defmodule GuessTheLanguage.Game.Video do
 
 
       belongs_to :youtube_channel, YoutubeChannel
-      belongs_to :video, Video
+      belongs_to :videos, Video
 
     end
 end
