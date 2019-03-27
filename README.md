@@ -6,6 +6,7 @@ STACK
 Front End (Sabrina, Susanna, Ying)
 - React
 - React Hooks
+- ReactN (Global State)
 - React Router
 - Bootstrap
 - Jest with Snapshot Utilities
