@@ -30,7 +30,7 @@ function Video() {
   // A function is needed to choose video src, choices and answer
   function chooseAVideo() {
 
-    //console.log(global.languages);
+    //console.log(global.languages); /// WTF IS THIS UNDEFINED???
     let randomvideos = [];
     for (let i = 0; i < 3; i++) {
       let rand = global.languages[Math.floor(Math.random() * global.languages.length)];
