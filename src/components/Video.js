@@ -7,6 +7,7 @@ function Video() {
   const initialVideo = 'https://www.youtube.com/embed/3FGc0zaIg2k';
   const initialVideoTitle = 'English Speaking Vid';
 
+  const [videoId, setVideoId] = useState(0);
   const [videoSrc, setVideoSrc] = useState(initialVideo);
   const [videoTitle, setVideoTitle] = useState(initialVideoTitle);  
   const [choice1, setChoice1] = useState('choice1'); // initial value for testing only
@@ -28,12 +29,25 @@ function Video() {
 
   // A function is needed to choose video src, choices and answer
   function chooseAVideo() {
-    setVideoSrc();
-    setVideoTitle();
-    setChoice1();
-    setChoice2();
-    setChoice3();
-    setAnswer();
+
+    //console.log(global.languages);
+    let randomvideos = [];
+    for (let i = 0; i < 3; i++) {
+      let rand = global.languages[Math.floor(Math.random() * global.languages.length)];
+      randomvideos.push(global.languages[rand]);
+    }
+    // pick one to show.
+    let chosen = randomvideos[Math.floor(Math.random() * randomvideos.length)];
+
+    //console.log(randomvideos[chosen]);
+
+    setVideoId(randomvideos[chosen].id);
+    setVideoSrc(randomvideos[chosen].url);
+    setVideoTitle(randomvideos[chosen].language);
+    setChoice1(randomvideos[0].language);
+    setChoice2(randomvideos[1].language);
+    setChoice3(randomvideos[2].language);
+    setAnswer(randomvideos[chosen].language);
   }
 
   function handleUserChoice(e) {
@@ -68,7 +82,7 @@ function Video() {
   return (
     <div className="video">
       <p className='video-title'>What language do you think it is?</p>
-        <iframe className='youtube-video' title={videoTitle} src={videoSrc + '?start=5&end=120&autoplay=1&mute=1'}></iframe>
+        <iframe className='youtube-video' id={videoId} title={videoTitle} src={videoSrc + '?start=5&end=120&autoplay=1&mute=1'}></iframe>
         <div className='choices'>
           <button id={choice1} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choice1}</button>
             <button id={choice2} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choice2}</button>
