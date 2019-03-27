@@ -43,9 +43,9 @@ export default function Admin() {
             // Update the language table layout.
             setLanguageTable(languagetable);
     
-            return languagetable;
-    
-        }    
+        }
+
+        return;
     
     } 
 
@@ -55,7 +55,7 @@ export default function Admin() {
         setGlobal({languages: global.languages.filter(lang => lang.id !== id)}); // Remove the language record that matches.
 
         // Update the admin table.
-        let languagetable = redrawAdminTable(global.languages);
+        redrawAdminTable(global.languages);
 
     }
 
@@ -64,8 +64,8 @@ export default function Admin() {
 
 
         // Update the admin table.
-        let languagetable = redrawAdminTable(global.languages);
-        
+        redrawAdminTable(global.languages);
+
     }
 
 
@@ -160,7 +160,7 @@ export default function Admin() {
                     }
 
                     // Update the admin table.
-                    let languagetable = redrawAdminTable(new_languages);
+                    redrawAdminTable(new_languages);
 
                 } 
 
@@ -181,7 +181,6 @@ export default function Admin() {
     // Display the records.
 
     /* NEXT:
-        GET FROM AXIOS and make JSON file. ---done
         GET FROM JSON file automatically when page is loaded (only from YouTube when button clicked!)
         MAKE TABLE WITH FORM PER VIDEO.
         CHECK FRONT END AND GET RANDOM STUFF FROM JSON FILE ON DEMAND (language, matching url etc)
