@@ -40,6 +40,9 @@ export function getLanguageFromTitleStartIndex(startindex, title) {
     let language_array = delimit_languages.split('|');
 
     return language_array;
+
 }
+
+
 
 
