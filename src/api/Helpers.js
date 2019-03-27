@@ -25,3 +25,15 @@ export function getTitleStartIndex(title) {
 }
 
 
+export function getLanguageFromTitleStartIndex(startindex, title) {
+
+    let language = title.slice(startindex);
+    // Check to see if "language" variable contains multiple languages. First delimit languages in
+    // the title sentence with '|' character.
+    let delimit_languages = language.replace(/(\s+&\s+|,\s+and\s+|\s+and\s+|,\s+)/gi,'|');
+    // now create an array of languages from splitting them between the delimiter.
+    let language_array = delimit_languages.split('|');
+
+    return language_array;
+    
+}

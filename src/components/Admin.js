@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import AdminOneVideoForm from './AdminOneVideoForm';
 
 // Admin helper functions.
-import { getTitleStartIndex } from '../api/Helpers.js';
+import { getTitleStartIndex, getLanguageFromTitleStartIndex } from '../api/Helpers.js';
 
 // axios for talking to the YouTube API.
 import axios from 'axios'; 
@@ -109,12 +109,7 @@ export default function Admin() {
                         // Check if a language name still isn't present. If not, do not execute the below for this video.
                         if (startindex !== -1) {
 
-                            language = title.slice(startindex);
-                            // Check to see if "language" variable contains multiple languages. First delimit languages in
-                            // the title sentence with '|' character.
-                            let delimit_languages = language.replace(/(\s+&\s+|,\s+and\s+|\s+and\s+|,\s+)/gi,'|');
-                            // now create an array of languages from splitting them between the delimiter.
-                            let language_array = delimit_languages.split('|');
+                            let language_array = getLanguageFromTitleStartIndex(startindex, title);
 
                             // loop through the language array and add each one to new_languages.
                             for (let i = 0; i < language_array.length; i++) {
