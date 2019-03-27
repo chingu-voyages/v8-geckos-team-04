@@ -57,8 +57,9 @@ export default function Admin() {
             return;
         }
 
-        let new_videos = [...videos]; // don't mutate state.
-        let new_languages = [...languages];  // yeah, don't mutate state.
+         // don't mutate state.
+        let new_videos = [...videos];
+        let new_languages = [...languages];
 
         const fetchVideos = async (next) => {
 
@@ -140,8 +141,8 @@ export default function Admin() {
 
                     if (nextPagetoken) {
 
-                        //////////////////////////////////////////////////////////////////////////// ATTN ME
-                        // There are more videos to retrieve, so call fetchVideos again.
+                        //////////////////////////////////////////////////////////////////////////// ATTN SABRINA - UNCOMMENT LIVE:
+                        // There are more videos to retrieve, because API says nextPagetoken is not null, so call fetchVideos again.
                         //fetchVideos(nextPagetoken); // enable after testing so we don't hit youtube quota too soon.
                     }
 

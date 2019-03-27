@@ -24,7 +24,12 @@ export function getTitleStartIndex(title) {
 
 }
 
-
+/**
+ * Find the language(s) for the video from the start index of the title string.
+ * @param {title} Full title of the video from YouTube JSON.
+ * @param {startindex} Starting index in title where language name begins.
+ * @return {language_array} All the languages used in this particular video. 
+ */
 export function getLanguageFromTitleStartIndex(startindex, title) {
 
     let language = title.slice(startindex);
@@ -35,5 +40,6 @@ export function getLanguageFromTitleStartIndex(startindex, title) {
     let language_array = delimit_languages.split('|');
 
     return language_array;
-    
 }
+
+
