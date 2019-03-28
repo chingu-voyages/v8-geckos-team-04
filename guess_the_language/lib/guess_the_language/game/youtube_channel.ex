@@ -5,10 +5,10 @@ defmodule GuessTheLanguage.Game.YoutubeChannel do
     alias GuessTheLanguage.Game.YoutubeVideo
     
     schema "youtube_channel" do
-      field :youtube_id, :string
+      field :youtube_uuid, :string
       field :name, :string
 
-      has_many :youtube_videos, YoutubeVideo
+      has_many :youtube_video, YoutubeVideo
 
 end
 end

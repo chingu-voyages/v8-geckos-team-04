@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useGlobal } from 'reactn'; // Import from reactn to store the language array global state.
 import AdminOneVideoForm from './AdminOneVideoForm';
 import { getTitleStartIndex, getLanguageFromTitleStartIndex, sortLanguages } from '../api/Helpers.js'; // Admin helper functions.
-import '../bootstrap.min.css'; // Styling for Admin table.
 import axios from 'axios'; // Axios for talking to the YouTube API.
 
 // import { readFiles, writeFiles } from '../api/DatabaseFileBased.js'; // not yet - uncomment after.
@@ -214,7 +213,11 @@ export default function Admin() {
                 </table>
 
             }
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossOrigin="anonymous">
+            </link>
         </div>
+
     );
 
 }
