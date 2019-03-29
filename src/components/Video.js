@@ -68,7 +68,7 @@ function Video() {
   return (
     <div className="video">
       <p className='video-title'>What language do you think it is?</p>
-        <div class="youtube-video-wrapper">
+        <div className="youtube-video-wrapper">
 		<iframe width="560" height="349" className='youtube-video-iframe' 
 	  	title={videoTitle} src={videoSrc+'?start=5&end=120&autoplay=1&mute=1'}></iframe>
 	</div>

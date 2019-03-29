@@ -50,6 +50,11 @@ export default function Admin() {
     
     } 
 
+    const sortTable = (sortby) => {
+
+        sortLanguages(sortby);
+
+    }
 
     const deleteVideo = (id) => {
         
@@ -70,13 +75,15 @@ export default function Admin() {
     }
 
 
-    let nextid = 1; // Simple way to get a unique id to act as the key in the list of languages.
+    // let nextid = 1; // Simple way to get a unique id to act as the key in the list of languages.
     
     const isFirstRun = useRef(true); // Check if this is the initial load.
 
     // Use the useEffect hook to fetch the data with axios from the YouTube API as a side effect.
     useEffect(() => {
         
+        let nextid = 1; // Simple way to get a unique id to act as the key in the list of languages.
+
         // Only execute the rest of this is NOT the initial page load.
         if (isFirstRun.current) {
             isFirstRun.current = false;
@@ -199,10 +206,10 @@ export default function Admin() {
                     <tbody>
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">Language</th>
-                            <th scope="col">URL</th>
-                            <th scope="col">Start Time</th>
-                            <th scope="col">End Time</th>
+                            <th scope="col" onClick={sortTable('language')}>Language</th>
+                            <th scope="col" onClick={sortTable('url')}>URL</th>
+                            <th scope="col" onClick={sortTable('starttime')}>Start Time</th>
+                            <th scope="col" onClick={sortTable('endtime')}>End Time</th>
                             <th scope="col">Edit</th>
                             <th scope="col">Delete</th>
                         </tr>
