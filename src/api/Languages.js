@@ -1,116 +1,106 @@
-import { useState } from 'react';
 import { useGlobal } from 'reactn'; // Import from reactn to store the language array global state.
-import { getTitleStartIndex, getLanguageFromTitleStartIndex, sortLanguages } from 'Helpers.js'; // Admin helper functions.
+import { getTitleStartIndex, getLanguageFromTitleStartIndex, sortLanguages } from './Helpers'; // Admin helper functions.
 import axios from 'axios'; // Axios for talking to the YouTube API.
 
-export default function Languages() {
     
-        // Get the YouTube API key from the .env file (environmental variables)
-        const API_KEY = process.env.REACT_APP_YOUTUBE_DATA_API_V3_KEY;
-        ///////////////////////////////////// SABRINA CHANGE TO 50 WHEN DONE TESTING
-        const API_URL = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=5&playlistId=UUBgWgQyEb5eTzvh4lLcuipQ&key=' + API_KEY;
-        const VIDEO_URL = 'https://www.youtube.com/watch?v=';
+// Get the YouTube API key from the .env file (environmental variables)
+const API_KEY = process.env.REACT_APP_YOUTUBE_DATA_API_V3_KEY;
+///////////////////////////////////// SABRINA CHANGE TO 50 WHEN DONE TESTING
+const API_URL = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=5&playlistId=UUBgWgQyEb5eTzvh4lLcuipQ&key=' + API_KEY;
+const VIDEO_URL = 'https://www.youtube.com/watch?v=';
 
-        const [loading, setLoading] = useState(false); // Loading indicator.
-        const [global, setGlobal] = useGlobal(); // Store the languages array in the ReactN global state.
+let nextid = 1; // Simple way to get a unique id to act as the key in the list of languages.
 
-        let nextid = 1; // Simple way to get a unique id to act as the key in the list of languages.
+let new_languages = []; // Create a new array instead of mutating state.
+        
+export async function Languages(next) {
 
-        let new_languages = []; // Create a new array instead of mutating state.
+    const [global, setGlobal] = useGlobal(); // Store the languages array in the ReactN global state.
 
-        const fetchVideos = async (next) => {
+    try {
+        
+        // YouTube only allows 50 per API call, and we have many more than 50 videos to get, so
+        // we use recursion to execute Languages with the API's provided nextPageToken, until
+        // it returns results that do not have nextPageToken, which means we have reached the end
+        // of the list and have all the videos.
+        
+        let pagetoken = ''; // Default first page token code.
 
-            try {
+        // if the 'next' property exists in the results, it is the code for the next starting index (next page).
+        if (next) {
+            
+            pagetoken = '&pageToken=' + next; // So append the pageToken (next) value onto the API_URL query.
+        }
 
-                setLoading(true);
-                
-                // YouTube only allows 50 per API call, and we have many more than 50 videos to get, so
-                // we use recursion to execute fetchVideos with the API's provided nextPageToken, until
-                // it returns results that do not have nextPageToken, which means we have reached the end
-                // of the list and have all the videos.
-                
-                let pagetoken = ''; // Default first page token code.
+        const response = await axios.get(API_URL + pagetoken);
 
-                // if the 'next' property exists in the results, it is the code for the next starting index (next page).
-                if (next) {
-                    
-                    pagetoken = '&pageToken=' + next; // So append the pageToken (next) value onto the API_URL query.
-                }
+        if (response) {
 
-                const response = await axios.get(API_URL + pagetoken);
+            // Token (next page) provided by YouTube results to let us know if there are more results we can get.
+            let nextPagetoken = response.data.nextPageToken; 
 
-                if (response) {
+            // The YouTube API returns a collection of search results (i.e. an array of objects, data.items).
 
-                    // Token (next page) provided by YouTube results to let us know if there are more results we can get.
-                    let nextPagetoken = response.data.nextPageToken; 
+            let itemslength = response.data.items.length; // Number of results returned this axios call.
 
-                    // The YouTube API returns a collection of search results (i.e. an array of objects, data.items).
+            let url = '', title = '';
+            for (let i = 0; i < itemslength; i++) {
 
-                    let itemslength = response.data.items.length; // Number of results returned this axios call.
+                url = VIDEO_URL + response.data.items[i].snippet.resourceId.videoId; // Get the url field for the video.
+                title = response.data.items[i].snippet.title; // Get the title field of the video.
 
-                    let url = '', title = '';
-                    for (let i = 0; i < itemslength; i++) {
+                let startindex = getTitleStartIndex(title); // Extract the language from the title.
 
-                        url = VIDEO_URL + response.data.items[i].snippet.resourceId.videoId; // Get the url field for the video.
-                        title = response.data.items[i].snippet.title; // Get the title field of the video.
+                // Check if a language name still isn't present. If not, do not execute the below for this video.
+                if (startindex !== -1) {
 
-                        let startindex = getTitleStartIndex(title); // Extract the language from the title.
+                    let language_array = getLanguageFromTitleStartIndex(startindex, title);
 
-                        // Check if a language name still isn't present. If not, do not execute the below for this video.
-                        if (startindex !== -1) {
+                    // Loop through the language array and add each one to new_languages.
+                    for (let i = 0; i < language_array.length; i++) {
 
-                            let language_array = getLanguageFromTitleStartIndex(startindex, title);
+                        if (language_array[i] !== '') {
 
-                            // Loop through the language array and add each one to new_languages.
-                            for (let i = 0; i < language_array.length; i++) {
+                            new_languages.push({
+                                id: nextid++,
+                                url,
+                                starttime: 10,
+                                endtime: 120,
+                                language: language_array[i]
+                            });
 
-                                if (language_array[i] !== '') {
-
-                                    new_languages.push({
-                                        id: nextid++,
-                                        url,
-                                        starttime: 10,
-                                        endtime: 120,
-                                        language: language_array[i]
-                                    });
-
-                                }
-
-                            }
-                            
                         }
 
                     }
-
-                    new_languages.sort(sortLanguages); // Sort the languages.
-
-                    // await writeFiles([{ languages: new_languages }]); //
-
-                    setGlobal({ languages: new_languages }); // Update the global languages array.
-
-                    if (nextPagetoken) {
-
-                        ///////////////////////////////// ATTN SABRINA - UNCOMMENT WHEN DONE TESTING:
-                        // There are more videos to retrieve, because API says nextPagetoken is not null, so call fetchVideos again.
-                        //fetchVideos(nextPagetoken); // enable after testing so we don't hit youtube quota too soon.
-                    }
-
-                    // Update the admin table.
-                    redrawAdminTable(new_languages);
-
-                } 
-
-            } catch(error) {
-
-                console.error(error);
-
-            } finally {
-
-                setLoading(false); // Don't show loading indicator any more.
+                    
+                }
 
             }
-        };
 
-        fetchVideos();
+            new_languages.sort(sortLanguages); // Sort the languages.
 
+            // await writeFiles([{ languages: new_languages }]); //
+
+            setGlobal({ languages: new_languages }); // Update the global languages array.
+
+            console.log(new_languages);
+
+            if (nextPagetoken) {
+
+                ///////////////////////////////// ATTN SABRINA - UNCOMMENT WHEN DONE TESTING:
+                // There are more videos to retrieve, because API says nextPagetoken is not null, so call Languages again.
+                //Languages(nextPagetoken); // enable after testing so we don't hit youtube quota too soon.
+            }
+
+        } 
+
+    } catch(error) {
+
+        console.error(error);
+
+    }
+
+    Languages();
+    
 }
+
