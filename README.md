@@ -1,14 +1,14 @@
-![Chingu Voyage 8 - Team Gecko 4!](teamgecko.png){: .center-image, height="249px", width="300px"}
-
 <p align="center">
-  <img width="300" height="249" src="teamgecko.png">
+  <img width="300" height="249" src="teamgecko.png" alt="Chingu Voyage 8 - Team Gecko 4!">
 </p>
 
+<p align="center">
 # v8-geckos-team-04
 Guess the Language! - game | Voyage-8 | https://chingu.io/
 
 STACK
 
+<p align="left" style="margin: auto;">
 Front End (Sabrina, Susanna, Ying)
 - React
 - React Hooks
@@ -33,4 +33,6 @@ Back End (Carlos)
 - Ying Huang (@welcomeying)
 - Sabrina Markon (@sabrinamarkon)
 - Susanna Kline (@sdk-irl)
+</p>
 
+</p>
