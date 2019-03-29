@@ -1,5 +1,9 @@
 ![Chingu Voyage 8 - Team Gecko 4!](teamgecko.png){: .center-image, height="249px", width="300px"}
 
+<p align="center">
+  <img width="300" height="249" src="teamgecko.png">
+</p>
+
 # v8-geckos-team-04
 Guess the Language! - game | Voyage-8 | https://chingu.io/
 
