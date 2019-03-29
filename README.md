@@ -27,9 +27,12 @@ Back End (Carlos)
 - Phoenix
 
 # Team members
+
 - Carlos Sisnett (@csisnett)
 - Ying Huang (@welcomeying)
 - Sabrina Markon (@sabrinamarkon)
 - Susanna Kline (@sdk-irl)
 
+# Trello
 
+https://trello.com/b/IYcWlFk7/chingu-geckos-team-app
