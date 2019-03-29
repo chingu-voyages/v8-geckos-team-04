@@ -1,3 +1,5 @@
+![Chingu Voyage 8 - Team Gecko 4!](teamgecko.png)
+
 # v8-geckos-team-04
 Guess the Language! - game | Voyage-8 | https://chingu.io/
 
