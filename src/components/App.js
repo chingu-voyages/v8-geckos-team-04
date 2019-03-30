@@ -16,7 +16,7 @@ import Languages from '../api/Languages';
 
 const App = () => {
 
-  Languages();
+  Languages(); // Load data store.
   
   return (
     <main>

@@ -25,7 +25,7 @@ export default function Admin() {
                     <td><a href={lang.url} target='_blank' rel='noopener noreferrer'>{lang.url}</a></td>
                     <td>{lang.language}</td>
                     <td>{lang.starttime}</td>
-                    <td>{lang.endttime}</td>
+                    <td>{lang.endtime}</td>
                     <td><button onClick={() => handleSave(lang.id)}>Save</button></td>
                     <td><button onClick={() => deleteVideo(lang.id)}>Delete</button></td>
                 </tr>
