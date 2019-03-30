@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useGlobal } from 'reactn'; // Import from reactn to store the language array global state.
-import AdminOneVideoForm from './AdminOneVideoForm';
 import { sortLanguages } from '../api/Helpers.js'; // Admin helper functions.
 
 // import { readFiles, writeFiles } from '../api/DatabaseFileBased.js'; // not yet - uncomment after.
@@ -34,7 +33,7 @@ export default function Admin() {
     
             // Update the language table layout.
             setLanguageTable(languagetable);
-    
+   
         }
 
         return;
@@ -82,7 +81,7 @@ export default function Admin() {
         setLoading(true); // Show loading indicator.
 
         // Update the admin table.
-        redrawAdminTable(global.languages);
+        // redrawAdminTable(global.languages);
 
         setLoading(false); // Don't show loading indicator any more.
 
@@ -96,10 +95,11 @@ export default function Admin() {
         CHECK FRONT END AND GET RANDOM STUFF FROM JSON FILE ON DEMAND (language, matching url etc)
     */
    
-    return(
+    return (
 
         <div className="container">
-            <div><button onClick={() => setRefresh(1)}>Refresh Video List</button></div>
+            {/* <div><button onClick={() => setRefresh(1)}>Refresh Video List</button></div> */}
+
             {loading ? <div>Loading...</div> : 
 
                 <table className='table table-bordered table-striped'>
@@ -125,7 +125,7 @@ export default function Admin() {
             </link>
         </div>
 
-    );
+    )
 
 }
 
