@@ -2,11 +2,7 @@ import React, { useState } from 'react';
 
 // Clear localStorage
 // localStorage.clear();
-const scores = [
-  {date:'03-30-2019',
-  time: '12:02:02',
-  score:'10'}
-  ];
+const scores = [];
 
 const localStorageKey = 'usrName_localScores';
 if (!localStorage.getItem(localStorageKey)) {
@@ -28,7 +24,7 @@ function History() {
           <th>Score</th>
         </tr>
         {output}
-       </table> 
+      </table> 
     </div>
   );
 }
