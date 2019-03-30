@@ -101,20 +101,20 @@ function Video() {
   return (
     <div className="video">
       <p className='video-title'>What language do you think it is?</p>
-        <div className="youtube-video-wrapper">
-    <iframe width="560" height="349" className='youtube-video-iframe' 
-      title={videoTitle} src={videoSrc+'?start=5&end=120&autoplay=1&mute=1'}></iframe>
-  </div>
-        <div className='choices'>
-          <button id={choice1} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choice1}</button>
-            <button id={choice2} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choice2}</button>
-              <button id={choice3} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choice3}</button>
-        </div>
-        <div className='feedback'>
-          {feedback}
-        </div>
-          {next}
-        </div>
+      <div className="youtube-video-wrapper">
+        <iframe width="560" height="349" className='youtube-video-iframe' 
+          title={videoTitle} src={videoSrc+'?start=5&end=120&autoplay=1&mute=1'}></iframe>
+      </div>
+      <div className='choices'>
+        <button id={choice1} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choice1}</button>
+          <button id={choice2} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choice2}</button>
+            <button id={choice3} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choice3}</button>
+      </div>
+      <div className='feedback'>
+        {feedback}
+      </div>
+      {next}
+    </div>
   );
 }
 
