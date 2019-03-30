@@ -4,7 +4,8 @@ defmodule GuessTheLanguage.Game.YoutubeVideo do
 
     alias GuessTheLanguage.Game.Video
     alias GuessTheLanguage.Game.YoutubeChannel
-    
+    @derive {Jason.Encoder, only: [:youtube_uuid, :title, :description, :published_at]}
+
     schema "youtube_video" do
       field :youtube_uuid, :string
       field :title, :string
@@ -14,5 +15,12 @@ defmodule GuessTheLanguage.Game.YoutubeVideo do
       belongs_to :youtube_channel, YoutubeChannel
       belongs_to :video, Video
 
+    end
+
+    def changeset(youtube_video, params \\ %{}) do
+        #add validation to truncate to seconds the datetime
+        youtube_video
+        |> cast(params, [:youtube_uuid, :title, :description, :published_at])
+        |> validate_required([:youtube_uuid, :title, :description, :published_at])
     end
 end

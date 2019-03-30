@@ -3,7 +3,7 @@ defmodule GuessTheLanguage.Accounts.User do
 
     alias GuessTheLanguage.Game.Video
     alias GuessTheLanguage.Game.Language
-
+    @derive {Jason.Encoder, only: [:id]}
     schema "user" do
     end
 end

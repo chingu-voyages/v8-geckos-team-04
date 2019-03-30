@@ -15,13 +15,22 @@ defmodule GuessTheLanguageWeb.Router do
 
   scope "/api", GuessTheLanguageWeb do
     pipe_through :api
+
     get "/videos", VideoController, :index
 
-    post "/videos", VideoController, :add
+    post "/videos", VideoController, :create
 
-    get "/videos/:uuid", VideoController, :detail
+    get "/videos/:uuid", VideoController, :show
 
     delete "/videos/:uuid", VideoController, :delete
+
+    get "/languages", LanguageController, :index
+
+    post "/languages", LanguageController, :create
+
+    get "/languages/:uuid", LanguageController, :show
+
+    delete "/languages/:uuid", LanguageController, :delete
 
   end
   scope "/", GuessTheLanguageWeb do
