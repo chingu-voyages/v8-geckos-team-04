@@ -81,15 +81,15 @@ export default async function Languages(next) {
             // await writeFiles([{ languages: new_languages }]); //
 
             setGlobal({ languages: new_languages }); // Update the global languages array.
-
-            // console.log(global.languages);
-
+            
             if (nextPagetoken) {
 
                 ///////////////////////////////// ATTN SABRINA - UNCOMMENT WHEN DONE TESTING:
                 // There are more videos to retrieve, because API says nextPagetoken is not null, so call Languages again.
                 //Languages(nextPagetoken); // enable after testing so we don't hit youtube quota too soon.
             }
+
+            return global.languages;
 
         } 
 
