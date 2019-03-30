@@ -21,11 +21,19 @@ function Video() {
   // next and submit button
   const nextButton = <button className='next-btn' onClick={() => handleNext()}>Next</button>
   const submitButton = <Route render={({history}) => (
-        <button onClick={() => { history.push('/score') }}>
+        <button onClick={() => { handleSubmit(); history.push('/score') }}>
           Submit
         </button>
       )} />
   const [next, setNext] = useState(); 
+
+  // get localStorage data
+  const scores = [];
+  const localStorageKey = 'usrName_localScores';
+  if (!localStorage.getItem(localStorageKey)) {
+    localStorage.setItem(localStorageKey, JSON.stringify(scores));
+  }
+  const localScores = JSON.parse(localStorage.getItem(localStorageKey));
 
   // A function is needed to choose video src, choices and answer
   function chooseAVideo() {
@@ -89,23 +97,33 @@ function Video() {
     setGlobal({qNum: global.qNum + 1});  
   }
 
+  function handleSubmit() {
+    const newScore = {
+      date: new Date().toLocaleDateString(),
+      time: new Date().toLocaleTimeString(),
+      score: global.score
+    }
+    localScores.push(newScore);
+    localStorage.setItem(localStorageKey, JSON.stringify(localScores));
+  }
+
   return (
     <div className="video">
       <p className='video-title'>What language do you think it is?</p>
-        <div className="youtube-video-wrapper">
-		<iframe width="560" height="349" className='youtube-video-iframe' 
-	  	title={videoTitle} src={videoSrc+'?start=5&end=120&autoplay=1&mute=1'}></iframe>
-	</div>
-        <div className='choices'>
-          <button id={choice1} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choice1}</button>
-            <button id={choice2} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choice2}</button>
-              <button id={choice3} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choice3}</button>
-        </div>
-        <div className='feedback'>
-          {feedback}
-        </div>
-          {next}
-        </div>
+      <div className="youtube-video-wrapper">
+        <iframe width="560" height="349" className='youtube-video-iframe' 
+          title={videoTitle} src={videoSrc+'?start=5&end=120&autoplay=1&mute=1'}></iframe>
+      </div>
+      <div className='choices'>
+        <button id={choice1} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choice1}</button>
+          <button id={choice2} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choice2}</button>
+            <button id={choice3} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choice3}</button>
+      </div>
+      <div className='feedback'>
+        {feedback}
+      </div>
+      {next}
+    </div>
   );
 }
 
