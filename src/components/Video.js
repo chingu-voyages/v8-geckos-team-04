@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Route } from 'react-router-dom';
-import { useGlobal, setGlobal } from 'reactn';
+import { useGlobal } from 'reactn';
 
 function Video() {
   // Variable initialVideo & initialVideoTitle for testing only, can be deleted when the function is done
@@ -76,7 +76,16 @@ function Video() {
     setNext();
     setFeedback(); // Hide feedback div
     setClicked(false); // Enable choice buttons
-    chooseAVideo();
+
+    // Reset chosen video and choices to defaults to clear.
+    setVideoSrc();
+    setVideoTitle();
+    setChoice1();
+    setChoice2();
+    setChoice3();
+    setAnswer();
+
+    chooseAVideo(); // Select the next random video.
     setGlobal({qNum: global.qNum + 1});  
   }
 
