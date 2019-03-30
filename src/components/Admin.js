@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useGlobal } from 'reactn'; // Import from reactn to store the language array global state.
 import { sortLanguages } from '../api/Helpers.js'; // Admin helper functions.
 
@@ -8,7 +8,6 @@ export default function Admin() {
 
     // Use the useState hooks to manage the  state of the fetched data.
     const [languagetable, setLanguageTable] = useState();
-    const [refresh, setRefresh] = useState();
     const [loading, setLoading] = useState(false); // Loading indicator.
     const [global, setGlobal] = useGlobal(); // Store the languages array in the ReactN global state.
 
@@ -64,33 +63,21 @@ export default function Admin() {
 
     }
 
-
-    // let nextid = 1; // Simple way to get a unique id to act as the key in the list of languages.
-    
-    const isFirstRun = useRef(true); // Check if this is the initial load.
-
-    // Use the useEffect hook to fetch the data with axios from the YouTube API as a side effect.
+    // Use the useEffect hook to build the admin table from the global languages data.
     useEffect(() => {
-    
-        // Only execute the rest of this is NOT the initial page load.
-        if (isFirstRun.current) {
-            isFirstRun.current = false;
-            return;
-        }
 
         setLoading(true); // Show loading indicator.
 
         // Update the admin table.
-        // redrawAdminTable(global.languages);
+        redrawAdminTable(global.languages);
 
         setLoading(false); // Don't show loading indicator any more.
 
-    },[refresh]);
+    });
 
     // Display the records.
 
     /* NEXT:
-        GET FROM JSON file automatically when page is loaded (only from YouTube when button clicked!)
         MAKE TABLE WITH FORM PER VIDEO.
         CHECK FRONT END AND GET RANDOM STUFF FROM JSON FILE ON DEMAND (language, matching url etc)
     */
@@ -98,7 +85,6 @@ export default function Admin() {
     return (
 
         <div className="container">
-            {/* <div><button onClick={() => setRefresh(1)}>Refresh Video List</button></div> */}
 
             {loading ? <div>Loading...</div> : 
 

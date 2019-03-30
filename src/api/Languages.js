@@ -82,7 +82,7 @@ export default async function Languages(next) {
 
             setGlobal({ languages: new_languages }); // Update the global languages array.
 
-            //console.log(new_languages);
+            // console.log(global.languages);
 
             if (nextPagetoken) {
 
