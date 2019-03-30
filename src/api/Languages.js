@@ -1,19 +1,18 @@
 import { useGlobal } from 'reactn'; // Import from reactn to store the language array global state.
 import { getTitleStartIndex, getLanguageFromTitleStartIndex, sortLanguages } from './Helpers'; // Admin helper functions.
 import axios from 'axios'; // Axios for talking to the YouTube API.
-
-    
-// Get the YouTube API key from the .env file (environmental variables)
-const API_KEY = process.env.REACT_APP_YOUTUBE_DATA_API_V3_KEY;
-///////////////////////////////////// SABRINA CHANGE TO 50 WHEN DONE TESTING
-const API_URL = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=5&playlistId=UUBgWgQyEb5eTzvh4lLcuipQ&key=' + API_KEY;
-const VIDEO_URL = 'https://www.youtube.com/watch?v=';
-
-let nextid = 1; // Simple way to get a unique id to act as the key in the list of languages.
-
-let new_languages = []; // Create a new array instead of mutating state.
         
-export async function Languages(next) {
+export default async function Languages(next) {
+
+    // Get the YouTube API key from the .env file (environmental variables)
+    const API_KEY = process.env.REACT_APP_YOUTUBE_DATA_API_V3_KEY;
+    ///////////////////////////////////// SABRINA CHANGE TO 50 WHEN DONE TESTING
+    const API_URL = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=5&playlistId=UUBgWgQyEb5eTzvh4lLcuipQ&key=' + API_KEY;
+    const VIDEO_URL = 'https://www.youtube.com/watch?v=';
+
+    let nextid = 1; // Simple way to get a unique id to act as the key in the list of languages.
+
+    let new_languages = []; // Create a new array instead of mutating state.
 
     const [global, setGlobal] = useGlobal(); // Store the languages array in the ReactN global state.
 
@@ -83,7 +82,7 @@ export async function Languages(next) {
 
             setGlobal({ languages: new_languages }); // Update the global languages array.
 
-            console.log(new_languages);
+            //console.log(new_languages);
 
             if (nextPagetoken) {
 
@@ -100,7 +99,5 @@ export async function Languages(next) {
 
     }
 
-    Languages();
-    
 }
 
