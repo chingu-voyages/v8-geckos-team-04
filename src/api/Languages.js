@@ -8,7 +8,7 @@ export default async function Languages(next) {
     const API_KEY = process.env.REACT_APP_YOUTUBE_DATA_API_V3_KEY;
     ///////////////////////////////////// SABRINA CHANGE TO 50 WHEN DONE TESTING
     const API_URL = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=5&playlistId=UUBgWgQyEb5eTzvh4lLcuipQ&key=' + API_KEY;
-    const VIDEO_URL = 'https://www.youtube.com/watch?v=';
+    const VIDEO_URL = 'https://www.youtube.com/embed/';
 
     let nextid = 1; // Simple way to get a unique id to act as the key in the list of languages.
 

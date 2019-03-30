@@ -34,20 +34,24 @@ function Video() {
     let randomvideos = [];
     for (let i = 0; i < 3; i++) {
       let rand = global.languages[Math.floor(Math.random() * global.languages.length)];
-      randomvideos.push(global.languages[rand]);
+      console.log(rand);
+      randomvideos.push(rand);
     }
-    // pick one to show.
-    let chosen = randomvideos[Math.floor(Math.random() * randomvideos.length)];
+
+    // Out of the 3 videos chosen at random from the data set, select 1 random one to show.
+    let chosenindex = Math.floor(Math.random() * randomvideos.length);
+
+    let chosen = randomvideos[chosenindex];
 
     //console.log(randomvideos[chosen]);
 
-    setVideoId(randomvideos[chosen].id);
-    setVideoSrc(randomvideos[chosen].url);
-    setVideoTitle(randomvideos[chosen].language);
+    setVideoId(chosen.id);
+    setVideoSrc(chosen.url);
+    setVideoTitle(chosen.language);
     setChoice1(randomvideos[0].language);
     setChoice2(randomvideos[1].language);
     setChoice3(randomvideos[2].language);
-    setAnswer(randomvideos[chosen].language);
+    setAnswer(chosen.language);
   }
 
   function handleUserChoice(e) {
