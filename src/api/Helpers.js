@@ -6,7 +6,7 @@
  */
 export function getTitleStartIndex(title) {
 
-    let startindex = '';
+    let startindex = -1;
     // FIRST check the rest of the string after 'speaking ' is the language(s).
     let findindex = title.lastIndexOf('peaking ');
     if (findindex !== -1) {
