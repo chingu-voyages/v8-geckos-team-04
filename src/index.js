@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import App from './components/App';
 
-// Add global variable 'score'
+// Add global variables
 import { setGlobal } from 'reactn';
 
 setGlobal({
