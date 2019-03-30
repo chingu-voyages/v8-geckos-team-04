@@ -7,6 +7,7 @@ function Video() {
   const initialVideo = 'https://www.youtube.com/embed/3FGc0zaIg2k';
   const initialVideoTitle = 'English Speaking Vid';
 
+  const [videoId, setVideoId] = useState(0);
   const [videoSrc, setVideoSrc] = useState(initialVideo);
   const [videoTitle, setVideoTitle] = useState(initialVideoTitle);  
   const [choice1, setChoice1] = useState('choice1'); // initial value for testing only
@@ -28,12 +29,29 @@ function Video() {
 
   // A function is needed to choose video src, choices and answer
   function chooseAVideo() {
-    setVideoSrc();
-    setVideoTitle();
-    setChoice1();
-    setChoice2();
-    setChoice3();
-    setAnswer();
+
+    //console.log(global.languages); /// WTF IS THIS UNDEFINED???
+    let randomvideos = [];
+    for (let i = 0; i < 3; i++) {
+      let rand = global.languages[Math.floor(Math.random() * global.languages.length)];
+      console.log(rand);
+      randomvideos.push(rand);
+    }
+
+    // Out of the 3 videos chosen at random from the data set, select 1 random one to show.
+    let chosenindex = Math.floor(Math.random() * randomvideos.length);
+
+    let chosen = randomvideos[chosenindex];
+
+    //console.log(randomvideos[chosen]);
+
+    setVideoId(chosen.id);
+    setVideoSrc(chosen.url);
+    setVideoTitle(chosen.language);
+    setChoice1(randomvideos[0].language);
+    setChoice2(randomvideos[1].language);
+    setChoice3(randomvideos[2].language);
+    setAnswer(chosen.language);
   }
 
   function handleUserChoice(e) {
