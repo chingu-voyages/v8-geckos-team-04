@@ -51,6 +51,21 @@ export function getLanguageFromTitleStartIndex(startindex, title) {
  * @param {a, b} Comparison parameters for each video array element.
  * @return {comparison} The sorted languages array. 
  */
+export function sortLanguages(sortby) {
+
+    if (!sortby) {
+
+        sortby = 'id'; // Default
+    
+    }
+
+    return (a, b) => a[sortby] === b[sortby] ? 0 : a[sortby] < b[sortby] ? -1 : 1;
+
+}
+  
+
+
+  /*
 export function sortLanguages(a, b) {
 
     // const languageA = a.language.toUpperCase();
@@ -72,5 +87,5 @@ export function sortLanguages(a, b) {
 
     return comparison;
 }
-
+*/
 
