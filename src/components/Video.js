@@ -21,11 +21,22 @@ function Video() {
   // next and submit button
   const nextButton = <button className='next-btn' onClick={() => handleNext()}>Next</button>
   const submitButton = <Route render={({history}) => (
-        <button onClick={() => { history.push('/score') }}>
+        <button onClick={() => { handleSubmit(); history.push('/score') }}>
           Submit
         </button>
       )} />
   const [next, setNext] = useState(); 
+
+  // get localStorage data
+  const scores = [
+    {date:'03-30-2019',
+    score:'10'}
+    ];
+  const localStorageKey = 'usrName_localScores';
+  if (!localStorage.getItem(localStorageKey)) {
+    localStorage.setItem(localStorageKey, JSON.stringify(scores));
+  }
+  const localScores = JSON.parse(localStorage.getItem(localStorageKey));
 
   // A function is needed to choose video src, choices and answer
   function chooseAVideo() {
@@ -78,6 +89,16 @@ function Video() {
     setClicked(false); // Enable choice buttons
     chooseAVideo();
     setGlobal({qNum: global.qNum + 1});  
+  }
+
+  function handleSubmit() {
+    const newScore = {
+      date: new Date().toLocaleDateString(),
+      time: new Date().toLocaleTimeString(),
+      score: global.score
+    }
+    localScores.push(newScore);
+    localStorage.setItem(localStorageKey, JSON.stringify(localScores));
   }
 
   return (

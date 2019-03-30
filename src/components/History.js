@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 // Clear localStorage
 // localStorage.clear();
 const scores = [
-{date:'03-30-2019',
-score:'10'}
-]
+  {date:'03-30-2019',
+  time: '12:02:02',
+  score:'10'}
+  ];
 
 const localStorageKey = 'usrName_localScores';
 if (!localStorage.getItem(localStorageKey)) {
@@ -13,8 +14,8 @@ if (!localStorage.getItem(localStorageKey)) {
 }
 
 function History() {
-  const scores = JSON.parse(localStorage.getItem(localStorageKey));
-  const output = scores.map(item => <tr><td>{item.date}</td><td>{item.score}</td></tr>);
+  const localScores = JSON.parse(localStorage.getItem(localStorageKey));
+  const output = localScores.map(item => <tr><td>{item.date}</td><td>{item.time}</td><td>{item.score}</td></tr>);
 
   return (
     <div>
@@ -23,6 +24,7 @@ function History() {
       <table>
         <tr>
           <th>Date</th>
+          <th>Time</th>
           <th>Score</th>
         </tr>
         {output}
