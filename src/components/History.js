@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 
 // Clear localStorage
 // localStorage.clear();
-const scores = [];
-
+// get localStorage data
+const scores = []; //set initial data to an empty list
 const localStorageKey = 'usrName_localScores';
 if (!localStorage.getItem(localStorageKey)) {
-	localStorage.setItem(localStorageKey, JSON.stringify(scores));
+  localStorage.setItem(localStorageKey, JSON.stringify(scores));
 }
 
 function History() {
   const localScores = JSON.parse(localStorage.getItem(localStorageKey));
-  const output = localScores.map(item => <tr><td>{item.date}</td><td>{item.time}</td><td>{item.score}</td></tr>);
+  const output = localScores.map(item => <tr><td>{item.date}</td>
+                                            <td>{item.time}</td>
+                                            <td>{item.score}</td></tr>);
 
   return (
     <div>
