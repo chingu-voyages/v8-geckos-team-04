@@ -59,7 +59,7 @@ export function sortLanguages(sortby) {
     
     }
 
-    return (a, b) => a[sortby] == b[sortby] ? 0 : a[sortby] < b[sortby] ? -1 : 1;
+    return (a, b) => a[sortby] === b[sortby] ? 0 : a[sortby] < b[sortby] ? -1 : 1;
 
 }
   
