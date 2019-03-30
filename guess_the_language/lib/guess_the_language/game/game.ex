@@ -15,7 +15,9 @@ defmodule GuessTheLanguage.Game do
         Repo.all(Video)
         |> Repo.preload([:youtube_video, :user])
     end
-
+    
+    #alternative method
+    #youtube_video = build_assoc(video, :youtube_video, %{})
     def make_video(%YoutubeVideo{} = youtube_video) do
         {:ok, video} = Video.changeset(%Video{}, %{user_id: 1}) |> Repo.insert
         youtube_video = YoutubeVideo.changeset(youtube_video, %{video_id: video.id}) |> Repo.insert
