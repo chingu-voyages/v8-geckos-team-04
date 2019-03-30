@@ -13,4 +13,10 @@ defmodule GuessTheLanguage.Game.Video do
       has_one :youtube_video, YoutubeVideo
       belongs_to :user, User
     end
+
+    def changeset(video, params \\ %{}) do
+        video
+        |> cast(params, [:user_id])
+        |> validate_required([:user_id])
+    end
 end
