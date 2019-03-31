@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Video from './Video';
 import { useGlobal } from 'reactn';
 
 function Game() {
-  const [global, setGlobal] = useGlobal();
+  const [global] = useGlobal();
 
   function newGame(){
     window.location.reload(); // refresh the page

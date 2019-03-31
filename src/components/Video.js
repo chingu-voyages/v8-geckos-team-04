@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Route } from 'react-router-dom';
-import { useGlobal, setGlobal } from 'reactn';
+import { useGlobal } from 'reactn';
 
 function Video() {
   // Variable initialVideo & initialVideoTitle for testing only, can be deleted when the function is done
@@ -38,14 +38,16 @@ function Video() {
   // A function is needed to choose video src, choices and answer
   function chooseAVideo() {
 
-    //console.log(global.languages); /// WTF IS THIS UNDEFINED???
+    var uniq = {};
+    let uniquelanguages = global.languages.filter(obj => !uniq[obj.language] && (uniq[obj.language] = true));
+
     let randomvideos = [];
     for (let i = 0; i < 3; i++) {
-      let rand = global.languages[Math.floor(Math.random() * global.languages.length)];
+      let rand = uniquelanguages[Math.floor(Math.random() * uniquelanguages.length)];
       randomvideos.push(rand);
     }
-
-    // Out of the 3 videos chosen at random from the data set, select 1 random one to show.
+    
+    // Out of the 3 videos chosen at random from the data set, select 1 random one to show and be the correct answer.
     let chosenindex = Math.floor(Math.random() * randomvideos.length);
 
     let chosen = randomvideos[chosenindex];
@@ -84,7 +86,16 @@ function Video() {
     setNext();
     setFeedback(); // Hide feedback div
     setClicked(false); // Enable choice buttons
-    chooseAVideo();
+
+    // Reset chosen video and choices to defaults to clear.
+    setVideoSrc();
+    setVideoTitle();
+    setChoice1();
+    setChoice2();
+    setChoice3();
+    setAnswer();
+
+    chooseAVideo(); // Select the next random video.
     setGlobal({qNum: global.qNum + 1});  
   }
 
