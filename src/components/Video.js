@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { Route } from 'react-router-dom';
 import { useGlobal } from 'reactn';
 
@@ -129,4 +129,4 @@ function Video() {
   );
 }
 
-export default Video;
+export default memo(Video);
