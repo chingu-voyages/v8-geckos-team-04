@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { Route } from 'react-router-dom';
 import { useGlobal } from 'reactn';
 
@@ -10,10 +10,10 @@ function Video() {
   // const [videoId, setVideoId] = useState(0);
   const [videoSrc, setVideoSrc] = useState(initialVideo);
   const [videoTitle, setVideoTitle] = useState(initialVideoTitle);  
-  const [choice1, setChoice1] = useState('choice1'); // initial value for testing only
-  const [choice2, setChoice2] = useState('choice2'); // initial value for testing only
-  const [choice3, setChoice3] = useState('choice3'); // initial value for testing only
-  const [answer, setAnswer] = useState('choice2'); // initial value for testing only
+  const [choice1, setChoice1] = useState('French'); // initial value for testing only
+  const [choice2, setChoice2] = useState('English'); // initial value for testing only
+  const [choice3, setChoice3] = useState('Italian'); // initial value for testing only
+  const [answer, setAnswer] = useState('English'); // initial value for testing only
   const [feedback, setFeedback] = useState();
   const [clicked, setClicked] = useState(false);
   const [global, setGlobal] = useGlobal();
@@ -82,6 +82,13 @@ function Video() {
     }
   }
 
+  // Use React hook to get an initial video to start the game rather than the hard-coded one.
+  useEffect(() => {
+
+    handleNext();
+
+  },[]);
+  
   function handleNext() { 
     setNext();
     setFeedback(); // Hide feedback div
@@ -129,4 +136,4 @@ function Video() {
   );
 }
 
-export default Video;
+export default memo(Video);
