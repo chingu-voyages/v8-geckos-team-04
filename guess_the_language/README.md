@@ -9,6 +9,10 @@ https://hexdocs.pm/phoenix/installation.html
 
 To start your Phoenix server:
 
+Added by Sabrina for myself and other Elixir n00bs (I hope it is ok to add lol):
+-Before doing the below steps, cd into the guess_the_language folder in the CLI.
+If it asks if you want to install a missing dependency, type Y.
+
   * Install dependencies with `mix deps.get`
   * Create and migrate your database with `mix ecto.setup`
   * Install Node.js dependencies with `cd assets && npm install`
