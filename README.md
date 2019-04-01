@@ -32,6 +32,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Mailing list: http://groups.google.com/group/phoenix-talk
   * Source: https://github.com/phoenixframework/phoenix
+
 # Our Stack
 
 Front End (Sabrina, Susanna, Ying)
@@ -54,9 +55,12 @@ Back End (Carlos)
 - Phoenix
 
 # Team members
+
 - Carlos Sisnett (@csisnett)
 - Ying Huang (@welcomeying)
 - Sabrina Markon (@sabrinamarkon)
 - Susanna Kline (@sdk-irl)
 
+# Trello
 
+https://trello.com/b/IYcWlFk7/chingu-geckos-team-app
