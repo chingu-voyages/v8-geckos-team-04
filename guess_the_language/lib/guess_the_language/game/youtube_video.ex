@@ -16,9 +16,9 @@ defmodule GuessTheLanguage.Game.YoutubeVideo do
 
     end
 
-    def changeset(params \\ %{}) do
+    def changeset(youtube_video, params \\ %{}) do
         #add validation to truncate to seconds the datetime
-        %YoutubeVideo{}
+        youtube_video
         |> cast(params, [:youtube_uuid, :title, :description, :published_at])
         |> validate_required([:youtube_uuid, :title, :description, :published_at])
     end

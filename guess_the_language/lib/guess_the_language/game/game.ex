@@ -20,9 +20,9 @@ defmodule GuessTheLanguage.Game do
         Repo.get_by(YoutubeVideo, params)
     end
 
-    def make_video(%{} = params) do
-        {:ok, video} = Video.changeset(Map.put(params, "user_id", 1)) |> Repo.insert
-        youtube_video = YoutubeVideo.changeset(Map.put(params, "video_id", video.id)) |> Repo.insert
+    def make_video(%YoutubeVideo{} = youtube_video) do
+        {:ok, video} = Video.changeset(%Video{}, %{user_id: 1}) |> Repo.insert
+        {:ok, youtube_video} = YoutubeVideo.changeset(youtube_video, %{video_id: video.id}) |> Repo.insert
         video
     end
 end
