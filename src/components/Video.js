@@ -1,4 +1,4 @@
-import React, { useState, memo } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { Route } from 'react-router-dom';
 import { useGlobal } from 'reactn';
 
@@ -82,6 +82,12 @@ function Video() {
     }
   }
 
+  // Use React hook to get an initial video to start the game rather than the hard-coded one.
+  useEffect(() => {
+
+    handleNext();
+
+  },[]);
   
   function handleNext() { 
     setNext();
