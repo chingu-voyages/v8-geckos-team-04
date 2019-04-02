@@ -82,3 +82,23 @@ button:active {
 	width: 100%;
 	height: 100%;
 }
+
+@media screen and (min-width: 800px) {
+	.sidebars {
+		position: static;
+		max-width: 80%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.youtube-video-wrapper {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+	}
+}
+
+@media screen and (min-width: 1400px) {
+	.sidebars {
+		max-width: 1120px; /* 80% width of screen */
+	}
+}

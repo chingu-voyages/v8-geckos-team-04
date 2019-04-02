@@ -10,7 +10,7 @@ function Game() {
   }
 
   return(
-    <div>
+    <div className='sidebars'>
       <h1><a href='/'>Guess The Language</a></h1>
         <Video />
         <div className='score-box'>
