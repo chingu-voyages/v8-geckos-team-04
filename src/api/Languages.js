@@ -1,10 +1,10 @@
-import { useGlobal } from 'reactn'; // Import from reactn to store the language array global state.
 import { getTitleStartIndex, getLanguageFromTitleStartIndex, sortLanguages } from './Helpers'; // Admin helper functions.
 import axios from 'axios'; // Axios for talking to the YouTube API.
         
 export default async function Languages(next) {
 
-    // Get the YouTube API key from the .env file (environmental variables)
+    // Get the YouTube API key from the .env file (environmental variables).
+    // NOT PRIVATE (JavaScript is client-side so don't store anything super sensitive in .env!)
     const API_KEY = process.env.REACT_APP_YOUTUBE_DATA_API_V3_KEY;
     const API_URL = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=UUBgWgQyEb5eTzvh4lLcuipQ&key=' + API_KEY;
     const VIDEO_URL = 'https://www.youtube.com/embed/';
@@ -12,8 +12,6 @@ export default async function Languages(next) {
     let nextid = 1; // Simple way to get a unique id to act as the key in the list of languages.
 
     let new_languages = []; // Create a new array instead of mutating state.
-
-    const [global, setGlobal] = useGlobal(); // Store the languages array in the ReactN global state.
 
     try {
         
@@ -77,9 +75,7 @@ export default async function Languages(next) {
 
             new_languages.sort(sortLanguages); // Sort the languages.
 
-            setGlobal({ languages: new_languages }); // Update the global languages array.
-
-            // Save the global languages array to the browser's localStorage.
+            // Save the languages array to the browser's localStorage.
             localStorage.setItem('stored_languages', JSON.stringify(new_languages));
             
             if (nextPagetoken) {
@@ -89,7 +85,8 @@ export default async function Languages(next) {
                 //Languages(nextPagetoken); // enable after testing so we don't hit youtube quota too soon.
             }
 
-            return global.languages;
+            // Return the updated list of languages.
+            return new_languages;
 
         } 
 
