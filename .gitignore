@@ -12,7 +12,7 @@
 /build
 
 # config with database variables.
-/config
+/config/
 
 # misc
 .DS_Store

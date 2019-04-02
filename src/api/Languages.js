@@ -77,9 +77,10 @@ export default async function Languages(next) {
 
             new_languages.sort(sortLanguages); // Sort the languages.
 
-            // await writeFiles([{ languages: new_languages }]); //
-
             setGlobal({ languages: new_languages }); // Update the global languages array.
+
+            // Save the global languages array to the browser's localStorage.
+            localStorage.setItem('stored_languages', JSON.stringify(new_languages));
             
             if (nextPagetoken) {
 
