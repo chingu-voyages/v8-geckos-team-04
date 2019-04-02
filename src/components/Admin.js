@@ -47,10 +47,15 @@ export default function Admin() {
 
     const deleteVideo = (id) => {
         
-        setGlobal({languages: global.languages.filter(lang => lang.id !== id)}); // Remove the language record that matches.
+        let updated_languages = global.languages.filter(lang => lang.id !== id);
+
+        setGlobal({languages: updated_languages}); // Remove the language record that matches.
+
+        // Update the global languages array in localStorage.
+        localStorage.setItem('stored_languages', JSON.stringify(updated_languages));
 
         // Update the admin table.
-        redrawAdminTable(global.languages);
+        redrawAdminTable(updated_languages);
 
     }
 
