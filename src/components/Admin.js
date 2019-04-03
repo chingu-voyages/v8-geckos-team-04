@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-//import { useGlobal } from 'reactn'; // Import from reactn to store the language array global state.
 import { sortLanguages } from '../api/Helpers.js'; // Admin helper functions.
 
 export default function Admin() {
@@ -7,7 +6,6 @@ export default function Admin() {
     // Use the useState hooks to manage the  state of the fetched data.
     const [languagetable, setLanguageTable] = useState();
     const [loading, setLoading] = useState(false); // Loading indicator.
-    // const [global, setGlobal] = useGlobal(); // Store the languages array in the ReactN global state.
 
     // Check if the stored_languages key exists in the browser's local storage. If not, add it.
     const localStorageKey = 'stored_languages';
@@ -51,13 +49,13 @@ export default function Admin() {
 
     const deleteVideo = (id) => {
         
+        // Get the current languages array from the browser's localStorage.
         const local_languages = JSON.parse(localStorage.getItem(localStorageKey));
 
+        // Create a new array without the deleted language.
         const updated_languages = local_languages.filter(lang => lang.id !== id);
 
-        //setGlobal({languages: updated_languages}); // Remove the language record that matches.
-
-        // Update the global languages array in localStorage.
+        // Update the languages array in localStorage to reflect the deletion.
         localStorage.setItem(localStorageKey, JSON.stringify(updated_languages));
 
         // Update the admin table.
@@ -68,13 +66,13 @@ export default function Admin() {
 
     const handleSave = (id) => {
 
+        // Get the current languages array from the browser's localStorage.
         const local_languages = JSON.parse(localStorage.getItem(localStorageKey));
 
+        // Create a new array that reflects the edits made to a language.
         const updated_languages = local_languages.filter(lang => lang.id !== id);
 
-        //setGlobal({languages: updated_languages}); // Remove the language record that matches.
-
-        // Update the global languages array in localStorage.
+        // Update the languages array in localStorage to reflect the changes to a language.
         localStorage.setItem(localStorageKey, JSON.stringify(updated_languages));
 
         // Update the admin table.
@@ -82,11 +80,12 @@ export default function Admin() {
 
     }
 
-    // Use the useEffect hook to build the admin table from the global languages data.
+    // Use the useEffect hook to build the admin table from the languages data.
     useEffect(() => {
 
         setLoading(true); // Show loading indicator.
 
+        // Get the languages data from the browser's localStorage.
         const localLanguages = JSON.parse(localStorage.getItem(localStorageKey));
 
         // Update the admin table.
