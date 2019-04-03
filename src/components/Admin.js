@@ -9,9 +9,6 @@ export default function Admin() {
 
     // Check if the stored_languages key exists in the browser's local storage. If not, add it.
     const localStorageKey = 'stored_languages';
-    // if (!localStorage.getItem(localStorageKey)) {
-    //   localStorage.setItem(localStorageKey, JSON.stringify(global.languages));
-    // }
 
     // Updates the admin table display after CRUD operations.
     const redrawAdminTable = (updated_languages) => {
