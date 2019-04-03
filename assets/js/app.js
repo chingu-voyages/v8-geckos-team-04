@@ -1,6 +1,24 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react';
+import { render } from 'react-dom';
 
-const ReactOnPhoenix = () => <div>This is a React Component!!!</div>
+// routing so we can visit an admin page or other navigation within the app.
+import { BrowserRouter } from 'react-router-dom'; 
 
-ReactDOM.render(<ReactOnPhoenix />, document.getElementById('mountPoint'))
+import App from './components/App';
+
+// Add global variables
+import { setGlobal } from 'reactn';
+
+setGlobal({
+  score: 0,
+  qNum: 1, // Question number
+  languages: [] // Languages array from YouTube.
+});
+
+render((
+
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+
+), document.getElementById('mountPoint'));
