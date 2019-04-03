@@ -7,7 +7,7 @@ export default function Admin() {
     const [languagetable, setLanguageTable] = useState();
     const [loading, setLoading] = useState(false); // Loading indicator.
 
-    // Check if the stored_languages key exists in the browser's local storage. If not, add it.
+    // The localStorage key for the languages array.
     const localStorageKey = 'stored_languages';
 
     // Updates the admin table display after CRUD operations.

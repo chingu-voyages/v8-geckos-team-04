@@ -35,11 +35,15 @@ function Video() {
   }
   const localScores = JSON.parse(localStorage.getItem(localStorageKey));
 
+  // The localStorage key for the languages array.
+  const localStorageKeyLanguages = 'stored_languages';
+  const local_languages = JSON.parse(localStorage.getItem(localStorageKeyLanguages));
+
   // A function is needed to choose video src, choices and answer
   function chooseAVideo() {
 
     var uniq = {};
-    let uniquelanguages = global.languages.filter(obj => !uniq[obj.language] && (uniq[obj.language] = true));
+    let uniquelanguages = local_languages.filter(obj => !uniq[obj.language] && (uniq[obj.language] = true));
 
     let randomvideos = [];
     for (let i = 0; i < 3; i++) {

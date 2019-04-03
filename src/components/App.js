@@ -16,7 +16,9 @@ import Languages from '../api/Languages';
 
 const App = () => {
 
-  Languages(); // Load data store.
+  // Hydrate the languages array state either from the user browser's localStorage, 
+  // or fro YouTube API if localStorage is empty.
+  Languages();
   
   return (
     <main>
