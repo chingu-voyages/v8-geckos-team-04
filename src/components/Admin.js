@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useGlobal } from 'reactn'; // Import from reactn to store the language array global state.
 import { sortLanguages } from '../api/Helpers.js'; // Admin helper functions.
-
-// import { readFiles, writeFiles } from '../api/DatabaseFileBased.js'; // not yet - uncomment after.
 
 export default function Admin() {
 
     // Use the useState hooks to manage the  state of the fetched data.
     const [languagetable, setLanguageTable] = useState();
     const [loading, setLoading] = useState(false); // Loading indicator.
-    const [global, setGlobal] = useGlobal(); // Store the languages array in the ReactN global state.
+
+    // The localStorage key for the languages array.
+    const localStorageKey = 'stored_languages';
 
     // Updates the admin table display after CRUD operations.
     const redrawAdminTable = (updated_languages) => {
@@ -47,41 +46,53 @@ export default function Admin() {
 
     const deleteVideo = (id) => {
         
-        setGlobal({languages: global.languages.filter(lang => lang.id !== id)}); // Remove the language record that matches.
+        // Get the current languages array from the browser's localStorage.
+        const local_languages = JSON.parse(localStorage.getItem(localStorageKey));
+
+        // Create a new array without the deleted language.
+        const updated_languages = local_languages.filter(lang => lang.id !== id);
+
+        // Update the languages array in localStorage to reflect the deletion.
+        localStorage.setItem(localStorageKey, JSON.stringify(updated_languages));
 
         // Update the admin table.
-        redrawAdminTable(global.languages);
+        redrawAdminTable(updated_languages);
 
     }
 
 
     const handleSave = (id) => {
 
+        // Get the current languages array from the browser's localStorage.
+        const local_languages = JSON.parse(localStorage.getItem(localStorageKey));
+
+        // Create a new array that reflects the edits made to a language.
+        const updated_languages = local_languages.filter(lang => lang.id !== id);
+
+        // Update the languages array in localStorage to reflect the changes to a language.
+        localStorage.setItem(localStorageKey, JSON.stringify(updated_languages));
 
         // Update the admin table.
-        redrawAdminTable(global.languages);
+        redrawAdminTable(updated_languages);
 
     }
 
-    // Use the useEffect hook to build the admin table from the global languages data.
+    // Use the useEffect hook to build the admin table from the languages data.
     useEffect(() => {
 
         setLoading(true); // Show loading indicator.
 
+        // Get the languages data from the browser's localStorage.
+        const localLanguages = JSON.parse(localStorage.getItem(localStorageKey));
+
         // Update the admin table.
-        redrawAdminTable(global.languages);
+        redrawAdminTable(localLanguages);
 
         setLoading(false); // Don't show loading indicator any more.
 
     });
 
-    // Display the records.
-
-    /* NEXT:
-        MAKE TABLE WITH FORM PER VIDEO.
-        CHECK FRONT END AND GET RANDOM STUFF FROM JSON FILE ON DEMAND (language, matching url etc)
-    */
-   
+    // Display the records.   
     return (
 
         <div className="container">

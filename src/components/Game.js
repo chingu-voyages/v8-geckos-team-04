@@ -6,7 +6,7 @@ function Game() {
   const [global] = useGlobal();
 
   function newGame(){
-    window.location.reload(); // refresh the page
+    window.location.href = '/game'; // go back to starting page (for now)
   }
 
   return(

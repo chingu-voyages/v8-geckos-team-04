@@ -1,10 +1,10 @@
-import { useGlobal } from 'reactn'; // Import from reactn to store the language array global state.
 import { getTitleStartIndex, getLanguageFromTitleStartIndex, sortLanguages } from './Helpers'; // Admin helper functions.
 import axios from 'axios'; // Axios for talking to the YouTube API.
         
 export default async function Languages(next) {
 
-    // Get the YouTube API key from the .env file (environmental variables)
+    // Get the YouTube API key from the .env file (environmental variables).
+    // NOT PRIVATE (JavaScript is client-side so don't store anything super sensitive in .env!)
     const API_KEY = process.env.REACT_APP_YOUTUBE_DATA_API_V3_KEY;
     const API_URL = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=UUBgWgQyEb5eTzvh4lLcuipQ&key=' + API_KEY;
     const VIDEO_URL = 'https://www.youtube.com/embed/';
@@ -13,84 +13,100 @@ export default async function Languages(next) {
 
     let new_languages = []; // Create a new array instead of mutating state.
 
-    const [global, setGlobal] = useGlobal(); // Store the languages array in the ReactN global state.
-
     try {
         
-        // YouTube only allows 50 per API call, and we have many more than 50 videos to get, so
-        // we use recursion to execute Languages with the API's provided nextPageToken, until
-        // it returns results that do not have nextPageToken, which means we have reached the end
-        // of the list and have all the videos.
-        
-        let pagetoken = ''; // Default first page token code.
+        // Try to get the languages array from the client browser's localStorage first. If it is not there,
+        // then fetch the languages from YouTube.
 
-        // if the 'next' property exists in the results, it is the code for the next starting index (next page).
-        if (next) {
+        // 1) Check if the stored_languages key exists in the browser's local storage. If not, add it from YouTube.
+        const localStorageKey = 'stored_languages';
+        if (localStorage.getItem(localStorageKey)) {
+
+            // Return the list of languages from the localStore.
+            new_languages = JSON.parse(localStorage.getItem(localStorageKey));
             
-            pagetoken = '&pageToken=' + next; // So append the pageToken (next) value onto the API_URL query.
-        }
+            return new_languages;
 
-        const response = await axios.get(API_URL + pagetoken);
+        } else {
 
-        if (response) {
+            // Return the list of languages by getting it from YouTube's API.
 
-            // Token (next page) provided by YouTube results to let us know if there are more results we can get.
-            let nextPagetoken = response.data.nextPageToken; 
+            // YouTube only allows 50 per API call, and we have many more than 50 videos to get, so
+            // we use recursion to execute Languages with the API's provided nextPageToken, until
+            // it returns results that do not have nextPageToken, which means we have reached the end
+            // of the list and have all the videos.
+            
+            let pagetoken = ''; // Default first page token code.
 
-            // The YouTube API returns a collection of search results (i.e. an array of objects, data.items).
+            // if the 'next' property exists in the results, it is the code for the next starting index (next page).
+            if (next) {
+                
+                pagetoken = '&pageToken=' + next; // So append the pageToken (next) value onto the API_URL query.
+            }
 
-            let itemslength = response.data.items.length; // Number of results returned this axios call.
+            const response = await axios.get(API_URL + pagetoken);
 
-            let url = '', title = '';
-            for (let i = 0; i < itemslength; i++) {
+            if (response) {
 
-                url = VIDEO_URL + response.data.items[i].snippet.resourceId.videoId; // Get the url field for the video.
-                title = response.data.items[i].snippet.title; // Get the title field of the video.
+                // Token (next page) provided by YouTube results to let us know if there are more results we can get.
+                let nextPagetoken = response.data.nextPageToken; 
 
-                let startindex = getTitleStartIndex(title); // Extract the language from the title.
+                // The YouTube API returns a collection of search results (i.e. an array of objects, data.items).
 
-                // Check if a language name still isn't present. If not, do not execute the below for this video.
-                if (startindex !== -1) {
+                let itemslength = response.data.items.length; // Number of results returned this axios call.
 
-                    let language_array = getLanguageFromTitleStartIndex(startindex, title);
+                let url = '', title = '';
+                for (let i = 0; i < itemslength; i++) {
 
-                    // Loop through the language array and add each one to new_languages.
-                    for (let i = 0; i < language_array.length; i++) {
+                    url = VIDEO_URL + response.data.items[i].snippet.resourceId.videoId; // Get the url field for the video.
+                    title = response.data.items[i].snippet.title; // Get the title field of the video.
 
-                        if (language_array[i] !== '') {
+                    let startindex = getTitleStartIndex(title); // Extract the language from the title.
 
-                            new_languages.push({
-                                id: nextid++,
-                                url,
-                                starttime: 10,
-                                endtime: 120,
-                                language: language_array[i]
-                            });
+                    // Check if a language name still isn't present. If not, do not execute the below for this video.
+                    if (startindex !== -1) {
+
+                        let language_array = getLanguageFromTitleStartIndex(startindex, title);
+
+                        // Loop through the language array and add each one to new_languages.
+                        for (let i = 0; i < language_array.length; i++) {
+
+                            if (language_array[i] !== '') {
+
+                                new_languages.push({
+                                    id: nextid++,
+                                    url,
+                                    starttime: 10,
+                                    endtime: 120,
+                                    language: language_array[i]
+                                });
+
+                            }
 
                         }
-
+                        
                     }
-                    
+
                 }
 
-            }
+                new_languages.sort(sortLanguages); // Sort the languages.
 
-            new_languages.sort(sortLanguages); // Sort the languages.
+                // Save the languages array to the browser's localStorage.
+                localStorage.setItem('stored_languages', JSON.stringify(new_languages));
+                
+                if (nextPagetoken) {
 
-            // await writeFiles([{ languages: new_languages }]); //
+                    ///////////////////////////////// ATTN SABRINA - UNCOMMENT WHEN DONE TESTING:
+                    // There are more videos to retrieve, because API says nextPagetoken is not null, so call Languages again.
+                    //Languages(nextPagetoken); // enable after testing so we don't hit youtube quota too soon.
+                }
 
-            setGlobal({ languages: new_languages }); // Update the global languages array.
-            
-            if (nextPagetoken) {
+                // Return the updated list of languages.
+                return new_languages;
 
-                ///////////////////////////////// ATTN SABRINA - UNCOMMENT WHEN DONE TESTING:
-                // There are more videos to retrieve, because API says nextPagetoken is not null, so call Languages again.
-                //Languages(nextPagetoken); // enable after testing so we don't hit youtube quota too soon.
-            }
+            } 
 
-            return global.languages;
-
-        } 
+        }
 
     } catch(error) {
 
