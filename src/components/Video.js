@@ -133,9 +133,13 @@ function Video() {
 
   return (
     <div className="video">
-      <p className='video-title'>What language do you think it is?</p>
       <div className="youtube-video-wrapper">
-        <div className='title-blocker'>WIKITONGUES</div>
+        <div className='title-blocker'>
+          <img id='imagehidestitle' src='./images/titlecover.jpg' alt='' />
+        </div>
+        <div id='whatlanguage'>
+          What language do you think it is?
+        </div>
         <iframe width="560" height="349" className='youtube-video-iframe' 
           title={videoTitle} src={videoSrc+'?start=5&end=120&autoplay=1&mute=1'}></iframe>
       </div>
