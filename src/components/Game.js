@@ -5,12 +5,13 @@ import { useGlobal } from 'reactn';
 function Game() {
   const [global] = useGlobal();
 
-  function newGame(){
-    window.location.reload(); // refresh the page
+  const newGame = () => {
+
+    window.location.href = '/game'; // Start a new game.
   }
 
   return(
-    <div>
+    <div className='sidebars'>
       <h1><a href='/'>Guess The Language</a></h1>
         <Video />
         <div className='score-box'>
