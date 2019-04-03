@@ -5,8 +5,9 @@ import { useGlobal } from 'reactn';
 function Game() {
   const [global] = useGlobal();
 
-  function newGame(){
-    window.location.href = '/game'; // go back to starting page (for now)
+  const newGame = () => {
+
+    window.location.href = '/game'; // Start a new game.
   }
 
   return(
