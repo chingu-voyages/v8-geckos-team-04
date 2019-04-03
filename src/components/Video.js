@@ -3,9 +3,10 @@ import { Route } from 'react-router-dom';
 import { useGlobal } from 'reactn';
 
 function Video() {
+
   // Variable initialVideo & initialVideoTitle for testing only, can be deleted when the function is done
   const initialVideo = 'https://www.youtube.com/embed/3FGc0zaIg2k';
-  const initialVideoTitle = 'English Speaking Vid';
+  const initialVideoTitle = 'English';
 
   // const [videoId, setVideoId] = useState(0);
   const [videoSrc, setVideoSrc] = useState(initialVideo);
@@ -89,11 +90,12 @@ function Video() {
   // Use React hook to get an initial video to start the game rather than the hard-coded one.
   useEffect(() => {
 
-    handleNext();
+    // pass 1 to handleNext so it knows this is a new game so the question number the user is on should say 1.
+    return handleNext(1); 
 
   },[]);
   
-  function handleNext() { 
+  function handleNext(newgame) { 
     setNext();
     setFeedback(); // Hide feedback div
     setClicked(false); // Enable choice buttons
@@ -107,7 +109,16 @@ function Video() {
     setAnswer();
 
     chooseAVideo(); // Select the next random video.
-    setGlobal({qNum: global.qNum + 1});  
+
+    if (newgame) { // Starting a new game so question number is 1.
+      
+      setGlobal({qNum: 1});
+
+    } else {
+
+      setGlobal({qNum: global.qNum + 1});
+         
+    }
   }
 
   function handleSubmit() {

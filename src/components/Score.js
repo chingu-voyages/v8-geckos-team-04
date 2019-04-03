@@ -3,7 +3,11 @@ import { Route } from 'react-router-dom';
 import { useGlobal } from 'reactn';
 
 function Score() {
-  const [global, setGlobal] = useGlobal();
+  const [global] = useGlobal();
+
+  const newGame = () => {
+    window.location.href = '/game'; // Start a new game.
+  }
 
   return (
     <div>
@@ -14,9 +18,8 @@ function Score() {
            View History
          </button>
       )} />
-      <Route render={({history}) => (
-        <button className='new-game-btn' onClick={() => { 
-          setGlobal({score: 0, qNum: 1});history.push('/game') }}>
+      <Route render={() => (
+        <button className='new-game-btn' onClick={newGame}>
           New Game
         </button>
       )} />
