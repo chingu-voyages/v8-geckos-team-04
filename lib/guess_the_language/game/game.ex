@@ -20,7 +20,7 @@ defmodule GuessTheLanguage.Game do
         Repo.get_by(YoutubeVideo, params)
     end
 
-    def make_video(%YoutubeVideo{} = youtube_video) do
+    def create_video(%YoutubeVideo{} = youtube_video) do
         youtube_video = youtube_video |> Repo.preload([:video, :youtube_channel])
         {:ok, video} = Video.changeset(%Video{}, %{"user_id" =>  1}) |> Repo.insert
         youtube_video = %{youtube_video | video_id: video.id, youtube_channel_id: 1}
