@@ -36,17 +36,11 @@ defmodule GuessTheLanguage.Game do
     def list_youtube_videos do
         Repo.all(YoutubeVideo)
     end
+
    def list_channels do
         Repo.all(YoutubeChannel)
         |> Repo.preload([:youtube_video])
    end
-
-    def get_or_create_youtube_channel(youtube_channel_uuid, youtube_channel_name) do
-        case get_youtube_channel_by([youtube_uuid: youtube_channel_uuid]) do
-            nil -> YoutubeChannel.changeset(%YoutubeChannel{}, %{"youtube_uuid" => youtube_channel_uuid, "name" => youtube_channel_name}) |> Repo.insert
-            channel -> {:ok, channel}
-            end
-    end
 
     def add_video_id(youtube_video, video_id) do
         %{youtube_video | video_id: video_id}
@@ -59,11 +53,9 @@ defmodule GuessTheLanguage.Game do
         "description" => description,
         "published_at" => time,
         "youtube_channel_uuid" => youtube_channel_uuid,
-        "youtube_channel_name" => youtube_channel_name}) do
-
-        {:ok, youtube_channel} = get_or_create_youtube_channel(youtube_channel_uuid, youtube_channel_name)
-
-
+        "youtube_channel_name" => youtube_channel_name} = params) do
+        
+        youtube_channel = YoutubeChannel.insert(params.youtube_channel_name, params.youtube_channel_uuid)
         %{%YoutubeVideo{} |
          youtube_uuid: youtube_uuid, title: title, description: description, published_at: time, youtube_channel_id: youtube_channel.id}
     end
@@ -72,10 +64,8 @@ defmodule GuessTheLanguage.Game do
         %{%YoutubeVideo{} | youtube_uuid: video_uuid, title: title, description: description, published_at: time, youtube_channel_id: 1}
     end
 
-
     def create_video(%{} = params) do
         {:ok, video} = Video.changeset(%Video{}, %{"user_id" =>  1}) |> Repo.insert
-        youtube_video =
         create_youtube_video(params)
         |> preload_youtube_video
         |> add_video_id(video.id)
