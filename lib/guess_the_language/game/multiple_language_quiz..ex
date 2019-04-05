@@ -3,11 +3,10 @@ defmodule GuessTheLanguage.Game.MultipleLanguageQuiz do
     import Ecto.Changeset
 
     alias GuessTheLanguage.Game.Language
-    alias GuessTheLanguage.Game.WatchedVideo
+    alias GuessTheLanguage.Game.LanguageVideo
 
     schema "multiple_language_quiz" do
       many_to_many :language, Language, join_through: "language_choice"
-      belongs_to :watched_video, WatchedVideo
-
+      belongs_to :language_video, LanguageVdeo
     end
 end
