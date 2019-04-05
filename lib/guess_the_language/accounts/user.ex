@@ -5,5 +5,6 @@ defmodule GuessTheLanguage.Accounts.User do
     alias GuessTheLanguage.Game.Language
     @derive {Jason.Encoder, only: [:id]}
     schema "user" do
+      field :uuid, Ecto.UUID, autogenerate: true
     end
 end
