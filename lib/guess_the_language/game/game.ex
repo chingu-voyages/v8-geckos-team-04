@@ -54,7 +54,7 @@ defmodule GuessTheLanguage.Game do
 
     def create_youtube_video(
         %{
-        "youtube_uuid" => youtube_video_uuid,
+        "youtube_uuid" => youtube_uuid,
         "title" => title,
         "description" => description,
         "published_at" => time,
@@ -65,10 +65,10 @@ defmodule GuessTheLanguage.Game do
 
 
         %{%YoutubeVideo{} |
-         youtube_uuid: youtube_video_uuid, title: title, description: description, published_at: time, youtube_channel_id: youtube_channel.id}
+         youtube_uuid: youtube_uuid, title: title, description: description, published_at: time, youtube_channel_id: youtube_channel.id}
     end
 
-    def create_youtube_video(%{"youtube_video_uuid" => video_uuid, "title" => title, "description" => description, "published_at" => time}) do
+    def create_youtube_video(%{"youtube_uuid" => video_uuid, "title" => title, "description" => description, "published_at" => time}) do
         %{%YoutubeVideo{} | youtube_uuid: video_uuid, title: title, description: description, published_at: time, youtube_channel_id: 1}
     end
 
@@ -80,8 +80,8 @@ defmodule GuessTheLanguage.Game do
         |> preload_youtube_video
         |> add_video_id(video.id)
         |> YoutubeVideo.get_or_insert_video
-
-        {video, youtube_video}
+        video
+        |> Repo.preload([:youtube_video, :user])
 
     end
 end
