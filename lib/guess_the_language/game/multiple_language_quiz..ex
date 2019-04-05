@@ -7,6 +7,6 @@ defmodule GuessTheLanguage.Game.MultipleLanguageQuiz do
 
     schema "multiple_language_quiz" do
       many_to_many :language, Language, join_through: "language_choice"
-      belongs_to :language_video, LanguageVdeo
+      belongs_to :language_video, LanguageVideo
     end
 end
