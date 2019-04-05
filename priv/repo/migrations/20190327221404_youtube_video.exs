@@ -10,5 +10,6 @@ defmodule GuessTheLanguage.Repo.Migrations.YoutubeVideo do
       add :youtube_channel_id, references(:youtube_channel)
       add :video_id, references(:video)
     end
+    create unique_index(:youtube_video, [:youtube_uuid])
   end
 end
