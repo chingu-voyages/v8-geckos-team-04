@@ -4,7 +4,7 @@ defmodule GuessTheLanguage.Repo.Migrations.Video do
   def change do
     create table(:video) do
     add :uuid, :uuid, null: false
-    add :user_id, references(:user)
+    add :user_id, references(:user), null: false
     end
   end
 end
