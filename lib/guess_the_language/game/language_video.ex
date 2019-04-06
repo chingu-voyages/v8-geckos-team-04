@@ -8,4 +8,11 @@ defmodule GuessTheLanguage.Game.LanguageVideo do
         belongs_to :video, Video
         belongs_to :language, Language
     end
+
+
+    def changeset(language_video, params \\ %{}) do
+        language_video
+        |> cast(params, [])
+        |> validate_required([])
+      end
 end
