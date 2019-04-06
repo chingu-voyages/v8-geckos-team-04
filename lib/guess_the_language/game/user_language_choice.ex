@@ -11,4 +11,10 @@ defmodule GuessTheLanguage.Game.UserLanguageChoice do
       belongs_to :user, User
       belongs_to :language_choice, LanguageChoice
     end
+
+    def changeset(user_language_choice, params \\ %{}) do
+      user_language_choice
+      |> cast(params, [:inserted_at])
+      |> validate_required([:inserted_at])
+    end
 end
