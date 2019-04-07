@@ -19,8 +19,8 @@ export default function Admin() {
                 
                 <tr key={lang.id}>
                     <td>{lang.id}</td>
-                    <td><a href={lang.url} target='_blank' rel='noopener noreferrer'>{lang.url}</a></td>
                     <td>{lang.language}</td>
+                    <td><a href={lang.url} target='_blank' rel='noopener noreferrer'>{lang.url}</a></td>
                     <td>{lang.starttime}</td>
                     <td>{lang.endtime}</td>
                     <td><button onClick={() => handleSave(lang.id)}>Save</button></td>
@@ -40,7 +40,16 @@ export default function Admin() {
 
     const sortTable = (sortby) => {
 
-        sortLanguages(sortby);
+        // Return the list of languages from the localStore.
+        const new_languages = JSON.parse(localStorage.getItem(localStorageKey));
+        
+        new_languages.sort(sortLanguages(sortby));
+
+        // Update the languages array in localStorage to reflect the deletion.
+        localStorage.setItem(localStorageKey, JSON.stringify(new_languages));
+
+        // Update the admin table.
+        redrawAdminTable(new_languages);
 
     }
 
@@ -90,7 +99,7 @@ export default function Admin() {
 
         setLoading(false); // Don't show loading indicator any more.
 
-    });
+    },[]);
 
     // Display the records.   
     return (
@@ -102,11 +111,11 @@ export default function Admin() {
                 <table className='table table-bordered table-striped'>
                     <tbody>
                         <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col" onClick={sortTable('language')}>Language</th>
-                            <th scope="col" onClick={sortTable('url')}>URL</th>
-                            <th scope="col" onClick={sortTable('starttime')}>Start Time</th>
-                            <th scope="col" onClick={sortTable('endtime')}>End Time</th>
+                            <th scope="col"><button onClick={sortTable.bind(sortTable, 'id')}>ID</button></th>
+                            <th scope="col"><button onClick={sortTable.bind(sortTable, 'language')}>Language</button></th>
+                            <th scope="col"><button onClick={sortTable.bind(sortTable, 'url')}>URL</button></th>
+                            <th scope="col"><button onClick={sortTable.bind(sortTable, 'starttime')}>Start Time</button></th>
+                            <th scope="col"><button onClick={sortTable.bind(sortTable, 'endtime')}>End Time</button></th>
                             <th scope="col">Edit</th>
                             <th scope="col">Delete</th>
                         </tr>
