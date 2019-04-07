@@ -3,6 +3,8 @@ defmodule GuessTheLanguage.Game.YoutubeVideo do
   import Ecto.Changeset
   alias GuessTheLanguage.Game
   alias GuessTheLanguage.Game.{Video, YoutubeChannel, YoutubeVideo}
+  alias GuessTheLanguage.Repo
+  
   @derive {Jason.Encoder, only: [:youtube_uuid, :title, :description, :published_at]}
 
   schema "youtube_video" do
