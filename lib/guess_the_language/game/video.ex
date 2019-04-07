@@ -15,15 +15,15 @@ defmodule GuessTheLanguage.Game.Video do
   end
 
 
-  #%{} -> %Video{} struct
-  # produces a new video with the parameters and the user_id given
+  #%{"user_id",...} -> %Video{} struct
+  # produces a new video with the parameters including the user_id given
   def insert(%{"user_id" => user_id} = params) do
     {:ok, video} = changeset(%Video{}, params) |> Repo.insert
     video
   end
 
-  # %{} -> %Video{} struct
-  # produces a new Video from the parameters assigning user_id to 1.
+  # %{...} -> %Video{} struct
+  # produces a new Video from the parameters and assigns user_id = 1.
   def insert(params) do
     params = Map.put(params, "user_id", 1)
     {:ok, video} = changeset(%Video{}, params) |> Repo.insert

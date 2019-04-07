@@ -16,6 +16,7 @@ defmodule GuessTheLanguage.Game.YoutubeChannel do
       |> get_or_insert
     end
 
+    #If a youtube channel with the same uuid exist returns it otherwise creates a new one
     defp get_or_insert(youtube_channel) do
       youtube_channel
       |> Repo.insert
