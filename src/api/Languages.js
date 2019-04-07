@@ -20,14 +20,11 @@ export default async function Languages(next) {
 
         // 1) Check if the stored_languages key exists in the browser's local storage. If not, add it from YouTube.
         const localStorageKey = 'stored_languages';
-        if (localStorage.getItem(localStorageKey)) {
+        
+        if (!localStorage.getItem(localStorageKey)) {
 
-            // Return the list of languages from the localStore.
-            new_languages = JSON.parse(localStorage.getItem(localStorageKey));
-            
-            return new_languages;
-
-        } else {
+            // First remove key in case it exists but is falsey.
+            localStorage.removeItem(localStorageKey);
 
             // Return the list of languages by getting it from YouTube's API.
 
@@ -105,6 +102,13 @@ export default async function Languages(next) {
                 return new_languages;
 
             } 
+
+        } else {
+
+            // Return the list of languages from the localStore.
+            new_languages = JSON.parse(localStorage.getItem(localStorageKey));
+            
+            return new_languages;
 
         }
 
