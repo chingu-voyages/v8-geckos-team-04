@@ -107,6 +107,18 @@ iframe {
 	top: 20px;
 }
 
+.adminsort {
+	background-color: transparent;
+	border: none;
+	color: #007bfc;
+	cursor: pointer;
+}
+
+.adminsort:hover {
+	text-decoration: underline;
+	color: #6257b3;
+}
+
 @media screen and (min-width: 800px) {
 	.sidebars {
 		position: static;

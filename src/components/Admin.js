@@ -111,11 +111,11 @@ export default function Admin() {
                 <table className='table table-bordered table-striped'>
                     <tbody>
                         <tr>
-                            <th scope="col" onClick={sortTable.bind(sortTable, 'id')}>ID</th>
-                            <th scope="col" onClick={sortTable.bind(sortTable, 'language')}>Language</th>
-                            <th scope="col" onClick={sortTable.bind(sortTable, 'url')}>URL</th>
-                            <th scope="col" onClick={sortTable.bind(sortTable, 'starttime')}>Start Time</th>
-                            <th scope="col" onClick={sortTable.bind(sortTable, 'endtime')}>End Time</th>
+                            <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'id')}>ID</th>
+                            <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'language')}>Language</th>
+                            <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'url')}>URL</th>
+                            <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'starttime')}>Start Time</th>
+                            <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'endtime')}>End Time</th>
                             <th scope="col">Edit</th>
                             <th scope="col">Delete</th>
                         </tr>
