@@ -1,9 +1,8 @@
 defmodule GuessTheLanguage.Game.YoutubeVideo do
   use Ecto.Schema
   import Ecto.Changeset
-  alias GuessTheLanguage.Game
+  alias GuessTheLanguage.{Game, Repo}
   alias GuessTheLanguage.Game.{Video, YoutubeChannel, YoutubeVideo}
-  alias GuessTheLanguage.Repo
   
   @derive {Jason.Encoder, only: [:youtube_uuid, :title, :description, :published_at]}
 
@@ -18,12 +17,27 @@ defmodule GuessTheLanguage.Game.YoutubeVideo do
 
   end
 
-  def get_or_insert_video(youtube_video) do
-    youtube_video
+  def insert_assoc(%{} = params) do
+    %YoutubeVideo{}
+    |> changeset_assoc(params)
     |> Repo.insert
-    |> case do
-      {:ok, youtube_video} -> youtube_video
-      {:error, changeset} -> Repo.get_by(YoutubeVideo, youtube_uuid: changeset.changes.youtube_uuid)
+    |> valid_video
+  end
+
+  def insert(%{} = params) do
+    %YoutubeVideo{}
+    |> changeset(params)
+    |> Repo.insert
+    |> valid_video
+  end
+
+  def valid_video({:ok, youtube_video}), do: youtube_video
+
+  def valid_video({:error, changeset}) do
+    case changeset.errors do
+      [{:youtube_uuid, a}] -> Repo.get_by(YoutubeVideo, youtube_uuid: changeset.changes.youtube_uuid)
+      [{:youtube_channel_id, w}] -> w
+      [{:video_id, w}] -> w
     end
   end
 
@@ -33,7 +47,15 @@ defmodule GuessTheLanguage.Game.YoutubeVideo do
       |> cast(params, [:youtube_uuid, :title, :description, :published_at])
       |> validate_required([:youtube_uuid, :title, :description, :published_at])
       |> unique_constraint(:youtube_uuid)
-      |> foreign_key_constraint(:youtube_channel_id)
-      |> foreign_key_constraint(:video_id)
   end
+
+  def changeset_assoc(youtube_video, params \\ %{}) do
+    #add validation to truncate to seconds the datetime
+    youtube_video
+    |> cast(params, [:youtube_uuid, :title, :description, :published_at, :youtube_channel_id, :video_id])
+    |> validate_required([:youtube_uuid, :title, :description, :published_at, :youtube_channel_id, :video_id])
+    |> unique_constraint(:youtube_uuid)
+    |> foreign_key_constraint(:youtube_channel_id)
+    |> foreign_key_constraint(:video_id)
+end
 end
