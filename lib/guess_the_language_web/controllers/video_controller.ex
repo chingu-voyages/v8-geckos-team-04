@@ -5,12 +5,12 @@ defmodule GuessTheLanguageWeb.VideoController do
   alias GuessTheLanguage.Repo
 
   def index(conn, _params) do
-    videos = Screen.list_videos() |> Repo.preload([:youtube_video, :user])
+    videos = Game.list_videos |> Repo.preload([:youtube_video])
     render(conn, "video_list.json", %{"videos" => videos})
   end
 
   def create(conn, params) do
-    Game.create_video(params)
-    |> Repo.preload([:youtube_video, :user])
+    video = Game.create_video(params) |> Repo.preload([:youtube_video])
+    render(conn, "video.json", %{"new_video" => video})
   end
 end
