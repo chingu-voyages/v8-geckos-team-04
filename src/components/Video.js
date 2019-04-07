@@ -8,7 +8,7 @@ function Video() {
   const initialVideo = 'https://www.youtube.com/embed/3FGc0zaIg2k';
   const initialVideoTitle = 'English';
 
-  // const [videoId, setVideoId] = useState(0);
+  const [videoId, setVideoId] = useState(0);
   const [videoSrc, setVideoSrc] = useState(initialVideo);
   const [videoTitle, setVideoTitle] = useState(initialVideoTitle);  
   const [choice1, setChoice1] = useState('French'); // initial value for testing only
@@ -43,28 +43,44 @@ function Video() {
   // A function is needed to choose video src, choices and answer
   function chooseAVideo() {
 
+    // shuffle the languages array for extra randomness.
     let shuffled_languages = local_languages.sort(() => Math.random() - 0.5);
 
-    var uniq = {};
-    let uniquelanguages = shuffled_languages.filter(obj => !uniq[obj.language] && (uniq[obj.language] = true));
-
-    let randomvideos = [];
-    for (let i = 0; i < 3; i++) {
-      let rand = uniquelanguages[Math.floor(Math.random() * uniquelanguages.length)];
-      randomvideos.push(rand);
-    }
+    let random_videos = []; // a new array for the 3 random videos.
     
-    // Out of the 3 videos chosen at random from the data set, select 1 random one to show and be the correct answer.
-    let chosenindex = Math.floor(Math.random() * randomvideos.length);
+    // make sure local_languages is of greater length than 3 to remove chance of infinite loop.
+    if (shuffled_languages.length >= 3) {
 
-    let chosen = randomvideos[chosenindex];
+      while (random_videos.length < 3) {
 
-    // setVideoId(chosen.id);
+        // get a random language from the shuffled_languages array.
+        let rand = shuffled_languages[Math.floor(Math.random() * shuffled_languages.length)];
+  
+        // check if it is already in the random_videos array.
+        if (random_videos.indexOf(rand.language) === -1) {
+  
+          // It is not already in the array, so add it, which will increment the
+          // random_videos array by 1.
+          random_videos.push(rand);
+  
+        }
+  
+      }
+
+    }
+
+    // Out of the 3 videos chosen at random from the data set, select 1 
+    // random one to show and be the correct answer.
+    let chosenindex = Math.floor(Math.random() * random_videos.length);
+
+    let chosen = random_videos[chosenindex];
+
+    setVideoId(chosen.id);
     setVideoSrc(chosen.url);
     setVideoTitle(chosen.language);
-    setChoice1(randomvideos[0].language);
-    setChoice2(randomvideos[1].language);
-    setChoice3(randomvideos[2].language);
+    setChoice1(random_videos[0].language);
+    setChoice2(random_videos[1].language);
+    setChoice3(random_videos[2].language);
     setAnswer(chosen.language);
   }
 
@@ -142,7 +158,7 @@ function Video() {
         <div id='whatlanguage'>
           What language do you think it is?
         </div>
-        <iframe width="560" height="349" className='youtube-video-iframe' 
+        <iframe id={videoId} width="560" height="349" className='youtube-video-iframe' 
           title={videoTitle} src={videoSrc+'?start=5&end=120&autoplay=1&mute=1'}></iframe>
       </div>
       <div className='choices'>
