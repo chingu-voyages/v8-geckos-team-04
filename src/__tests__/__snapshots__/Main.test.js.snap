@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Main it matches snapshot 1`] = `
+<div>
+  <div
+    className="home-page"
+  >
+    <h1>
+      <a
+        href="/"
+      >
+        Guess The Language
+      </a>
+    </h1>
+    <h3>
+      The game is simple, watch a short video and guess the language spoken.
+    </h3>
+    <button
+      onClick={[Function]}
+    >
+      Start Playing
+    </button>
+  </div>
+</div>
+`;
