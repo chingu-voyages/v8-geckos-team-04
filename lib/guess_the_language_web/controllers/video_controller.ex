@@ -10,7 +10,7 @@ defmodule GuessTheLanguageWeb.VideoController do
   end
 
   def create(conn, params) do
-    Game.make_video(params)
+    Game.create_video(params)
     |> Repo.preload([:youtube_video, :user])
   end
 end

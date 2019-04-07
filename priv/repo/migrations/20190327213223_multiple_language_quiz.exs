@@ -3,7 +3,7 @@ defmodule GuessTheLanguage.Repo.Migrations.MultipleLanguageQuiz do
 
   def change do
     create table(:multiple_language_quiz) do
-      add :watched_video_id, references(:watched_video)
+      add :language_video_id, references(:language_video, on_delete: :delete_all), null: false
     end
   end
 end

@@ -14,4 +14,10 @@ defmodule GuessTheLanguage.Game.LanguageChoice do
       belongs_to :multiple_language_quiz, MultipleLanguageQuiz
       many_to_many :user, User, join_through: "user_language_choice"
     end
+
+    def changeset(language_choice, params \\ %{}) do
+      language_choice
+      |> cast(params, [:correctness])
+      |> validate_required([:correctness])
+    end
 end

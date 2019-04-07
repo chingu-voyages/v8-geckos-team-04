@@ -10,6 +10,7 @@ defmodule GuessTheLanguage.Game.Video do
     #field :duration, :int
     has_one :youtube_video, YoutubeVideo
     belongs_to :user, User
+    many_to_many :language, Language, join_through: "language_video"
   end
 
   def changeset(video, params \\ %{}) do
