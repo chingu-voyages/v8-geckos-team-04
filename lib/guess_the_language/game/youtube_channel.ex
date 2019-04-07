@@ -11,11 +11,12 @@ defmodule GuessTheLanguage.Game.YoutubeChannel do
       has_many :youtube_video, YoutubeVideo
       end
 
-    def insert(name, uuid) do
-      changeset(%YoutubeChannel{}, %{"youtube_uuid" => uuid, "name" => name})
+    def insert(params) do
+      changeset(%YoutubeChannel{}, params)
       |> get_or_insert
     end
 
+    #If a youtube channel with the same uuid exist returns it otherwise creates a new one
     defp get_or_insert(youtube_channel) do
       youtube_channel
       |> Repo.insert
