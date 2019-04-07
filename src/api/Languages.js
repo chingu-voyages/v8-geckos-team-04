@@ -20,14 +20,11 @@ export default async function Languages(next) {
 
         // 1) Check if the stored_languages key exists in the browser's local storage. If not, add it from YouTube.
         const localStorageKey = 'stored_languages';
-        if (localStorage.getItem(localStorageKey)) {
+        
+        if (!localStorage.getItem(localStorageKey)) {
 
-            // Return the list of languages from the localStore.
-            new_languages = JSON.parse(localStorage.getItem(localStorageKey));
-            
-            return new_languages;
-
-        } else {
+            // First remove key in case it exists but is falsey.
+            localStorage.removeItem(localStorageKey);
 
             // Return the list of languages by getting it from YouTube's API.
 
@@ -73,12 +70,14 @@ export default async function Languages(next) {
 
                             if (language_array[i] !== '') {
 
+                                let trimmed_language = language_array[i].replace(/^\s+/g, "");
+
                                 new_languages.push({
                                     id: nextid++,
                                     url,
                                     starttime: 10,
                                     endtime: 120,
-                                    language: language_array[i]
+                                    language: trimmed_language
                                 });
 
                             }
@@ -89,10 +88,12 @@ export default async function Languages(next) {
 
                 }
 
-                new_languages.sort(sortLanguages); // Sort the languages.
+                // Sort the languages.
+                new_languages.sort(sortLanguages('id'));
+                // console.log("By id", new_languages);
 
                 // Save the languages array to the browser's localStorage.
-                localStorage.setItem('stored_languages', JSON.stringify(new_languages));
+                localStorage.setItem(localStorageKey, JSON.stringify(new_languages));
                 
                 if (nextPagetoken) {
 
@@ -105,6 +106,16 @@ export default async function Languages(next) {
                 return new_languages;
 
             } 
+
+        } else {
+
+            // Return the list of languages from the localStore.
+            new_languages = JSON.parse(localStorage.getItem(localStorageKey));
+            
+            new_languages.sort(sortLanguages('id'));
+            // console.log("By id", new_languages);
+
+            return new_languages;
 
         }
 

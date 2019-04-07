@@ -18,11 +18,8 @@ config :guess_the_language, GuessTheLanguageWeb.Endpoint,
   
   
 config :guess_the_language, GuessTheLanguage.Repo,
-  hostname: System.get_env("HOST_NAME"),
-  username: System.get_env("USER_NAME"),
-  password: System.get_env("PASSWORD"),
-  database: System.get_env("DATABASE_NAME"),
-  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "3"),
+  url: System.get_env("DATABASE_URL"),
+  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
   ssl: true
 
 # Do not print debug messages in production
