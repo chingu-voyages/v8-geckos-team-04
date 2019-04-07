@@ -43,8 +43,10 @@ function Video() {
   // A function is needed to choose video src, choices and answer
   function chooseAVideo() {
 
+    let shuffled_languages = local_languages.sort(() => Math.random() - 0.5);
+
     var uniq = {};
-    let uniquelanguages = local_languages.filter(obj => !uniq[obj.language] && (uniq[obj.language] = true));
+    let uniquelanguages = shuffled_languages.filter(obj => !uniq[obj.language] && (uniq[obj.language] = true));
 
     let randomvideos = [];
     for (let i = 0; i < 3; i++) {
