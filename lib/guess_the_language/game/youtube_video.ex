@@ -33,5 +33,7 @@ defmodule GuessTheLanguage.Game.YoutubeVideo do
       |> cast(params, [:youtube_uuid, :title, :description, :published_at])
       |> validate_required([:youtube_uuid, :title, :description, :published_at])
       |> unique_constraint(:youtube_uuid)
+      |> foreign_key_constraint(:youtube_channel_id)
+      |> foreign_key_constraint(:video_id)
   end
 end
