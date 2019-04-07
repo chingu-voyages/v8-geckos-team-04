@@ -47,45 +47,12 @@ export function getLanguageFromTitleStartIndex(startindex, title) {
 
 /**
  * Sort the languages array.
- * @param {sortby} The property of the languages we want to sort by.
- * @param {a, b} Comparison parameters for each video array element.
- * @return {comparison} The sorted languages array. 
- */
-export function sortLanguages(sortby) {
+ * @param {propName} The property of the languages we want to sort by.
+ * @return The sorted languages array. 
+ */ 
+export function sortLanguages(propName) {
 
-    if (!sortby) {
-
-        sortby = 'id'; // Default
-    
-    }
-
-    return (a, b) => a[sortby] === b[sortby] ? 0 : a[sortby] < b[sortby] ? -1 : 1;
+    return (a, b) => a[propName] === b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1;
 
 }
-  
-
-
-  /*
-export function sortLanguages(a, b) {
-
-    // const languageA = a.language.toUpperCase();
-    // const languageB = b.language.toUpperCase();
-    const languageA = a.id;
-    const languageB = b.id;
-
-    let comparison = 0;
-
-    if (languageA > languageB) {
-
-        comparison = 1;
-
-    } else if (languageA < languageB) {
-
-        comparison = -1
-
-    }
-
-    return comparison;
-}
-*/
 

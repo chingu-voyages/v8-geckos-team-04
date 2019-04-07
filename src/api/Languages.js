@@ -86,9 +86,11 @@ export default async function Languages(next) {
 
                 }
 
-                new_languages.sort(sortLanguages); // Sort the languages.
+                // Sort the languages.
+                new_languages.sort(sortLanguages('id'));
+                // console.log("By id", new_languages);
 
-                // Save the languages array to the browser's localStorage.
+                // Save the languages array to the browser's localStorage.localStorageKey
                 localStorage.setItem('stored_languages', JSON.stringify(new_languages));
                 
                 if (nextPagetoken) {
@@ -108,6 +110,10 @@ export default async function Languages(next) {
             // Return the list of languages from the localStore.
             new_languages = JSON.parse(localStorage.getItem(localStorageKey));
             
+            new_languages.sort(sortLanguages('id'));
+
+            console.log("By id", new_languages);
+
             return new_languages;
 
         }
