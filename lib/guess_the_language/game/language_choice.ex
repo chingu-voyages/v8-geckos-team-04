@@ -17,7 +17,9 @@ defmodule GuessTheLanguage.Game.LanguageChoice do
 
     def changeset(language_choice, params \\ %{}) do
       language_choice
-      |> cast(params, [:correctness])
-      |> validate_required([:correctness])
+      |> cast(params, [:correctness, :language_id, :multiple_language_quiz_id])
+      |> validate_required([:correctness, :language_id, :multiple_language_quiz_id])
+      |> foreign_key_constraint(:language_id)
+      |> foreign_key_constraint(:multiple_language_quiz_id)
     end
 end
