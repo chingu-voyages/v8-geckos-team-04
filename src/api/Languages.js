@@ -70,12 +70,14 @@ export default async function Languages(next) {
 
                             if (language_array[i] !== '') {
 
+                                let trimmed_language = language_array[i].replace(/^\s+/g, "");
+
                                 new_languages.push({
                                     id: nextid++,
                                     url,
                                     starttime: 10,
                                     endtime: 120,
-                                    language: language_array[i]
+                                    language: trimmed_language
                                 });
 
                             }
