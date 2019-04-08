@@ -7,7 +7,7 @@ defmodule GuessTheLanguage.Game.LanguageChoice do
     alias GuessTheLanguage.Game.Language
 
     schema "language_choice" do
-      field :uuid, Ecto.UUID, autogenerate: true
+      field :uuid, Ecto.ShortUUID, autogenerate: true
       field :correctness, :boolean
 
       belongs_to :language, Language
