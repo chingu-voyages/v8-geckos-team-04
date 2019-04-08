@@ -37,6 +37,8 @@ defmodule GuessTheLanguageWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    
+    get "/api/create_video", VideoController, :create_page
   end
 
   # Other scopes may use custom stacks.
