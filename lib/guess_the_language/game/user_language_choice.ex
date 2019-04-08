@@ -18,5 +18,6 @@ defmodule GuessTheLanguage.Game.UserLanguageChoice do
       |> validate_required([:inserted_at, :user_id, :language_choice_id])
       |> foreign_key_constraint(:user_id)
       |> foreign_key_constraint(:language_choice_id)
+      |> unique_constraint(:uuid)
     end
 end

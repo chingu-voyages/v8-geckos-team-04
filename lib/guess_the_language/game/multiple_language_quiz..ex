@@ -15,5 +15,6 @@ defmodule GuessTheLanguage.Game.MultipleLanguageQuiz do
       |> cast(params, [:language_video_id])
       |> validate_required([:language_video_id])
       |> foreign_key_constraint(:language_video_id)
+      |> unique_constraint(:uuid)
     end
   end

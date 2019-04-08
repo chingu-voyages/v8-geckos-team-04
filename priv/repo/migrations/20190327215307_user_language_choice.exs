@@ -8,5 +8,6 @@ defmodule GuessTheLanguage.Repo.Migrations.UserLanguageChoice do
       add :user_id, references(:user, on_delete: :delete_all), null: false
       add :language_choice, references(:language_choice, on_delete: :delete_all), null: false
     end
+    create unique_index(:user_language_choice, [:uuid])
   end
 end

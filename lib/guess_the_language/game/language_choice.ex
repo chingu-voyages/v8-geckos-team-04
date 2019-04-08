@@ -21,5 +21,6 @@ defmodule GuessTheLanguage.Game.LanguageChoice do
       |> validate_required([:correctness, :language_id, :multiple_language_quiz_id])
       |> foreign_key_constraint(:language_id)
       |> foreign_key_constraint(:multiple_language_quiz_id)
+      |> unique_constraint(:no_repeated_languages_constraint, name: :language_choice_multiple_language_quiz_index)
     end
 end

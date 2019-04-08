@@ -20,5 +20,6 @@ defmodule GuessTheLanguage.Game.Language do
       language
       |> cast(params, [:official])
       |> validate_required([:official])
+      |> unique_constraint(:uuid)
     end
 end
