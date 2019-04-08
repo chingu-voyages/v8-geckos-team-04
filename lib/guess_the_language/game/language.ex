@@ -9,7 +9,7 @@ defmodule GuessTheLanguage.Game.Language do
     #alias GuessTheLanguage.Game.LanguageFamily
 
     schema "language" do
-      field :uuid, Ecto.UUID, autogenerate: true
+      field :uuid, Ecto.ShortUUID, autogenerate: true
       field :official, :boolean, default: true
       many_to_many :name, Language, join_through: "language_name"
       many_to_many :video, Video, join_through: "language_video"
@@ -20,5 +20,6 @@ defmodule GuessTheLanguage.Game.Language do
       language
       |> cast(params, [:official])
       |> validate_required([:official])
+      |> unique_constraint(:uuid)
     end
 end

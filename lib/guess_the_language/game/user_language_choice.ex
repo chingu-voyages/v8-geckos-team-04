@@ -6,7 +6,7 @@ defmodule GuessTheLanguage.Game.UserLanguageChoice do
     alias GuessTheLanguage.Accounts.User
 
     schema "user_language_choice" do
-      field :uuid, Ecto.UUID, autogenerate: true
+      field :uuid, Ecto.ShortUUID, autogenerate: true
       field :inserted_at, :utc_datetime
       belongs_to :user, User
       belongs_to :language_choice, LanguageChoice
@@ -18,5 +18,6 @@ defmodule GuessTheLanguage.Game.UserLanguageChoice do
       |> validate_required([:inserted_at, :user_id, :language_choice_id])
       |> foreign_key_constraint(:user_id)
       |> foreign_key_constraint(:language_choice_id)
+      |> unique_constraint(:uuid)
     end
 end

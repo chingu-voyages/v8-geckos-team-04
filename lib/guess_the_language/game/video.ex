@@ -7,9 +7,9 @@ defmodule GuessTheLanguage.Game.Video do
   
   @derive {Jason.Encoder, only: [:uuid, :youtube_video, :user]}
   schema "video" do
-    field :uuid, Ecto.UUID, autogenerate: true
+    field :uuid, Ecto.ShortUUID, autogenerate: true
     #field :duration, :int
-    has_one :youtube_video, YoutubeVideo
+    has_many :youtube_video, YoutubeVideo
     belongs_to :user, User
     many_to_many :language, Language, join_through: "language_video"
   end
@@ -35,5 +35,6 @@ defmodule GuessTheLanguage.Game.Video do
       |> cast(params, [:user_id])
       |> validate_required([:user_id])
       |> foreign_key_constraint(:user_id)
+      |> unique_constraint(:uuid)
   end
 end

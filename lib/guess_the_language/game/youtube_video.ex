@@ -42,7 +42,6 @@ defmodule GuessTheLanguage.Game.YoutubeVideo do
   end
 
   def changeset(youtube_video, params \\ %{}) do
-      #add validation to truncate to seconds the datetime
       youtube_video
       |> cast(params, [:youtube_uuid, :title, :description, :published_at])
       |> validate_required([:youtube_uuid, :title, :description, :published_at])
@@ -50,12 +49,11 @@ defmodule GuessTheLanguage.Game.YoutubeVideo do
   end
 
   def changeset_assoc(youtube_video, params \\ %{}) do
-    #add validation to truncate to seconds the datetime
     youtube_video
     |> cast(params, [:youtube_uuid, :title, :description, :published_at, :youtube_channel_id, :video_id])
     |> validate_required([:youtube_uuid, :title, :description, :published_at, :youtube_channel_id, :video_id])
-    |> unique_constraint(:youtube_uuid)
     |> foreign_key_constraint(:youtube_channel_id)
     |> foreign_key_constraint(:video_id)
+    |> unique_constraint(:youtube_uuid)
 end
 end
