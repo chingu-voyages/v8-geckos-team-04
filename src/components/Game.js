@@ -13,12 +13,18 @@ function Game() {
   return(
     <div className='sidebars'>
       <h1><a href='/'>Guess The Language</a></h1>
-        <Video />
         <div className='score-box'>
-          Question: {global.qNum}/10<br />
-          Score: {global.score}
+          <div className='question'>
+            Question: {global.qNum}/10
+          </div>
+          <div className='score'>
+            Score: {global.score}
+          </div>
         </div>
-        <button className='new-game-btn' onClick={newGame}>New Game</button>
+        <Video />
+        <div className='new-game-btn-wrapper'>
+          <button className='new-game-btn' onClick={newGame}>New Game</button>
+        </div>
     </div>
   )
 } 

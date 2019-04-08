@@ -9,6 +9,8 @@ defmodule GuessTheLanguage.Repo.Migrations.LanguageChoice do
     add :multiple_language_quiz_id, references(:multiple_language_quiz, on_delete: :delete_all), null: false
     end
 
-    create unique_index(:language_choice, [:language_id, :multiple_language_quiz_id])
+    create unique_index(:language_choice, [:language_id, :multiple_language_quiz_id],
+     name: :language_choice_multiple_language_quiz_index)
+    create unique_index(:language_choice, [:uuid])
   end
 end

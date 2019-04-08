@@ -5,6 +5,7 @@ defmodule GuessTheLanguage.Repo.Migrations.Language do
     create table(:language) do
       add :uuid, :uuid, null: false
       add :official, :boolean, null: false
-    end 
+    end
+    create unique_index(:language, [:uuid])
   end
 end

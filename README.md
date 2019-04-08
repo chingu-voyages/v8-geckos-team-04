@@ -64,3 +64,8 @@ Back End (Carlos)
 # Trello
 
 https://trello.com/b/IYcWlFk7/chingu-geckos-team-app
+
+# Front End MVP 1.0 Static Deployment
+
+https://geckos-guess-the-language-game.netlify.com
+

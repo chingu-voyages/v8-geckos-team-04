@@ -6,7 +6,7 @@ defmodule GuessTheLanguage.Accounts.User do
     @derive {Jason.Encoder, only: [:id]}
 
     schema "user" do
-      field :uuid, Ecto.UUID, autogenerate: true
+      field :uuid, Ecto.ShortUUID, autogenerate: true
       many_to_many :language_choice, LanguageChoice, join_through: "user_language_choice"
     end
 end
