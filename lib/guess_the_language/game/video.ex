@@ -5,10 +5,11 @@ defmodule GuessTheLanguage.Game.Video do
   alias GuessTheLanguage.Accounts.User
   alias GuessTheLanguage.Repo
   
-  @derive {Jason.Encoder, only: [:uuid, :youtube_video, :user]}
+  @derive {Jason.Encoder, only: [:uuid, :youtube_video, :user, :duration, :source]}
   schema "video" do
     field :uuid, Ecto.ShortUUID, autogenerate: true
-    #field :duration, :int
+    field :duration, :int
+    field :source, :string
     has_many :youtube_video, YoutubeVideo
     belongs_to :user, User
     many_to_many :language, Language, join_through: "language_video"
@@ -32,8 +33,8 @@ defmodule GuessTheLanguage.Game.Video do
 
   def changeset(video, params \\ %{}) do
       video
-      |> cast(params, [:user_id])
-      |> validate_required([:user_id])
+      |> cast(params, [:user_id, :duration, :source])
+      |> validate_required([:user_id, :duration, :source])
       |> foreign_key_constraint(:user_id)
       |> unique_constraint(:uuid)
   end

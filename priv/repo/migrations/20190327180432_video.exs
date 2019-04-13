@@ -4,7 +4,10 @@ defmodule GuessTheLanguage.Repo.Migrations.Video do
   def change do
     create table(:video) do
     add :uuid, :uuid, null: false
+    add :duration, :int, null: false
+    add :source, :string
     add :user_id, references(:user), null: false
+
     end
     create unique_index(:video, [:uuid])
   end
