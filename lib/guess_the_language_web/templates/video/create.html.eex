@@ -23,7 +23,7 @@ window.addEventListener("load", function () {
     });
 
     // Set up our request
-    XHR.open("POST", "http://localhost:4000/api/videos");
+    XHR.open("POST", "https://still-taiga-98730.herokuapp.com/api/videos");
 
     // The data sent is what the user provided in the form
     XHR.send(FD);
@@ -48,8 +48,8 @@ window.addEventListener("load", function () {
 title:   <input id="title" name="title" value="title"> <br>
   description: <input id="description" name="description" value="description"><br>
   published_at: <input id="published_at" name="published_at" value="2019-04-08T14:13:34Z"><br>
- youtube_channel_name:  <input id="youtube_channel_name" name="youtube_channel_name" value="youtube_channel_name"><br>
- youtube_channel_uuid: <input id="youtube_channel_uuid" name="youtube_channel_uuid" value="youtube_channel_uuid">
+ youtube_channel_name:  <input id="youtube_channel_name" name="youtube_channel_name" value="Wikitongues"><br>
+ youtube_channel_uuid: <input id="youtube_channel_uuid" name="youtube_channel_uuid" value="UCBgWgQyEb5eTzvh4lLcuipQ">
   <input type="submit" value="Send Me!">
 </form>
   </body>

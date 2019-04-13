@@ -33,5 +33,4 @@ defmodule GuessTheLanguage.Game.YoutubeChannel do
         |> validate_required([:youtube_uuid, :name])
         |> unique_constraint(:youtube_uuid)
     end
-
 end
