@@ -1,11 +1,12 @@
 import React from 'react';
-import { create } from 'react-test-renderer';
 import Main from '../components/Main';
+import { mount } from '../../enzyme';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('Main', () => {
   test('it matches snapshot', () => {
-    const component = create(<Main />);
-    expect(component.toJSON()).toMatchSnapshot();
+    const component = mount(<MemoryRouter><Main /></MemoryRouter>);
+    expect(component.render()).toMatchSnapshot();
   });
 });
 
