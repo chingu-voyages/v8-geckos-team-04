@@ -8,7 +8,7 @@ defmodule GuessTheLanguage.Game.Video do
   @derive {Jason.Encoder, only: [:uuid, :youtube_video, :user, :duration, :source]}
   schema "video" do
     field :uuid, Ecto.ShortUUID, autogenerate: true
-    field :duration, :int
+    field :duration, :integer
     field :source, :string
     has_many :youtube_video, YoutubeVideo
     belongs_to :user, User

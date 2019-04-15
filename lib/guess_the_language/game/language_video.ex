@@ -6,8 +6,8 @@ defmodule GuessTheLanguage.Game.LanguageVideo do
     alias GuessTheLanguage.Game.Language
 
     schema "language_video" do
-        field :start_time, :int, default: 0
-        field :end_time, :int, default: 0
+        field :start_time, :integer, default: 0
+        field :end_time, :integer, default: 0
         belongs_to :video, Video
         belongs_to :language, Language
     end
