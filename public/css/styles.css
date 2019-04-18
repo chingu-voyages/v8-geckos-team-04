@@ -89,7 +89,7 @@ button:active {
 	font-size: 1.25em;
 	opacity: .9;
 	color: grey;
-	text-shadow: 1px 1px 1px #636363;;
+	text-shadow: 1px 1px 1px #636363;
 	padding: .25em;
 	display: flex;
 	flex-direction: row;
@@ -110,6 +110,25 @@ button:active {
 	left: 0;
 	width: 100%;
 	height: 100%;
+}
+
+/* Score page styling */
+.final-score-box {
+	text-align: center;
+	font-size: 2.25em;
+	margin: .75em .25em .75em .25em;
+}
+
+.final-score {
+	color: #27647b;
+	font-weight: bolder;
+	text-shadow: 1px 1px 1px #838383;
+	font-size: 2em;
+}
+
+.score-flex-button-box {
+	display: flex;
+	justify-content: space-evenly;
 }
 
 /* The next three blocks hide the video title that shows on mouse hover. */
@@ -146,12 +165,26 @@ iframe {
 }
 
 /* Media queries improve responsiveness for small, medium, and large screens */
+@media screen and (max-width: 500px) {
+	.final-score-box {
+		font-size: 1.75em;
+	}
+	.final-score {
+		font-size: 2.5em;
+	}
+
+}
+@media screen and (min-width: 500px) {
+	.score-flex-button-box {
+		justify-content: center;
+	}
+}
+
 @media screen and (max-width: 700px) {
 	.score-box {
 		font-size: 1em;
 	}
 }
-
 @media screen and (min-width: 700px) {
 	.sidebars {
 		position: static;
