@@ -5,7 +5,7 @@ body {
 	font-family: 'Open Sans', sans-serif;
 }
 
- h1 {
+h1 {
 	background-color: #27647b;
 	color: white;
 	font-family: 'Lato', sans-serif;
@@ -95,6 +95,25 @@ button:active {
 	flex-direction: row;
 	justify-content: space-between;
 	border: 2px solid #27647b;
+}
+
+table {
+	width: 95%;
+}
+
+th, td {
+	height: 50px;
+	text-align: left;
+	padding: 5px;
+	border-bottom: 1px solid #27647b;
+}
+
+th {
+	background-color:#f5f5f5e0;
+}
+
+tr:hover {
+	background-color:#f5f5f5e0;
 }
 
 .youtube-video-wrapper {
@@ -196,6 +215,9 @@ iframe {
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
+	}
+	table {
+		width: 635px;
 	}
 }
 
