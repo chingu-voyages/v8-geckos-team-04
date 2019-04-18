@@ -12,17 +12,26 @@ function Score() {
   return (
     <div>
       <h1><a href='/'>Guess The Language</a></h1>
-      <div>Total Score: {global.score}</div>
-      <Route render={({history}) => (
-         <button className='view-history-btn' onClick={() => { history.push('/history') }}>
-           View History
-         </button>
-      )} />
-      <Route render={() => (
-        <button className='new-game-btn' onClick={newGame}>
-          New Game
-        </button>
-      )} />
+      <div className='final-score-box'>
+        <div>
+          Total Score: 
+        </div>
+        <div className='final-score'>
+            {global.score} / 100
+        </div>
+      </div>
+      <div className='score-flex-button-box'>
+        <Route render={({history}) => (
+          <button className='view-history-btn' onClick={() => { history.push('/history') }}>
+            View History
+          </button>
+        )} />
+        <Route render={() => (
+          <button className='new-game-btn' onClick={newGame}>
+            New Game
+          </button>
+        )} />
+      </div>
     </div>
   );
 }
