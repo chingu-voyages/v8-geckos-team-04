@@ -104,17 +104,24 @@ table {
 th, td {
 	height: 50px;
 	text-align: left;
-	padding: 5px;
+	padding: 2px 2px 2px 6px;
 	border-bottom: 1px solid #27647b;
 }
 
 th {
+	background-color:#27647b;
+	color: white;
+	font-weight: 900;
+}
+
+tr:nth-child(odd) {
 	background-color:#f5f5f5e0;
 }
 
-tr:hover {
-	background-color:#f5f5f5e0;
-}
+table.center {
+    margin-left:auto; 
+    margin-right:auto;
+  }
 
 .youtube-video-wrapper {
 	position: relative;
@@ -129,6 +136,11 @@ tr:hover {
 	left: 0;
 	width: 100%;
 	height: 100%;
+}
+
+/* History page styling */
+.history-page {
+	text-align: center;
 }
 
 /* Score page styling */
