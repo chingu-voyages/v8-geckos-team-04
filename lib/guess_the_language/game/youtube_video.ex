@@ -36,8 +36,8 @@ defmodule GuessTheLanguage.Game.YoutubeVideo do
   def valid_video({:error, changeset}) do
     case changeset.errors do
       [{:youtube_uuid, a}] -> Repo.get_by(YoutubeVideo, youtube_uuid: changeset.changes.youtube_uuid)
-      [{:youtube_channel_id, w}] -> w
-      [{:video_id, w}] -> w
+      [{:youtube_channel_id, error_message}] -> error_message
+      [{:video_id, error_message}] -> error_message
     end
   end
 
