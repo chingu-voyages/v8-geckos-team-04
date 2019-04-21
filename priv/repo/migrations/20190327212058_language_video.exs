@@ -1,4 +1,4 @@
-defmodule GuessTheLanguage.Repo.Migrations.WatchedVideo do
+defmodule GuessTheLanguage.Repo.Migrations.LanguageVideo do
   use Ecto.Migration
 
   def change do
