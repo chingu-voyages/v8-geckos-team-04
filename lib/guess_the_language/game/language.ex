@@ -9,6 +9,7 @@ defmodule GuessTheLanguage.Game.Language do
     #alias GuessTheLanguage.Game.Area
     #alias GuessTheLanguage.Game.LanguageFamily
 
+    @derive {Jason.Encoder, only: [:uuid, :name]}
     schema "language" do
       field :uuid, Ecto.ShortUUID, autogenerate: true
       field :official, :boolean, default: true

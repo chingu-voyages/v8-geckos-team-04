@@ -24,6 +24,11 @@ defmodule GuessTheLanguage.Game do
         Repo.get(YoutubeVideo, id)
     end
 
+    #Returns a source with the id given
+    def get_source_by(id) do
+        Repo.get(Source, id)
+    end
+
     #Returns a youtube channel with the id given
     def get_youtube_channel(id) do
         Repo.get(YoutubeChannel, id)
@@ -80,7 +85,7 @@ defmodule GuessTheLanguage.Game do
     end
 
     def create_source(%{} = params) do
-        Repo.get_by(Source, 1)
+        get_source_by(1)
     end
 
     #%{"title", ...rest} -> %Video{}
@@ -96,7 +101,7 @@ defmodule GuessTheLanguage.Game do
         params = Map.put(params, "video_id", video.id) |> Map.put("language_id", language.id)
         youtube_video = create_youtube_video(params)
         language_video = create_language_video(params)  
-        [source, video, language, youtube_video, language_video]
+        video
         end
     end
 
