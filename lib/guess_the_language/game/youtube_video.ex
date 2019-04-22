@@ -17,6 +17,10 @@ defmodule GuessTheLanguage.Game.YoutubeVideo do
 
   end
 
+  def already_inserted(params) do
+    Repo.get_by(YoutubeVideo, youtube_uuid: params["youtube_uuid"])
+  end
+
   def insert_assoc(%{} = params) do
     %YoutubeVideo{}
     |> changeset_assoc(params)

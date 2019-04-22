@@ -33,8 +33,8 @@ defmodule GuessTheLanguage.Game.Video do
 
   def changeset(video, params \\ %{}) do
       video
-      |> cast(params, [:user_id, :duration, :source])
-      |> validate_required([:user_id, :duration, :source])
+      |> cast(params, [:user_id, :duration, :source_id])
+      |> validate_required([:user_id, :duration, :source_id])
       |> foreign_key_constraint(:user_id)
       |> unique_constraint(:uuid)
   end
