@@ -18,13 +18,13 @@ defmodule GuessTheLanguage.Game.Language do
       many_to_many :language_quiz, LanguageQuiz, join_through: "language_choice"
     end
 
-
     def valid_language({:ok, language}), do: language
 
     def valid_language({:error, changeset}) do
         case changeset.errors do
           [{:uuid, error_message}] -> error_message
           [{:name, error_message}] -> Repo.get_by(Language, name: changeset.changes.name)
+          _ -> changeset.errors
         end
   
     end
