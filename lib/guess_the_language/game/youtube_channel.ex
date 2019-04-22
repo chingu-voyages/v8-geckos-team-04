@@ -4,33 +4,37 @@ defmodule GuessTheLanguage.Game.YoutubeChannel do
     
     alias GuessTheLanguage.Game.{YoutubeVideo, YoutubeChannel}
     alias GuessTheLanguage.Repo
+    alias GuessTheLanguage.Game
     
     schema "youtube_channel" do
       field :youtube_uuid, :string
       field :name, :string
       has_many :youtube_video, YoutubeVideo
+      belongs_to :source, Source
       end
 
     def insert(params) do
       changeset(%YoutubeChannel{}, params)
-      |> get_or_insert
+      |> Repo.insert
+      |> valid
     end
 
-    #If a youtube channel with the same uuid exist returns it otherwise creates a new one
-    defp get_or_insert(youtube_channel) do
-      youtube_channel
-      |> Repo.insert
-      |> case do
-      {:ok, youtube_channel} -> youtube_channel
-      {:error, changeset} -> Repo.get_by(YoutubeChannel, youtube_uuid: changeset.changes.youtube_uuid)
-      end
+    def valid({:ok, youtube_channel}), do: youtube_channel
+
+    def valid({:error, changeset}) do
+        case changeset.errors do
+          [{:source_id, error_message}] -> error_message
+          [{:youtube_uuid, error_message}] -> Repo.get_by(YoutubeChannel, name: changeset.changes.name)
+          _ -> changeset.errors
+        end
+  
     end
 
     def changeset(youtube_channel, params \\ %{}) do
         #add validation to truncate to seconds the datetime
         youtube_channel
-        |> cast(params, [:youtube_uuid, :name])
-        |> validate_required([:youtube_uuid, :name])
+        |> cast(params, [:youtube_uuid, :name, :source_id])
+        |> validate_required([:youtube_uuid, :name, :source_id])
         |> unique_constraint(:youtube_uuid)
     end
 end
