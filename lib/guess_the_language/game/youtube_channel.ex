@@ -9,6 +9,7 @@ defmodule GuessTheLanguage.Game.YoutubeChannel do
       field :youtube_uuid, :string
       field :name, :string
       has_many :youtube_video, YoutubeVideo
+      belongs_to :source, Source
       end
 
     def insert(params) do

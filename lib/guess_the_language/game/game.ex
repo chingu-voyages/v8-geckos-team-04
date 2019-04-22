@@ -1,7 +1,7 @@
 defmodule GuessTheLanguage.Game do
     alias GuessTheLanguage.Repo
 
-    alias GuessTheLanguage.Game.{Video, YoutubeVideo, YoutubeChannel}
+    alias GuessTheLanguage.Game.{Video, YoutubeVideo, YoutubeChannel, LanguageName, Language}
 
     #Returns the video with the id given
     def get_video(id) do
@@ -59,6 +59,11 @@ defmodule GuessTheLanguage.Game do
         youtube_channel = create_youtube_channel(params)
         Map.put(params, "youtube_channel_id", youtube_channel.id) 
         |> YoutubeVideo.insert_assoc
+    end
+
+
+    def create_language(params) do
+        Language.insert(params)
     end
 
     #%{"title", ...rest} -> %Video{}
