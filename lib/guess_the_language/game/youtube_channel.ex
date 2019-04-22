@@ -6,6 +6,7 @@ defmodule GuessTheLanguage.Game.YoutubeChannel do
     alias GuessTheLanguage.Repo
     alias GuessTheLanguage.Game
     
+    @derive {Jason.Encoder, only: [:youtube_uuid, :name]}
     schema "youtube_channel" do
       field :youtube_uuid, :string
       field :name, :string

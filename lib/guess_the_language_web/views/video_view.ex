@@ -9,4 +9,8 @@ defmodule GuessTheLanguageWeb.VideoView do
         %{"video" => video}
     end
 
+    def render("video.json", %{"error" => message}) do
+        %{"error" => message}
+    end
+
 end

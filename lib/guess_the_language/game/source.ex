@@ -5,6 +5,7 @@ defmodule GuessTheLanguage.Game.Source do
     alias GuessTheLanguage.Game.{Video, YoutubeChannel, Source}
     alias GuessTheLanguage.Repo
 
+    @derive {Jason.Encoder, only: [:uuid, :name, :website]}
     schema "source" do
         field :uuid, Ecto.ShortUUID, autogenerate: true
         field :name, :string
@@ -22,7 +23,6 @@ defmodule GuessTheLanguage.Game.Source do
         end
   
     end
-
 
     def insert(params) do
         params
