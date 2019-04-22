@@ -1,7 +1,8 @@
 defmodule GuessTheLanguage.Game do
     alias GuessTheLanguage.Repo
 
-    alias GuessTheLanguage.Game.{Video, YoutubeVideo, YoutubeChannel, LanguageName, Language}
+    alias GuessTheLanguage.Game.{Video, YoutubeVideo, YoutubeChannel,
+     Language, LanguageVideo, LanguageChoice, LanguageQuiz, Source}
 
     #Returns the video with the id given
     def get_video(id) do
@@ -45,9 +46,10 @@ defmodule GuessTheLanguage.Game do
    end
 
     #Creates a new youtube channel based on the parameters given
-    def create_youtube_channel(%{"youtube_channel_uuid" => youtube_uuid,"youtube_channel_name" => name}) do
-
-        YoutubeChannel.insert(%{"youtube_uuid" => youtube_uuid, "name" => name})
+    def create_youtube_channel(%{"youtube_channel_uuid" => youtube_uuid,"youtube_channel_name" => name} = params) do
+        params = Map.put(params, "youtube_uuid", youtube_uuid)
+        params = Map.put(params, "name", name)
+        YoutubeChannel.insert(params)
     end
 
     #Returns the wikitongues's YoutubeChannel
@@ -57,20 +59,48 @@ defmodule GuessTheLanguage.Game do
     #with the map parameters produces a new youtube video structure with its related association (youtube_channel)
     def create_youtube_video(params) do
         youtube_channel = create_youtube_channel(params)
-        Map.put(params, "youtube_channel_id", youtube_channel.id) 
-        |> YoutubeVideo.insert_assoc
+        params = Map.put_new(params, "youtube_channel_id", youtube_channel.id) 
+        YoutubeVideo.insert_assoc(params)
     end
 
 
     def create_language(params) do
+        params = Map.put_new(params, "name", params["language_name"])
         Language.insert(params)
+    end
+
+    def create_language_video(params) do
+        LanguageVideo.insert(params)
+    end
+
+    def create_source(%{"source_name" => source_name, "source_website" => source_website} = params) do
+        params = Map.put_new(params, "name", params["source_name"])
+        params = Map.put_new(params, "website", params["source_website"])
+        Source.insert(params)
+    end
+
+    def create_source(%{} = params) do
+        Repo.get_by(Source, 1)
     end
 
     #%{"title", ...rest} -> %Video{}
     #with the map parameters produces a new video structure with its related association (youtube_video)
     def create_video(%{} = params) do
+        case YoutubeVideo.already_inserted(params) do
+        %YoutubeVideo{} -> video_in_database
+        nil ->
+        source = create_source(params)
+        params = Map.put(params, "source_id", source.id) 
         video = Video.insert(params)
-        Map.put(params, "video_id", video.id) |> create_youtube_video
-        video
+        language = create_language(params)
+        params = Map.put(params, "video_id", video.id) |> Map.put("language_id", language.id)
+        youtube_video = create_youtube_video(params)
+        language_video = create_language_video(params)  
+        [source, video, language, youtube_video, language_video]
+        end
+    end
+
+    def video_in_database do
+        %{"error" => "A video with this same youtube uuid is already in our database"}
     end
 end

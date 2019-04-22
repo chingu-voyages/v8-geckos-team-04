@@ -17,7 +17,7 @@ defmodule GuessTheLanguage.Game.Source do
 
     def valid_source({:error, changeset}) do
         case changeset.errors do
-          [{:uuid, error_message}] -> error_message
+          [{:uuid, error_message}] -> Repo.get_by(Source, website: changeset.changes.uuid)
           [{:website, error_message}] -> Repo.get_by(Source, website: changeset.changes.website)
         end
   
