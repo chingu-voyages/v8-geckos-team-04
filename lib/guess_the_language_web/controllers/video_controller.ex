@@ -29,7 +29,7 @@ defmodule GuessTheLanguageWeb.VideoController do
   end
 
   def delete(conn, %{"uuid" => uuid}) do
-    video = Game.delete_video(uuid: uuid)
+    video = Game.delete_video(uuid: uuid) |> Repo.preload([:youtube_video, :user, :source])
     render(conn, "video.json", %{"delete_video" => video})
   end
 
