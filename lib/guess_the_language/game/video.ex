@@ -15,7 +15,6 @@ defmodule GuessTheLanguage.Game.Video do
     many_to_many :language, Language, join_through: "language_video"
   end
 
-
   #%{"user_id",...} -> %Video{} struct
   # produces a new video with the parameters including the user_id given
   def insert(%{"user_id" => user_id} = params) do
@@ -29,6 +28,15 @@ defmodule GuessTheLanguage.Game.Video do
     params = Map.put(params, "user_id", 1)
     {:ok, video} = changeset(%Video{}, params) |> Repo.insert
     video
+  end
+
+  def delete(params) do
+    video = Repo.get_by(Video, params)
+    |> Repo.delete
+    |> case do
+        {:ok, video} -> video
+        {:error, changeset} -> changeset.errors
+      end
   end
 
   def changeset(video, params \\ %{}) do
