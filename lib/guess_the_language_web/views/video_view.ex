@@ -13,4 +13,12 @@ defmodule GuessTheLanguageWeb.VideoView do
         %{"error" => message}
     end
 
+    def render("video.json", %{"show_video" => video}) do
+        %{"video" => video}
+    end
+
+    def render("video.json", %{"delete_video" => video}) do
+        %{"deleted_video" => video}
+    end
+
 end

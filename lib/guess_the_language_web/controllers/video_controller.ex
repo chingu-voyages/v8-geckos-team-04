@@ -23,6 +23,16 @@ defmodule GuessTheLanguageWeb.VideoController do
     |> create_render(conn)
   end
 
+  def show(conn, %{"uuid" => uuid}) do
+    video = Game.get_video_by(uuid: uuid) |> Repo.preload([:youtube_video, :user, :source])
+    render(conn, "video.json", %{"show_video" => video})
+  end
+
+  def delete(conn, %{"uuid" => uuid}) do
+    video = Game.delete_video(uuid: uuid) |> Repo.preload([:youtube_video, :user, :source])
+    render(conn, "video.json", %{"delete_video" => video})
+  end
+
   def create_page(conn, _params) do
     render(conn, "create.html")
   end

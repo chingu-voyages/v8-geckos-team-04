@@ -108,4 +108,8 @@ defmodule GuessTheLanguage.Game do
     def video_in_database do
         %{"error" => "A video with this same youtube uuid is already in our database"}
     end
+
+    def delete_video(params) do
+        Video.delete(params)
+    end
 end
