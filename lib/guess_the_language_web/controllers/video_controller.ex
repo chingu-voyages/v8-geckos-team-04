@@ -33,6 +33,11 @@ defmodule GuessTheLanguageWeb.VideoController do
     render(conn, "video.json", %{"delete_video" => video})
   end
 
+  def next(conn, _params) do
+    videos = Game.next_videos |> Repo.preload([:youtube_video, :user, :source])
+    render(conn, "video_list.json", %{"next_videos" => videos})
+  end
+
   def create_page(conn, _params) do
     render(conn, "create.html")
   end

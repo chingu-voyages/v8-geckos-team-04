@@ -1,6 +1,6 @@
 defmodule GuessTheLanguage.Game do
     alias GuessTheLanguage.Repo
-
+    import Ecto.Query, only: [from: 2]
     alias GuessTheLanguage.Game.{Video, YoutubeVideo, YoutubeChannel,
      Language, LanguageVideo, LanguageChoice, LanguageQuiz, Source}
 
@@ -112,4 +112,19 @@ defmodule GuessTheLanguage.Game do
     def delete_video(params) do
         Video.delete(params)
     end
+
+    #Queries
+
+    def next_videos do
+        distinct_language_videos
+        |> Repo.all
+        |> Enum.take_random(3)
+        |> Enum.map(fn id -> get_video(id) end)
+    end
+
+    def distinct_language_videos do
+        from(lv in LanguageVideo,
+        distinct: lv.language_id, select: lv.video_id)
+    end
+
 end
