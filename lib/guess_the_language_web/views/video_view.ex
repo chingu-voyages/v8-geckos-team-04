@@ -21,4 +21,8 @@ defmodule GuessTheLanguageWeb.VideoView do
         %{"deleted_video" => video}
     end
 
+    def render("video_list.json", %{"next_videos" => videos}) do
+        %{"next_videos" => videos}
+    end
+
 end

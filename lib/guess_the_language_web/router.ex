@@ -18,6 +18,8 @@ defmodule GuessTheLanguageWeb.Router do
 
     get "/videos", VideoController, :index
 
+    get "/videos/next", VideoController, :next
+
     post "/videos", VideoController, :create
 
     get "/videos/:uuid", VideoController, :show
