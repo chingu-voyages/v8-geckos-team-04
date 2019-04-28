@@ -2,7 +2,7 @@ defmodule GuessTheLanguage.Game.Language do
     use Ecto.Schema
     import Ecto.Changeset
 
-    alias GuessTheLanguage.Game.{Language, Video, LanguageQuiz}
+    alias GuessTheLanguage.Game.{Language, Video, Quiz}
     alias GuessTheLanguage.Accounts.User
     alias GuessTheLanguage.Repo
     
@@ -16,7 +16,7 @@ defmodule GuessTheLanguage.Game.Language do
       field :name, :string
       field :signed, :boolean,  default: false
       many_to_many :video, Video, join_through: "language_video"
-      many_to_many :language_quiz, LanguageQuiz, join_through: "language_choice"
+      many_to_many :quiz, Quiz, join_through: "language_choice"
     end
 
     def valid_insert({:ok, language}), do: language

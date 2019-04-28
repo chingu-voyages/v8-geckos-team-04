@@ -2,7 +2,7 @@ defmodule GuessTheLanguage.Game do
     alias GuessTheLanguage.Repo
     import Ecto.Query, only: [from: 2]
     alias GuessTheLanguage.Game.{Video, YoutubeVideo, YoutubeChannel,
-     Language, LanguageVideo, LanguageChoice, LanguageQuiz, Source}
+     Language, LanguageVideo, LanguageChoice, Quiz, Source}
 
     #Returns the video with the id given
     def get_video(id) do
