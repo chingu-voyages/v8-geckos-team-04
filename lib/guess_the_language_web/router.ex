@@ -36,6 +36,16 @@ defmodule GuessTheLanguageWeb.Router do
 
     put "/languages/:uuid", LanguageController, :update
 
+    get "/quizzes", QuizController, :index
+
+    post "/quizzes", QuizController, :create
+
+    get "/quizzes/:uuid", QuizController, :show
+
+    delete "/quizzes/:uuid", QuizController, :delete
+
+    put "/quizzes/:uuid", QuizController, :update
+
   end
   scope "/", GuessTheLanguageWeb do
     pipe_through :browser
