@@ -23,9 +23,8 @@ defmodule GuessTheLanguage.Game.Language do
 
     def valid_insert({:error, changeset}) do
         case changeset.errors do
-          [{:uuid, error_message}] -> %{"error" => error_message}
           [{:name, error_message}] -> Repo.get_by(Language, name: changeset.changes.name)
-          _ -> changeset.errors
+          _ -> %{"error" => translate_error(changeset)}
         end
     end
 
@@ -36,7 +35,7 @@ defmodule GuessTheLanguage.Game.Language do
     end
 
     defp valid_delete({:error, changeset}) do
-      %{"error" =>  changeset.errors}
+      %{"error" =>  translate_error(changeset)}
     end
 
     defp valid_delete({:ok, language}) do
@@ -78,7 +77,7 @@ defmodule GuessTheLanguage.Game.Language do
     end
 
     defp valid_update({:error, changeset}) do
-      %{"error" =>  changeset.errors}
+      %{"error" => translate_error(changeset)}
     end
 
     defp valid_update({:ok, language}) do
@@ -102,6 +101,15 @@ defmodule GuessTheLanguage.Game.Language do
       %Language{}
       |> cast(params, [:uuid])
     end
+
+    def translate_error(changeset) do
+     traverse_errors(changeset, fn {msg, opts} ->
+      Enum.reduce(opts, msg, fn {key, value}, acc ->
+        String.replace(acc, "%{#{key}}", to_string(value))
+      end)
+    end)
+
+  end
     
     def changeset(language, params \\ %{}) do
       language
