@@ -19,26 +19,71 @@ defmodule GuessTheLanguage.Game.Language do
       many_to_many :language_quiz, LanguageQuiz, join_through: "language_choice"
     end
 
-    def valid_language({:ok, language}), do: language
+    def valid_insert({:ok, language}), do: language
 
-    def valid_language({:error, changeset}) do
+    def valid_insert({:error, changeset}) do
         case changeset.errors do
-          [{:uuid, error_message}] -> error_message
+          [{:uuid, error_message}] -> %{"error" => error_message}
           [{:name, error_message}] -> Repo.get_by(Language, name: changeset.changes.name)
           _ -> changeset.errors
         end
-  
     end
 
     def insert(params \\ %{}) do
       changeset(%Language{}, params)
       |> Repo.insert
-      |> valid_language
+      |> valid_insert
+    end
+
+    defp valid_delete({:error, changeset}) do
+      %{"error" =>  changeset.errors}
+    end
+
+    defp valid_delete({:ok, language}) do
+      language
+    end
+
+    def delete(%{"uuid" => uuid} = params) do
+      case get_by_uuid(params) do
+        %{"error" => errors} ->
+           %{"error" => errors}
+        language -> 
+            language
+            |> Repo.delete
+            |> valid_delete
+        end
+      end
+    
+    defp valid_get(false) do
+      %{"error" =>  "Unable to perform the operation on Language as that uuid isn't valid"}
+    end
+
+    defp valid_get(nil) do
+      %{"error" =>  "Unable to perform GET operation on Language with that uuid doesn't exist"}
+    end
+
+    defp valid_get(language) do
+      language
+    end
+
+    #%{} -> %Language{} || %{"error" =>..} || nil
+    def get_by_uuid(%{"uuid" => uuid} = params) do
+      changeset = uuid_changeset(params)
+      case changeset.valid? do
+        false -> valid_get(false)
+        true -> Repo.get_by(Language, uuid: uuid) |> valid_get
+      end
+    end
+
+
+    def uuid_changeset(params \\ %{}) do
+      %Language{}
+      |> cast(params, [:uuid])
     end
     
     def changeset(language, params \\ %{}) do
       language
-      |> cast(params, [:name, :official, :signed])
+      |> cast(params, [:name, :official, :signed, :uuid])
       |> validate_required([:name])
       |> unique_constraint(:name)
       |> unique_constraint(:uuid)

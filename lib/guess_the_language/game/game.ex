@@ -31,6 +31,10 @@ defmodule GuessTheLanguage.Game do
         Repo.get(Language, id)
     end
 
+    def get_language_by_uuid(params) do
+        Language.get_by_uuid(params)
+    end
+
     # %{"param" => ""} -> %Language{}
     # Get a language with the param given
     def get_language_by(params) do
@@ -131,21 +135,24 @@ defmodule GuessTheLanguage.Game do
         Video.delete(params)
     end
 
+    def delete_language(params) do
+        Language.delete(params)
+    end
+
     #Queries
 
     # List of video IDs -> List of videos
-    # Produces a list of 3 random videos from the list of videos' ids
+    # Produces a list of 3 random videos from a list of videos' ids
     def next_videos do
         distinct_language_videos
-        |> Repo.all
         |> Enum.take_random(3)
         |> Enum.map(fn id -> get_video(id) end)
     end
 
     #From LanguageVideo table returns videos' id with distinct languages
     def distinct_language_videos do
-        from(lv in LanguageVideo,
-        distinct: lv.language_id, select: lv.video_id)
+        from(lv in LanguageVideo, distinct: lv.language_id, select: lv.video_id)
+        |> Repo.all
     end
 
 end
