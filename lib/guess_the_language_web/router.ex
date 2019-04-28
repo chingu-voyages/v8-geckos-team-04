@@ -43,6 +43,8 @@ defmodule GuessTheLanguageWeb.Router do
     get "/", PageController, :index
     
     get "/api/create_video", VideoController, :create_page
+
+    get "api/update", LanguageController, :update_page
   end
 
   # Other scopes may use custom stacks.

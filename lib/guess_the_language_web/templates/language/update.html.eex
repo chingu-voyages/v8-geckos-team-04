@@ -1,0 +1,52 @@
+ <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>title</title>
+    <script>
+window.addEventListener("load", function () {
+  function sendData() {
+    var XHR = new XMLHttpRequest();
+
+    // Bind the FormData object and the form element
+    var FD = new FormData(form);
+
+    // Define what happens on successful data submission
+    XHR.addEventListener("load", function(event) {
+    var myWindow = window.open("", "MsgWindow", "width=2000,height=1000");
+      myWindow.document.write(event.target.responseText)
+    });
+
+    // Define what happens in case of error
+    XHR.addEventListener("error", function(event) {
+      alert('Oops! Something went wrong.');
+    });
+
+    // Set up our request
+    XHR.open("PUT", "http://localhost:4000/api/languages/4fMVGZBiAZPyNk7c5KJN6m");
+
+    // The data sent is what the user provided in the form
+    XHR.send(FD);
+  }
+ 
+  // Access the form element...
+  var form = document.getElementById("myForm");
+
+  // ...and take over its submit event.
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    sendData();
+  });
+});
+    </script>
+  </head>
+  <body>
+  <form id="myForm">
+  <label for="myName">Update a language:</label>
+ uuid:  <input id="uuid" name="uuid" value="uuid"><br>
+name:   <input id="name" name="name" value="name"> <br>
+  <input type="submit" value="Send Me!">
+</form>
+  </body>
+</html>
