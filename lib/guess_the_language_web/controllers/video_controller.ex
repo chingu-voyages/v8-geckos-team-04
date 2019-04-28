@@ -13,29 +13,36 @@ defmodule GuessTheLanguageWeb.VideoController do
     render(conn, "video_list.json", %{"videos" => videos})
   end
 
-  def valid_video(%{"error" => message}, conn) do
+  
+
+  def valid_create(%{"error" => message}, conn) do
     render(conn, "video.json", %{"error" => message})
   end
 
-  def valid_video(%Video{} = video, conn) do
+  def valid_create(%Video{} = video, conn) do
      video = preload_video(video)
      render(conn, "video.json", %{"new_video" => video})
   end
 
   def create(conn, params) do
     Game.create_video(params)
-    |> valid_video(conn)
+    |> valid_create(conn)
   end
+
+
 
   def show(conn, %{"uuid" => uuid}) do
     video = Game.get_video_by(uuid: uuid) |> preload_video
     render(conn, "video.json", %{"show_video" => video})
   end
 
+
   def delete(conn, %{"uuid" => uuid}) do
     video = Game.delete_video(uuid: uuid) |> preload_video
     render(conn, "video.json", %{"delete_video" => video})
   end
+
+
 
   def next(conn, _params) do
     videos = Game.next_videos |> preload_video

@@ -6,7 +6,7 @@ defmodule GuessTheLanguageWeb.VideoView do
     end
 
     def render("video.json", %{"new_video" => video}) do
-        %{"video" => video}
+        %{"new_video" => video}
     end
 
     def render("video.json", %{"error" => message}) do
