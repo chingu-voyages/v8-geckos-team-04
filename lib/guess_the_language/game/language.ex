@@ -113,7 +113,7 @@ defmodule GuessTheLanguage.Game.Language do
     
     def changeset(language, params \\ %{}) do
       language
-      |> cast(params, [:name, :official, :signed, :uuid])
+      |> cast(params, [:name, :official?, :signed?, :uuid])
       |> validate_required([:name])
       |> unique_constraint(:name)
       |> unique_constraint(:uuid)
