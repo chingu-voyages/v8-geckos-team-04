@@ -12,9 +12,9 @@ defmodule GuessTheLanguage.Game.Language do
     @derive {Jason.Encoder, only: [:uuid, :name]}
     schema "language" do
       field :uuid, Ecto.ShortUUID, autogenerate: true
-      field :official, :boolean, default: true
+      field :official?, :boolean, default: true
       field :name, :string
-      field :signed, :boolean,  default: false
+      field :signed?, :boolean,  default: false
       many_to_many :video, Video, join_through: "language_video"
       many_to_many :quiz, Quiz, join_through: "language_choice"
     end
