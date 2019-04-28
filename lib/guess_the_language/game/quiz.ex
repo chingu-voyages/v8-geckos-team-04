@@ -2,13 +2,14 @@ defmodule GuessTheLanguage.Game.Quiz do
     use Ecto.Schema
     import Ecto.Changeset
 
-    alias GuessTheLanguage.Game.{Language, Quiz, LanguageVideo}
+    alias GuessTheLanguage.Game.{Language, Quiz, LanguageVideo, LanguageChoice}
     alias GuessTheLanguage.Repo
     
-    @derive {Jason.Encoder, only: [:uuid, :language_video]}
+    @derive {Jason.Encoder, only: [:uuid, :language, :language_video, :language_choice]}
     schema "quiz" do
       field :uuid, Ecto.ShortUUID, autogenerate: true
       many_to_many :language, Language, join_through: "language_choice"
+      has_many :language_choice, LanguageChoice
       belongs_to :language_video, LanguageVideo
     end
 

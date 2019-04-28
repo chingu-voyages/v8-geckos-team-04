@@ -4,6 +4,7 @@ defmodule GuessTheLanguage.Game.LanguageVideo do
     alias GuessTheLanguage.Repo
     alias GuessTheLanguage.Game.{Language, LanguageVideo, Video}
 
+    @derive {Jason.Encoder, only: [:start_time, :end_time]}
     schema "language_video" do
         field :start_time, :integer, default: 0
         field :end_time, :integer, default: 0

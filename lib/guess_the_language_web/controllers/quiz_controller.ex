@@ -2,11 +2,12 @@ defmodule GuessTheLanguageWeb.QuizController do
     use GuessTheLanguageWeb, :controller
     alias GuessTheLanguage.Game.{Quiz, Language, LanguageChoice}
     alias GuessTheLanguage.Game
+    alias GuessTheLanguage.Repo
 
 
 
-    def preload_quiz(quizs, assoc \\ []) do
-        Repo.preload(quizs, assoc)
+    def preload_quiz(quiz, assoc \\ [:language_video, :language, :language_choice]) do
+        Repo.preload(quiz, assoc)
     end
 
     def send_error(conn, resp) do
@@ -15,7 +16,7 @@ defmodule GuessTheLanguageWeb.QuizController do
 
 
     def index(conn, params) do
-        quizzes = Game.list_quizzes
+        quizzes = Game.list_quizzes |> preload_quiz
         render(conn, "quiz_list.json", %{"quizzes" => quizzes})
     end
 
@@ -25,12 +26,13 @@ defmodule GuessTheLanguageWeb.QuizController do
         |> show_valid(conn)
     end
 
-    def show_valid(%{"error" => error} = resp, _type, conn) do
+    def show_valid(%{"error" => error} = resp, conn) do
         send_error(conn, resp)
     end
 
     def show_valid(%Quiz{} = quiz, conn) do
-        render(conn, "quiz.json", %{"quiz" => quiz})
+        quiz = quiz |> preload_quiz
+        render(conn, "quiz.json", %{"show_quiz" => quiz})
     end
 
 
@@ -44,6 +46,7 @@ defmodule GuessTheLanguageWeb.QuizController do
     end
 
     def create_valid(%Quiz{} = quiz, conn) do
+        quiz = quiz |> preload_quiz
         render(conn, "quiz.json", %{"new_quiz" => quiz})
     end
 
@@ -58,6 +61,7 @@ defmodule GuessTheLanguageWeb.QuizController do
     end
 
     def delete_valid(%Quiz{} = quiz, conn) do
+        quiz = quiz |> preload_quiz
         render(conn, "quiz.json", %{"deleted_quiz" => quiz})
     end
 
@@ -71,6 +75,7 @@ defmodule GuessTheLanguageWeb.QuizController do
     end
 
     def update_valid(%Quiz{} = quiz, conn) do
+        quiz = quiz |> preload_quiz
         render(conn, "quiz.json", %{"updated_quiz" => quiz})
     end
 

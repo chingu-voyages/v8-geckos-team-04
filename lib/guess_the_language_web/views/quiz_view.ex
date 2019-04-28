@@ -1,8 +1,8 @@
 defmodule GuessTheLanguageWeb.QuizView do
     use GuessTheLanguageWeb, :view
 
-    def render("quiz_list.json", %{"quizs" => quizs} = params) do
-    %{"quizs" => quizs}
+    def render("quiz_list.json", %{"quizzes" => quizzes} = params) do
+    %{"quizzes" => quizzes}
     end
 
     def render("quiz.json", %{"new_quiz" => quiz}) do
