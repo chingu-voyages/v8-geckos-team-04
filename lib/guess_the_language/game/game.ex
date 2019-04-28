@@ -139,6 +139,10 @@ defmodule GuessTheLanguage.Game do
         Language.delete(params)
     end
 
+    def update_language(params) do
+        Language.update(params)
+    end
+
     #Queries
 
     # List of video IDs -> List of videos

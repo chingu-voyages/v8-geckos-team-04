@@ -43,7 +43,7 @@ defmodule GuessTheLanguage.Game.Language do
       language
     end
 
-    def delete(%{"uuid" => uuid} = params) do
+    def delete(%{"uuid" => _uuid} = params) do
       case get_by_uuid(params) do
         %{"error" => errors} ->
            %{"error" => errors}
@@ -59,7 +59,7 @@ defmodule GuessTheLanguage.Game.Language do
     end
 
     defp valid_get(nil) do
-      %{"error" =>  "Unable to perform GET operation on Language with that uuid doesn't exist"}
+      %{"error" =>  "Unable to perform perform operation as a Language with that uuid doesn't exist"}
     end
 
     defp valid_get(language) do
@@ -69,10 +69,32 @@ defmodule GuessTheLanguage.Game.Language do
     #%{} -> %Language{} || %{"error" =>..} || nil
     def get_by_uuid(%{"uuid" => uuid} = params) do
       changeset = uuid_changeset(params)
-      case changeset.valid? do
-        false -> valid_get(false)
-        true -> Repo.get_by(Language, uuid: uuid) |> valid_get
+
+      if changeset.valid? do
+        Repo.get_by(Language, uuid: uuid) |> valid_get
+      else
+        valid_get(false)
       end
+    end
+
+    defp valid_update({:error, changeset}) do
+      %{"error" =>  changeset.errors}
+    end
+
+    defp valid_update({:ok, language}) do
+      language
+    end 
+
+    def update(%{"uuid" => _uuid} = params) do
+      case get_by_uuid(params) do
+        %{"error" => errors} ->
+           %{"error" => errors}
+        language -> 
+            changeset = changeset(language, params)
+            if changeset.valid? do
+            Repo.insert_or_update(changeset) |> valid_update
+            end
+        end
     end
 
 

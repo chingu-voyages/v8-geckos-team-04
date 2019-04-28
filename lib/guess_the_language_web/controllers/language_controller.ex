@@ -51,7 +51,6 @@ defmodule GuessTheLanguageWeb.LanguageController do
 
     def delete(conn, params) do
         Game.delete_video(params) |> delete_valid(conn)
-        
     end
 
     def delete_valid(%{"error" => message} = resp, conn) do
@@ -61,5 +60,20 @@ defmodule GuessTheLanguageWeb.LanguageController do
     def delete_valid(%Language{} = language, conn) do
         render(conn, "language.json", %{"deleted_language" => language})
     end
+
+
+    def update(conn, %{"uuid" => uuid}= params) do
+        Game.update_language(params) |> update_valid(conn)
+    end
+
+    def update_valid(%{"error" => message} = resp, conn) do
+        send_error(conn, resp)
+    end
+
+    def update_valid(%Language{} = language, conn) do
+        render(conn, "language.json", %{"updated_language" => language})
+    end
+
+
 
 end

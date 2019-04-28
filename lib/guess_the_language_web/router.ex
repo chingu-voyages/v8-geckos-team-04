@@ -34,6 +34,8 @@ defmodule GuessTheLanguageWeb.Router do
 
     delete "/languages/:uuid", LanguageController, :delete
 
+    put "/languages/:uuid", LanguageController, :update
+
   end
   scope "/", GuessTheLanguageWeb do
     pipe_through :browser

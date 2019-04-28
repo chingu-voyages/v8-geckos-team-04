@@ -17,6 +17,10 @@ defmodule GuessTheLanguageWeb.LanguageView do
         %{"deleted_language" => language}
     end
 
+    def render("language.json", %{"updated_language" => language}) do
+        %{"updated_language" => language}
+    end
+
     def render("language.json", %{"error" => message}) do
         %{"error" => message}
     end
