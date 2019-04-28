@@ -13,10 +13,32 @@ defmodule GuessTheLanguage.Game do
         Repo.get_by(Video, params)
     end
 
+    # -> ListOfVideos
     # Returns all videos in the database
     def list_videos do
         Repo.all(Video)
         |> Repo.preload([:youtube_video, :user])
+    end
+
+    # -> ListOfLanguages
+    # Returns all languages
+    def list_languages do
+        Repo.all(Language)
+    end
+
+    #Returns the language with the id given
+    def get_language(id) do
+        Repo.get(Language, id)
+    end
+
+    def get_language_by_uuid(params) do
+        Language.get_by_uuid(params)
+    end
+
+    # %{"param" => ""} -> %Language{}
+    # Get a language with the param given
+    def get_language_by(params) do
+        Repo.get_by(Language, params)
     end
 
     #Returns a youtube video with the id given
@@ -89,7 +111,7 @@ defmodule GuessTheLanguage.Game do
     end
 
     #%{"title", ...rest} -> %Video{}
-    #with the map parameters produces a new video structure with its related association (youtube_video)
+    #with the map parameters produces a new video with its related associations (youtube_video)
     def create_video(%{} = params) do
         case YoutubeVideo.already_inserted(params) do
         %YoutubeVideo{} -> video_in_database
@@ -113,18 +135,28 @@ defmodule GuessTheLanguage.Game do
         Video.delete(params)
     end
 
+    def delete_language(params) do
+        Language.delete(params)
+    end
+
+    def update_language(params) do
+        Language.update(params)
+    end
+
     #Queries
 
+    # List of video IDs -> List of videos
+    # Produces a list of 3 random videos from a list of videos' ids
     def next_videos do
         distinct_language_videos
-        |> Repo.all
         |> Enum.take_random(3)
         |> Enum.map(fn id -> get_video(id) end)
     end
 
+    #From LanguageVideo table returns videos' id with distinct languages
     def distinct_language_videos do
-        from(lv in LanguageVideo,
-        distinct: lv.language_id, select: lv.video_id)
+        from(lv in LanguageVideo, distinct: lv.language_id, select: lv.video_id)
+        |> Repo.all
     end
 
 end
