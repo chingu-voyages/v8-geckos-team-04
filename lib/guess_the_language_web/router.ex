@@ -26,15 +26,11 @@ defmodule GuessTheLanguageWeb.Router do
 
     delete "/videos/:uuid", VideoController, :delete
 
-    get "/languages", LanguageController, :index
+    resources "languages", LanguageController, param: "uuid"
 
-    post "/languages", LanguageController, :create
+    resources "quizzes", QuizController, param: "uuid"
 
-    get "/languages/:uuid", LanguageController, :show
-
-    delete "/languages/:uuid", LanguageController, :delete
-
-    put "/languages/:uuid", LanguageController, :update
+    resources "language_choices", LanguageChoiceController, param: "uuid"
 
   end
   scope "/", GuessTheLanguageWeb do
@@ -43,6 +39,10 @@ defmodule GuessTheLanguageWeb.Router do
     get "/", PageController, :index
     
     get "/api/create_video", VideoController, :create_page
+
+    get "/api/create_language_choice", LanguageChoiceController, :create_page
+
+    get "api/update", LanguageController, :update_page
   end
 
   # Other scopes may use custom stacks.

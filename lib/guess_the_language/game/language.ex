@@ -2,7 +2,7 @@ defmodule GuessTheLanguage.Game.Language do
     use Ecto.Schema
     import Ecto.Changeset
 
-    alias GuessTheLanguage.Game.{Language, Video, LanguageQuiz}
+    alias GuessTheLanguage.Game.{Language, Video, Quiz}
     alias GuessTheLanguage.Accounts.User
     alias GuessTheLanguage.Repo
     
@@ -12,20 +12,19 @@ defmodule GuessTheLanguage.Game.Language do
     @derive {Jason.Encoder, only: [:uuid, :name]}
     schema "language" do
       field :uuid, Ecto.ShortUUID, autogenerate: true
-      field :official, :boolean, default: true
+      field :official?, :boolean, default: true
       field :name, :string
-      field :signed, :boolean,  default: false
+      field :signed?, :boolean,  default: false
       many_to_many :video, Video, join_through: "language_video"
-      many_to_many :language_quiz, LanguageQuiz, join_through: "language_choice"
+      many_to_many :quiz, Quiz, join_through: "language_choice"
     end
 
     def valid_insert({:ok, language}), do: language
 
     def valid_insert({:error, changeset}) do
         case changeset.errors do
-          [{:uuid, error_message}] -> %{"error" => error_message}
           [{:name, error_message}] -> Repo.get_by(Language, name: changeset.changes.name)
-          _ -> changeset.errors
+          _ -> %{"error" => translate_error(changeset)}
         end
     end
 
@@ -36,7 +35,7 @@ defmodule GuessTheLanguage.Game.Language do
     end
 
     defp valid_delete({:error, changeset}) do
-      %{"error" =>  changeset.errors}
+      %{"error" =>  translate_error(changeset)}
     end
 
     defp valid_delete({:ok, language}) do
@@ -78,7 +77,7 @@ defmodule GuessTheLanguage.Game.Language do
     end
 
     defp valid_update({:error, changeset}) do
-      %{"error" =>  changeset.errors}
+      %{"error" => translate_error(changeset)}
     end
 
     defp valid_update({:ok, language}) do
@@ -102,10 +101,19 @@ defmodule GuessTheLanguage.Game.Language do
       %Language{}
       |> cast(params, [:uuid])
     end
+
+    def translate_error(changeset) do
+     traverse_errors(changeset, fn {msg, opts} ->
+      Enum.reduce(opts, msg, fn {key, value}, acc ->
+        String.replace(acc, "%{#{key}}", to_string(value))
+      end)
+    end)
+
+  end
     
     def changeset(language, params \\ %{}) do
       language
-      |> cast(params, [:name, :official, :signed, :uuid])
+      |> cast(params, [:name, :official?, :signed?, :uuid])
       |> validate_required([:name])
       |> unique_constraint(:name)
       |> unique_constraint(:uuid)

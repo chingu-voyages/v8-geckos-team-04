@@ -74,6 +74,8 @@ defmodule GuessTheLanguageWeb.LanguageController do
         render(conn, "language.json", %{"updated_language" => language})
     end
 
-
+    def update_page(conn, _params) do
+        render(conn, "update.html")
+      end
 
 end

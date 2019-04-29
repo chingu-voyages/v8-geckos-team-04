@@ -21,7 +21,6 @@ defmodule GuessTheLanguage.Game.Source do
           [{:uuid, error_message}] -> Repo.get_by(Source, website: changeset.changes.uuid)
           [{:website, error_message}] -> Repo.get_by(Source, website: changeset.changes.website)
         end
-  
     end
 
     def insert(params) do

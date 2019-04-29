@@ -13,7 +13,7 @@ defmodule GuessTheLanguage.Accounts.User do
 
     end
 
-    def insert(_params) do
+    def insert do
        changeset |> Repo.insert
     end
 

@@ -1,0 +1,53 @@
+ <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>title</title>
+    <script>
+window.addEventListener("load", function () {
+  function sendData() {
+    var XHR = new XMLHttpRequest();
+
+    // Bind the FormData object and the form element
+    var FD = new FormData(form);
+
+    // Define what happens on successful data submission
+    XHR.addEventListener("load", function(event) {
+    var myWindow = window.open("", "MsgWindow", "width=2000,height=1000");
+      myWindow.document.write(event.target.responseText)
+    });
+
+    // Define what happens in case of error
+    XHR.addEventListener("error", function(event) {
+      alert('Oops! Something went wrong.');
+    });
+
+    // Set up our request
+    XHR.open("POST", "http://localhost:4000/api/language_choices");
+
+    // The data sent is what the user provided in the form
+    XHR.send(FD);
+  }
+ 
+  // Access the form element...
+  var form = document.getElementById("myForm");
+
+  // ...and take over its submit event.
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    sendData();
+  });
+});
+    </script>
+  </head>
+  <body>
+  <form id="myForm">
+  <label for="myName">Send me your video:</label>
+ language_id:  <input id="language_id" name="language_id" value="language_id"><br>
+correct?:   <input id="correct?" name="correct?" value="correct?"> <br>
+  quiz_id: <input id="quiz_id" name="quiz_id" value="quiz_id"><br>
+  <input type="submit" value="Send Me!">
+</form>
+  </body>
+</html>

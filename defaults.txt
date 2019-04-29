@@ -1,0 +1,13 @@
+Run the following if getting started for the first time
+
+iex -S mix
+alias GuessTheLanguage.Accounts.User
+User.insert
+
+alias GuessTheLanguage.Game.{Video, YoutubeChannel, Source}
+
+Source.insert(%{"name" => "Wikitongues", "website" => "https://wikitongues.org"})
+
+go to: /api/videos/create_video and press send to save our youtube channel in the db
+
+now you can save other structures in the database

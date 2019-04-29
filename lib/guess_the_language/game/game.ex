@@ -1,8 +1,48 @@
 defmodule GuessTheLanguage.Game do
     alias GuessTheLanguage.Repo
     import Ecto.Query, only: [from: 2]
+    import Ecto.Changeset, only: [traverse_errors: 2]
     alias GuessTheLanguage.Game.{Video, YoutubeVideo, YoutubeChannel,
-     Language, LanguageVideo, LanguageChoice, LanguageQuiz, Source}
+     Language, LanguageVideo, LanguageChoice, Quiz, Source}
+
+    def list_quizzes do
+        Repo.all(Quiz)
+    end
+    def get_quiz_by_uuid(params) do
+        Quiz.get_by_uuid(params)
+    end
+
+    def create_quiz(params) do
+        Quiz.insert(params)
+    end
+
+    def delete_quiz(params) do
+        Quiz.delete(params)
+    end
+
+    def update_quiz(params) do
+        Quiz.update(params)
+    end
+
+    def list_language_choices do
+        Repo.all(LanguageChoice)
+    end
+
+    def get_language_choice_by_uuid(params) do
+        LanguageChoice.get_by_uuid(params)
+    end
+
+    def create_language_choice(params) do
+        LanguageChoice.insert(params)
+    end
+
+    def delete_language_choice(params) do
+        LanguageChoice.delete(params)
+    end
+
+    def update_language_choice(params) do
+        LanguageChoice.update(params)
+    end
 
     #Returns the video with the id given
     def get_video(id) do
@@ -157,6 +197,13 @@ defmodule GuessTheLanguage.Game do
     def distinct_language_videos do
         from(lv in LanguageVideo, distinct: lv.language_id, select: lv.video_id)
         |> Repo.all
+    end
+
+    def translate_error(changeset) do
+     traverse_errors(changeset, fn {msg, opts} ->
+      Enum.reduce(opts, msg, fn {key, value}, acc ->
+        String.replace(acc, "%{#{key}}", to_string(value)) end)
+        end)
     end
 
 end
