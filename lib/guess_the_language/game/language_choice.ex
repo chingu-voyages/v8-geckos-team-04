@@ -104,7 +104,7 @@ defmodule GuessTheLanguage.Game.LanguageChoice do
       |> validate_required([:correct?, :language_id, :quiz_id])
       |> foreign_key_constraint(:language_id)
       |> foreign_key_constraint(:quiz_id)
-      |> unique_constraint(:one_correct_answer_contraint, name: :correct_quiz_index)
+      |> unique_constraint(:one_correct_answer_contraint, name: :correct_choice_quiz)
       |> unique_constraint(:no_repeated_languages_constraint, name: :language_choice_quiz_index)
       |> unique_constraint(:uuid)
     end

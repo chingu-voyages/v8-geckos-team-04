@@ -11,6 +11,8 @@ defmodule GuessTheLanguage.Repo.Migrations.LanguageChoice do
 
     create unique_index(:language_choice, [:language_id, :quiz_id],
      name: :language_choice_quiz_index)
+     create unique_index(:language_choice, [:correct?, :quiz_id],
+     name: :correct_choice_quiz)
     create unique_index(:language_choice, [:uuid])
   end
 end
