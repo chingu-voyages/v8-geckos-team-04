@@ -29,6 +29,7 @@
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.2",
     "react-addons-test-utils": "^15.6.2",
-    "react-test-renderer": "^16.8.4"
+    "react-test-renderer": "^16.8.4",
+    "react-testing-library": "^7.0.0"
   }
 }

@@ -8,6 +8,9 @@ function Score() {
   const newGame = () => {
     window.location.href = '/game'; // Start a new game.
   }
+  const viewHistory = () => {
+    window.location.href = '/history'; // Start a new game.
+  }
 
   return (
     <div>
@@ -21,8 +24,8 @@ function Score() {
         </div>
       </div>
       <div className='score-flex-button-box'>
-        <Route render={({history}) => (
-          <button className='view-history-btn' onClick={() => { history.push('/history') }}>
+        <Route render={() => (
+          <button className='view-history-btn' onClick={viewHistory}>
             View History
           </button>
         )} />
