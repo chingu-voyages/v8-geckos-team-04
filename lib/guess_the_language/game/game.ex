@@ -5,9 +5,30 @@ defmodule GuessTheLanguage.Game do
     alias GuessTheLanguage.Game.{Video, YoutubeVideo, YoutubeChannel,
      Language, LanguageVideo, LanguageChoice, Quiz, Source}
 
-    def list_quizzes do
+    def list_language_videos do
+        Repo.all(LanguageVideo)
+    end
+
+    def get_language_video_by_uuid(params) do
+        LanguageVideo.get_by_uuid(params)
+    end
+
+    def create_language_video(params) do
+        LanguageVideo.insert(params)
+    end
+
+    def delete_language_video(params) do
+        LanguageVideo.delete(params)
+    end
+
+    def update_language_video(params) do
+        LanguageVideo.update(params)
+    end
+    
+     def list_quizzes do
         Repo.all(Quiz)
     end
+    
     def get_quiz_by_uuid(params) do
         Quiz.get_by_uuid(params)
     end
