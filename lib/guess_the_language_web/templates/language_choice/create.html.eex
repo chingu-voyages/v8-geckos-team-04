@@ -23,7 +23,7 @@ window.addEventListener("load", function () {
     });
 
     // Set up our request
-    XHR.open("PATCH", "http://localhost:4000/api/languages/ZT6qgMFQmwbKX23yhYGzr2");
+    XHR.open("POST", "http://localhost:4000/api/language_choices");
 
     // The data sent is what the user provided in the form
     XHR.send(FD);
@@ -43,9 +43,10 @@ window.addEventListener("load", function () {
   </head>
   <body>
   <form id="myForm">
-  <label for="myName">Update a language:</label>
- uuid:  <input id="uuid" name="uuid" value="uuid"><br>
-name:   <input id="name" name="name" value="name"> <br>
+  <label for="myName">Send me your video:</label>
+ language_id:  <input id="language_id" name="language_id" value="language_id"><br>
+correct?:   <input id="correct?" name="correct?" value="correct?"> <br>
+  quiz_id: <input id="quiz_id" name="quiz_id" value="quiz_id"><br>
   <input type="submit" value="Send Me!">
 </form>
   </body>
