@@ -2,7 +2,8 @@ defmodule GuessTheLanguage.Game.Quiz do
     use Ecto.Schema
     import Ecto.Changeset
 
-    alias GuessTheLanguage.Game.{Language, Quiz, LanguageVideo, LanguageChoice}
+    alias GuessTheLanguage.Game
+    alias Game.{Language, Quiz, LanguageVideo, LanguageChoice}
     alias GuessTheLanguage.Repo
     
     @derive {Jason.Encoder, only: [:uuid, :language, :language_video, :language_choice]}
@@ -16,7 +17,7 @@ defmodule GuessTheLanguage.Game.Quiz do
     def valid_insert({:ok, quiz}), do: quiz
 
     def valid_insert({:error, changeset}) do
-        translate_error(changeset)
+      %{"error" =>  Game.translate_error(changeset)}
     end
 
     def insert(params \\ %{}) do
@@ -26,7 +27,7 @@ defmodule GuessTheLanguage.Game.Quiz do
     end
 
     defp valid_delete({:error, changeset}) do
-      %{"error" =>  translate_error(changeset)}
+      %{"error" =>  Game.translate_error(changeset)}
     end
 
     defp valid_delete({:ok, quiz}) do
@@ -68,7 +69,7 @@ defmodule GuessTheLanguage.Game.Quiz do
     end
 
     defp valid_update({:error, changeset}) do
-      %{"error" => translate_error(changeset)}
+      %{"error" => Game.translate_error(changeset)}
     end
 
     defp valid_update({:ok, quiz}) do
@@ -92,18 +93,7 @@ defmodule GuessTheLanguage.Game.Quiz do
       %Quiz{}
       |> cast(params, [:uuid])
     end
-
-    def translate_error(changeset) do
-     traverse_errors(changeset, fn {msg, opts} ->
-      Enum.reduce(opts, msg, fn {key, value}, acc ->
-        String.replace(acc, "%{#{key}}", to_string(value))
-      end)
-    end)
-
-  end
-
     
-
     def changeset(quiz, params \\ %{}) do
       quiz
       |> cast(params, [:language_video_id])
