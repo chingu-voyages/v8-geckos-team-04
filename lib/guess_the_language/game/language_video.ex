@@ -5,7 +5,7 @@ defmodule GuessTheLanguage.Game.LanguageVideo do
     alias GuessTheLanguage.Game
     alias GuessTheLanguage.Game.{Language, LanguageVideo, Video}
 
-    @derive {Jason.Encoder, only: [:start_time, :end_time, :language, :video]}
+    @derive {Jason.Encoder, only: [:uuid, :start_time, :end_time]}
     schema "language_video" do
         field :uuid, Ecto.ShortUUID, autogenerate: true
         field :start_time, :integer, default: 0
