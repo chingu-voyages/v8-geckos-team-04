@@ -1,11 +1,13 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { useGlobal } from 'reactn';
+import GetData from '../api/GetData';
 
 function Score() {
   const [global] = useGlobal();
 
   const newGame = () => {
+    GetData(); // fetch new data array from backend.
     window.location.href = '/game'; // Start a new game.
   }
   const viewHistory = () => {
