@@ -10,7 +10,7 @@ defmodule GuessTheLanguage.Game.LanguageChoice do
     @derive {Jason.Encoder, only: [:uuid, :correct?, :language, :quiz]}
     schema "language_choice" do
       field :uuid, Ecto.ShortUUID, autogenerate: true
-      field :correct?, :boolean
+      field :correct?, :boolean, default: false
 
       belongs_to :language, Language
       belongs_to :quiz, Quiz

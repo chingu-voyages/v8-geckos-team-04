@@ -5,9 +5,30 @@ defmodule GuessTheLanguage.Game do
     alias GuessTheLanguage.Game.{Video, YoutubeVideo, YoutubeChannel,
      Language, LanguageVideo, LanguageChoice, Quiz, Source}
 
-    def list_quizzes do
+    def list_language_videos do
+        Repo.all(LanguageVideo)
+    end
+
+    def get_language_video_by_uuid(params) do
+        LanguageVideo.get_by_uuid(params)
+    end
+
+    def create_language_video(params) do
+        LanguageVideo.insert(params)
+    end
+
+    def delete_language_video(params) do
+        LanguageVideo.delete(params)
+    end
+
+    def update_language_video(params) do
+        LanguageVideo.update(params)
+    end
+    
+     def list_quizzes do
         Repo.all(Quiz)
     end
+    
     def get_quiz_by_uuid(params) do
         Quiz.get_by_uuid(params)
     end
@@ -189,7 +210,7 @@ defmodule GuessTheLanguage.Game do
     # Produces a list of 3 random videos from a list of videos' ids
     def next_videos do
         distinct_language_videos
-        |> Enum.take_random(3)
+        |> Enum.take_random(10)
         |> Enum.map(fn id -> get_video(id) end)
     end
 
@@ -197,6 +218,44 @@ defmodule GuessTheLanguage.Game do
     def distinct_language_videos do
         from(lv in LanguageVideo, distinct: lv.language_id, select: lv.video_id)
         |> Repo.all
+    end
+
+    def create_quiz(%{} = params) do
+        Quiz.insert(params)
+    end
+
+    def create_correct_language_choice(%{"quiz_id" => _, "language_id" => _} = params) do
+        params = Map.put(params, "correct?", true)
+        LanguageChoice.insert(params)
+    end
+
+    def choice_from_id(id, quiz_id) do
+        LanguageChoice.insert(%{"language_id" => id, "quiz_id" => quiz_id})
+    end
+
+    def create_random_language_choice(%{"quiz_id" => quiz_id, "language_id" => language_id} = params) do
+        correct_language_query = from l in Language, where: l.id == ^language_id, select: l.id
+        all_except = from l in Language, select: l.id, except: ^correct_language_query
+        language_choices = Repo.all(all_except)
+        |> Enum.take_random(2)
+        |> Enum.map(fn id -> choice_from_id(id, quiz_id) end)
+    end
+
+    #Create 
+    def create_language_choices(video) do
+        video = Repo.preload(video, [:language_video])
+        [language_video] = video.language_video
+        #If there's already a quiz return that otherwise create a new one
+        #with three language choices
+        case Quiz.created_before?(language_video) do
+            [quiz] -> quiz
+            [] -> 
+        quiz = create_quiz(%{"language_video_id" => language_video.id})
+        params = %{"quiz_id" => quiz.id, "language_id" => language_video.language_id}
+        create_correct_language_choice(params)
+        create_random_language_choice(params)
+        quiz
+        end
     end
 
     def translate_error(changeset) do
