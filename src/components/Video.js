@@ -4,17 +4,25 @@ import { useGlobal } from 'reactn';
 
 function Video() {
 
-  // Variable initialVideo & initialVideoTitle for testing only, can be deleted when the function is done
+  /* 
+  Variable initialVideo & initialVideoTitle for testing only, can be deleted when the function is done
   const initialVideo = 'https://www.youtube.com/embed/3FGc0zaIg2k';
   const initialVideoTitle = 'English';
-
-  const [videoId, setVideoId] = useState(0);
   const [videoSrc, setVideoSrc] = useState(initialVideo);
   const [videoTitle, setVideoTitle] = useState(initialVideoTitle);  
   const [choice1, setChoice1] = useState('French'); // initial value for testing only
   const [choice2, setChoice2] = useState('English'); // initial value for testing only
   const [choice3, setChoice3] = useState('Italian'); // initial value for testing only
   const [answer, setAnswer] = useState('English'); // initial value for testing only
+  */
+
+  const [videoId, setVideoId] = useState(0);
+  const [videoSrc, setVideoSrc] = useState();
+  const [videoTitle, setVideoTitle] = useState(); 
+  const [choice1, setChoice1] = useState();
+  const [choice2, setChoice2] = useState();
+  const [choice3, setChoice3] = useState();
+  const [answer, setAnswer] = useState();
   const [feedback, setFeedback] = useState();
   const [clicked, setClicked] = useState(false);
   const [global, setGlobal] = useGlobal();
