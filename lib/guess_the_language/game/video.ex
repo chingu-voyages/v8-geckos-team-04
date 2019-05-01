@@ -1,11 +1,11 @@
 defmodule GuessTheLanguage.Game.Video do
   use Ecto.Schema
   import Ecto.Changeset
-  alias GuessTheLanguage.Game.{YoutubeVideo, Language, Video, Source}
+  alias GuessTheLanguage.Game.{YoutubeVideo, Language, Video, Source, LanguageVideo}
   alias GuessTheLanguage.Accounts.User
   alias GuessTheLanguage.Repo
   
-  @derive {Jason.Encoder, only: [:uuid, :youtube_video, :user, :duration, :source]}
+  @derive {Jason.Encoder, only: [:uuid, :youtube_video, :user, :duration, :source, :language, :language_video]}
   schema "video" do
     field :uuid, Ecto.ShortUUID, autogenerate: true
     field :duration, :integer, default: 0
@@ -13,6 +13,7 @@ defmodule GuessTheLanguage.Game.Video do
     belongs_to :source, Source
     belongs_to :user, User
     many_to_many :language, Language, join_through: "language_video"
+    has_many :language_video, LanguageVideo
   end
 
   #%{"user_id",...} -> %Video{} struct
