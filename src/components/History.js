@@ -16,10 +16,10 @@ function History() {
                                             <td>{item.score}</td></tr>);
 
   return (
-    <div>
+    <div className='history-page'>
       <h1><a href='/'>Guess The Language</a></h1>
-      <h3>Playing History</h3>
-      <table>
+      <h3>Game and Score History</h3>
+      <table class="center">
         <tbody>
           <tr>
             <th>Date</th>
