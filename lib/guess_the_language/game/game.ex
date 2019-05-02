@@ -241,10 +241,8 @@ defmodule GuessTheLanguage.Game do
         |> Enum.map(fn id -> choice_from_id(id, quiz_id) end)
     end
 
-    #Create 
-    def create_language_choices(video) do
-        video = Repo.preload(video, [:language_video])
-        [language_video] = video.language_video
+     
+    def create_language_choices(language_video) do
         #If there's already a quiz return that otherwise create a new one
         #with three language choices
         case Quiz.created_before?(language_video) do
@@ -258,11 +256,15 @@ defmodule GuessTheLanguage.Game do
         end
     end
 
+    def manage_language_choices do
+        Repo.all(LanguageVideo)
+        |> Enum.map(fn language_video -> create_language_choices(language_video) end)
+    end
+
     def translate_error(changeset) do
      traverse_errors(changeset, fn {msg, opts} ->
       Enum.reduce(opts, msg, fn {key, value}, acc ->
         String.replace(acc, "%{#{key}}", to_string(value)) end)
         end)
     end
-
 end
