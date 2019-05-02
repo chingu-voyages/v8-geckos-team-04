@@ -4,28 +4,25 @@ import { useGlobal } from 'reactn';
 
 function Video() {
 
-  /* 
-  Variable initialVideo & initialVideoTitle for testing only, can be deleted when the function is done
-  const initialVideo = 'https://www.youtube.com/embed/3FGc0zaIg2k';
-  const initialVideoTitle = 'English';
-  const [videoSrc, setVideoSrc] = useState(initialVideo);
-  const [videoTitle, setVideoTitle] = useState(initialVideoTitle);  
-  const [choice1, setChoice1] = useState('French'); // initial value for testing only
-  const [choice2, setChoice2] = useState('English'); // initial value for testing only
-  const [choice3, setChoice3] = useState('Italian'); // initial value for testing only
-  const [answer, setAnswer] = useState('English'); // initial value for testing only
-  */
-
-  const [videoId, setVideoId] = useState(0);
+  const [videoId, setVideoId] = useState();
+  const [videoTitle, setVideoTitle] = useState();
   const [videoSrc, setVideoSrc] = useState();
-  const [videoTitle, setVideoTitle] = useState(); 
-  const [choice1, setChoice1] = useState();
-  const [choice2, setChoice2] = useState();
-  const [choice3, setChoice3] = useState();
+  const [choices, setChoices] = useState(['a','b','c'])
   const [answer, setAnswer] = useState();
   const [feedback, setFeedback] = useState();
   const [clicked, setClicked] = useState(false);
   const [global, setGlobal] = useGlobal();
+
+  // get localStorage data
+  const localStorageScoreKey = 'usrName_localScores';
+  const localStorageLanguagesKey = 'stored_languages';
+  if (!localStorage.getItem(localStorageScoreKey)) {
+    localStorage.setItem(localStorageScoreKey, JSON.stringify([]));
+  }
+  const localScores = JSON.parse(localStorage.getItem(localStorageScoreKey));
+  const localLanguages = JSON.parse(localStorage.getItem(localStorageLanguagesKey));
+  const [languageIndex, setlanguageIndex] = useState(0);
+  //console.log(local_languages)
 
   // next and submit button
   const nextButton = <button className='next-btn' onClick={() => handleNext()}>Next</button>
@@ -34,73 +31,22 @@ function Video() {
           Submit
         </button>
       )} />
-  const [next, setNext] = useState(); 
+  const [nextBtn, setNextBtn] = useState(); 
 
-  // get localStorage data
-  const scores = [];
-  const localStorageKey = 'usrName_localScores';
-  if (!localStorage.getItem(localStorageKey)) {
-    localStorage.setItem(localStorageKey, JSON.stringify(scores));
-  }
-  const localScores = JSON.parse(localStorage.getItem(localStorageKey));
-
-  // The localStorage key for the languages array.
-  const localStorageKeyLanguages = 'stored_languages';
-  const local_languages = JSON.parse(localStorage.getItem(localStorageKeyLanguages));
-
-  // A function is needed to choose video src, choices and answer
-  function chooseAVideo() {
-
-    // shuffle the languages array for extra randomness.
-    let shuffled_languages = local_languages.sort(() => Math.random() - 0.5);
-
-    let random_videos = []; // a new array for the 3 random videos.
-    
-    // make sure local_languages is of greater length than 3 to remove chance of infinite loop.
-    if (shuffled_languages.length >= 3) {
-
-      while (random_videos.length < 3) {
-
-        // get a random language from the shuffled_languages array.
-        let rand = shuffled_languages[Math.floor(Math.random() * shuffled_languages.length)];
-  
-        // check if it is already in the random_videos array.
-        if (random_videos.indexOf(rand.language) === -1) {
-  
-          // It is not already in the array, so add it, which will increment the
-          // random_videos array by 1.
-          random_videos.push(rand);
-  
-        }
-  
-      }
-
-    }
-
-    // Out of the 3 videos chosen at random from the data set, select 1 
-    // random one to show and be the correct answer.
-    let chosenindex = Math.floor(Math.random() * random_videos.length);
-
-    let chosen = random_videos[chosenindex];
-
-    setVideoId(chosen.id);
-    setVideoSrc(chosen.url);
-    setVideoTitle(chosen.language);
-    setChoice1(random_videos[0].language);
-    setChoice2(random_videos[1].language);
-    setChoice3(random_videos[2].language);
-    setAnswer(chosen.language);
-  }
+  // Use useEffect to get an initial video to start the game.
+  useEffect(() => {
+    return handleNext(); 
+  },[]);
 
   function handleUserChoice(e) {
     setClicked(true);
     // Show next/submit button
     // Switch from next button to submit button when qNum hits 10
     if (global.qNum === 10) {
-      setNext(submitButton)
+      setNextBtn(submitButton)
     }
     else {
-      setNext(nextButton);
+      setNextBtn(nextButton);
     }
 
     // Show feedback
@@ -112,39 +58,33 @@ function Video() {
       setFeedback('Oops! The answer was ' + answer);
     }
   }
-
-  // Use React hook to get an initial video to start the game rather than the hard-coded one.
-  useEffect(() => {
-
-    // pass 1 to handleNext so it knows this is a new game so the question number the user is on should say 1.
-    return handleNext(1); 
-
-  },[]);
   
-  function handleNext(newgame) { 
-    setNext();
+  function handleNext() { 
+    // When a game ends, if user click back button from the browser, 
+    // a new game starts and score will be reset to 0.
+    if (global.qNum === 0) {
+      setGlobal({score: 0});
+    }
+    setNextBtn(); // Hide next button
     setFeedback(); // Hide feedback div
     setClicked(false); // Enable choice buttons
 
-    // Reset chosen video and choices to defaults to clear.
-    setVideoSrc();
-    setVideoTitle();
-    setChoice1();
-    setChoice2();
-    setChoice3();
-    setAnswer();
+    setVideoId(languageIndex);
+    setVideoTitle('Language_' + languageIndex);
+    setVideoSrc(localLanguages[languageIndex].url);
+    setAnswer(localLanguages[languageIndex].language);
 
-    chooseAVideo(); // Select the next random video.
-
-    if (newgame) { // Starting a new game so question number is 1.
-      
-      setGlobal({qNum: 1});
-
-    } else {
-
-      setGlobal({qNum: global.qNum + 1});
-         
+    // Randomly choose one choice index as the correct answer
+    let chosenIndex = Math.floor(Math.random() * 3);
+    let newChoices = choices;
+    for (let i = 0; i < 3; i++) {
+      if (i === chosenIndex) {
+        newChoices[i] = localLanguages[languageIndex].language
+      }
     }
+    setChoices(newChoices);
+    setlanguageIndex(languageIndex + 1); // go to the next item in localLanguage array
+    setGlobal({qNum: global.qNum + 1}); // Increase question number by 1
   }
 
   function handleSubmit() {
@@ -154,7 +94,8 @@ function Video() {
       score: global.score
     }
     localScores.push(newScore);
-    localStorage.setItem(localStorageKey, JSON.stringify(localScores));
+    localStorage.setItem(localStorageScoreKey, JSON.stringify(localScores));
+    setGlobal({qNum: 0});
   }
 
   return (
@@ -170,14 +111,14 @@ function Video() {
           title={videoTitle} src={videoSrc+'?start=5&end=120&autoplay=1&mute=1'}></iframe>
       </div>
       <div className='choices'>
-        <button id={choice1} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choice1}</button>
-          <button id={choice2} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choice2}</button>
-            <button id={choice3} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choice3}</button>
+        <button id={choices[0]} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choices[0]}</button>
+          <button id={choices[1]} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choices[1]}</button>
+            <button id={choices[2]} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choices[2]}</button>
       </div>
       <div className='feedback'>
         {feedback}
       </div>
-      {next}
+      {nextBtn}
     </div>
   );
 }

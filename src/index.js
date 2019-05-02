@@ -8,7 +8,7 @@ import { setGlobal } from 'reactn';
 
 setGlobal({
   score: 0,
-  qNum: 1, // Question number
+  qNum: 0, // Question number
 });
 
 render((
