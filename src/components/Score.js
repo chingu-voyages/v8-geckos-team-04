@@ -1,12 +1,17 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { useGlobal } from 'reactn';
+import GetData from '../api/GetData';
 
 function Score() {
   const [global] = useGlobal();
 
   const newGame = () => {
+    GetData(); // fetch new data array from backend.
     window.location.href = '/game'; // Start a new game.
+  }
+  const viewHistory = () => {
+    window.location.href = '/history'; // Start a new game.
   }
 
   return (
@@ -21,8 +26,8 @@ function Score() {
         </div>
       </div>
       <div className='score-flex-button-box'>
-        <Route render={({history}) => (
-          <button className='view-history-btn' onClick={() => { history.push('/history') }}>
+        <Route render={() => (
+          <button className='view-history-btn' onClick={viewHistory}>
             View History
           </button>
         )} />

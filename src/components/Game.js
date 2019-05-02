@@ -1,12 +1,13 @@
 import React from 'react';
 import Video from './Video';
 import { useGlobal } from 'reactn';
+import GetData from '../api/GetData';
 
 function Game() {
   const [global] = useGlobal();
 
   const newGame = () => {
-
+    GetData(); // fetch new data array from backend.
     window.location.href = '/game'; // Start a new game.
   }
 
