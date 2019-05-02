@@ -12,17 +12,18 @@ export default async function GetData() {
   try {
     const response = await axios.get(API_URL, { crossdomain: true })
     // console.log(response.data.next_videos);
-    // console.log(response.data.next_videos[0].language[0].name);
+    // console.log(response.data.next_videos[0].language_video[0].quiz[0].language_choice);
     // console.log(response.data.next_videos[0].youtube_video.youtube_uuid);
     if (response) {
-      let url = '', language = '';
+      let url = '';
       for (let i = 0; i < 10; i++) {
           url = VIDEO_URL + response.data.next_videos[i].youtube_video.youtube_uuid;
-          language = response.data.next_videos[i].language[0].name;
           new_languages.push({
             id: i,
             url: url,
-            language: language
+            start_time: response.data.next_videos[i].language_video[0].start_time,
+            end_time: response.data.next_videos[i].language_video[0].end_time,
+            language: response.data.next_videos[i].language_video[0].quiz[0].language_choice
           });
       }
       // Store new_language array in localStorage

@@ -7,7 +7,9 @@ function Video() {
   const [videoId, setVideoId] = useState();
   const [videoTitle, setVideoTitle] = useState();
   const [videoSrc, setVideoSrc] = useState();
-  const [choices, setChoices] = useState(['a','b','c'])
+  const [startTime, setStartTime] = useState();
+  const [endTime, setEndTime] = useState();
+  const [choices, setChoices] = useState([]);
   const [answer, setAnswer] = useState();
   const [feedback, setFeedback] = useState();
   const [clicked, setClicked] = useState(false);
@@ -68,19 +70,20 @@ function Video() {
     setNextBtn(); // Hide next button
     setFeedback(); // Hide feedback div
     setClicked(false); // Enable choice buttons
+    setChoices([]); // Clear previous choices
 
     setVideoId(languageIndex);
     setVideoTitle('Language_' + languageIndex);
     setVideoSrc(localLanguages[languageIndex].url);
-    setAnswer(localLanguages[languageIndex].language);
+    setStartTime(localLanguages[languageIndex].start_time);
+    setEndTime(localLanguages[languageIndex].end_time);
 
-    // Randomly choose one choice index as the correct answer
-    let chosenIndex = Math.floor(Math.random() * 3);
-    let newChoices = choices;
-    for (let i = 0; i < 3; i++) {
-      if (i === chosenIndex) {
-        newChoices[i] = localLanguages[languageIndex].language
-      }
+    let newChoices = [];
+    for (let i = 0; i < localLanguages[languageIndex].language.length; i++) {
+        newChoices.push(localLanguages[languageIndex].language[i].language.name);
+        if (localLanguages[languageIndex].language[i]['correct?']) {
+          setAnswer(newChoices[i]);
+        }
     }
     setChoices(newChoices);
     setlanguageIndex(languageIndex + 1); // go to the next item in localLanguage array
@@ -98,6 +101,9 @@ function Video() {
     setGlobal({qNum: 0});
   }
 
+  const choiceBtns = choices.map((item) => 
+    <button id={item} key={item} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{item}</button>);
+
   return (
     <div className="video">
       <div className="youtube-video-wrapper">
@@ -108,12 +114,10 @@ function Video() {
           What language do you think it is?
         </div>
         <iframe id={videoId} width="560" height="349" className='youtube-video-iframe' 
-          title={videoTitle} src={videoSrc+'?start=5&end=120&autoplay=1'}></iframe>
+          title={videoTitle} src={videoSrc+'?start='+startTime+'&end='+endTime+'&autoplay=1'}></iframe>
       </div>
       <div className='choices'>
-        <button id={choices[0]} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choices[0]}</button>
-          <button id={choices[1]} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choices[1]}</button>
-            <button id={choices[2]} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choices[2]}</button>
+        {choiceBtns}
       </div>
       <div className='feedback'>
         {feedback}
