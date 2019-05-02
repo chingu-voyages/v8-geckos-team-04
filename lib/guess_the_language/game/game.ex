@@ -240,7 +240,6 @@ defmodule GuessTheLanguage.Game do
         |> Enum.take_random(2)
         |> Enum.map(fn id -> choice_from_id(id, quiz_id) end)
     end
-
      
     def create_language_choices(language_video) do
         #If there's already a quiz return that otherwise create a new one

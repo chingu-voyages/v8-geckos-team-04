@@ -3,8 +3,8 @@ defmodule GuessTheLanguage.Game.LanguageVideo do
     import Ecto.Changeset
     alias GuessTheLanguage.Repo
     alias GuessTheLanguage.Game
-    alias Game.{Language, LanguageVideo, Video, Quiz}
 
+    alias Game.{Language, LanguageVideo, Video, Quiz}
     @derive {Jason.Encoder, only: [:uuid, :start_time, :end_time, :quiz]}
     schema "language_video" do
         field :uuid, Ecto.ShortUUID, autogenerate: true

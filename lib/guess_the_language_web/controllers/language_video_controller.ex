@@ -5,8 +5,8 @@ defmodule GuessTheLanguageWeb.LanguageVideoController do
     alias GuessTheLanguage.Repo
 
 
-
     def preload_language_video(language_video, assoc \\ [:quiz]) do
+
         Repo.preload(language_video, assoc)
     end
 
