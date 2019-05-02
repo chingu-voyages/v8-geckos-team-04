@@ -43,7 +43,8 @@ defmodule GuessTheLanguage.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:ecto_shortuuid, "~> 0.1"}
+      {:ecto_shortuuid, "~> 0.1"},
+      {:cors_plug, "~> 2.0"},
     ]
   end
 
