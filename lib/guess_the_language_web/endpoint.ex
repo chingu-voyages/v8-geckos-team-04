@@ -42,5 +42,6 @@ defmodule GuessTheLanguageWeb.Endpoint do
     key: "_guess_the_language_key",
     signing_salt: "JE21MHwb"
 
+  plug CORSPlug, origin: "*"
   plug GuessTheLanguageWeb.Router
 end

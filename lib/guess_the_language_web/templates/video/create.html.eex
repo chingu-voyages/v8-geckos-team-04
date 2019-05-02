@@ -23,7 +23,7 @@ window.addEventListener("load", function () {
     });
 
     // Set up our request
-    XHR.open("POST", "http://localhost:4000/api/videos");
+    XHR.open("POST", "https://still-taiga-98730.herokuapp.com/api/videos");
 
     // The data sent is what the user provided in the form
     XHR.send(FD);

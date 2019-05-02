@@ -24,7 +24,7 @@ defmodule GuessTheLanguageWeb.LanguageController do
         |> show_valid(conn)
     end
 
-    def show_valid(%{"error" => error} = resp, _type, conn) do
+    def show_valid(%{"error" => error} = resp, conn) do
         send_error(conn, resp)
     end
 
@@ -50,7 +50,7 @@ defmodule GuessTheLanguageWeb.LanguageController do
 
 
     def delete(conn, params) do
-        Game.delete_video(params) |> delete_valid(conn)
+        Game.delete_language(params) |> delete_valid(conn)
     end
 
     def delete_valid(%{"error" => message} = resp, conn) do
