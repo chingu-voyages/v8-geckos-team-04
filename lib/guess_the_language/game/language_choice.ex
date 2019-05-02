@@ -7,7 +7,7 @@ defmodule GuessTheLanguage.Game.LanguageChoice do
     alias GuessTheLanguage.Accounts.User
     alias Game.{Language, Quiz, LanguageChoice}
 
-    @derive {Jason.Encoder, only: [:uuid, :correct?, :language, :quiz]}
+    @derive {Jason.Encoder, only: [:uuid, :correct?, :language]}
     schema "language_choice" do
       field :uuid, Ecto.ShortUUID, autogenerate: true
       field :correct?, :boolean, default: false

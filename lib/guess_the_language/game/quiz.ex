@@ -6,7 +6,7 @@ defmodule GuessTheLanguage.Game.Quiz do
     alias Game.{Language, Quiz, LanguageVideo, LanguageChoice}
     alias GuessTheLanguage.Repo
     
-    @derive {Jason.Encoder, only: [:uuid, :language, :language_video, :language_choice]}
+    @derive {Jason.Encoder, only: [:uuid, :language_choice]}
     schema "quiz" do
       field :uuid, Ecto.ShortUUID, autogenerate: true
       many_to_many :language, Language, join_through: "language_choice"
