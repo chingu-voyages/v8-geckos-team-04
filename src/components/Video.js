@@ -108,7 +108,7 @@ function Video() {
           What language do you think it is?
         </div>
         <iframe id={videoId} width="560" height="349" className='youtube-video-iframe' 
-          title={videoTitle} src={videoSrc+'?start=5&end=120&autoplay=1&mute=1'}></iframe>
+          title={videoTitle} src={videoSrc+'?start=5&end=120&autoplay=1'}></iframe>
       </div>
       <div className='choices'>
         <button id={choices[0]} onClick={(e) => {handleUserChoice(e)}} disabled={clicked}>{choices[0]}</button>
