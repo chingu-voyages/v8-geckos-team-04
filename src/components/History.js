@@ -19,7 +19,7 @@ function History() {
     <div className='history-page'>
       <h1><a href='/'>Guess The Language</a></h1>
       <h3>Game and Score History</h3>
-      <table class="center">
+      <table className="center">
         <tbody>
           <tr>
             <th>Date</th>
