@@ -9,7 +9,7 @@ export default async function Languages(next) {
 
     let nextid = 1; // Simple way to get a unique id to act as the key in the list of languages.
 
-    let new_languages = []; // Create a new array instead of mutating state.
+    let new_languages = []; // Create a new array to hold the languages.
 
     try {
         
@@ -21,48 +21,34 @@ export default async function Languages(next) {
 
                 // The endpoint returns a collection of search results (i.e. an array of objects, data.items).
 
-                let itemslength = response.data.items.length; // Number of results returned this axios call.
+                let videoslength = response.languages.length; // Number of results returned this axios call.
 
-                let url = '', language = '';
-                for (let i = 0; i < itemslength; i++) {
+                let nextid = 1; // Simple way to get a unique id to act as the key in the list of languages.
 
-                    url = VIDEO_URL + response.data.items[i].snippet.resourceId.videoId; // Get the url field for the video.
-                    title = response.data.items[i].snippet.title; // Get the title field of the video.
+                let uuid = null, url = '', language = '';
 
-                    let startindex = getTitleStartIndex(title); // Extract the language from the title.
+                for (let i = 0; i < videoslength; i++) {
 
-                    // Check if a language name still isn't present. If not, do not execute the below for this video.
-                    if (startindex !== -1) {
+                    uuid = response.language.uuid; // Get the youtube uuid for the video.
+                    url = VIDEO_URL + uuid; // Build the video url given its uuid.
+                    language = response.language.name; // Get the language name of the video.
 
-                        let language_array = getLanguageFromTitleStartIndex(startindex, title);
+                    // Add the language to the new_languages array.
+                    if (!empty(language) && !empty(uuid)) {
 
-                        // Loop through the language array and add each one to new_languages.
-                        for (let i = 0; i < language_array.length; i++) {
+                        new_languages.push({
+                            id: nextid++,
+                            url,
+                            language
+                        });
 
-                            if (language_array[i] !== '') {
-
-                                let trimmed_language = language_array[i].replace(/^\s+/g, "");
-
-                                new_languages.push({
-                                    id: nextid++,
-                                    url,
-                                    starttime: 10,
-                                    endtime: 120,
-                                    language: trimmed_language
-                                });
-
-                            }
-
-                        }
-                        
                     }
 
                 }
 
                 // Sort the languages.
                 new_languages.sort(sortLanguages('id'));
-                console.log("By id", new_languages);
-
+                //console.log("By id", new_languages);
 
                 // Return the updated list of languages.
                 return new_languages;
@@ -73,9 +59,9 @@ export default async function Languages(next) {
 
             }
 
-    } catch(error) {
+    } catch(e) {
 
-        console.error(error);
+        console.log(e.message);
 
     }
 
