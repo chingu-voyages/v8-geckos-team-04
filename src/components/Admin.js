@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Languages from '../api/Languages.js'; // Make the languages array.
 import { sortLanguages } from '../api/Helpers.js'; // Admin helper functions.
 
 export default function Admin() {
@@ -21,8 +22,6 @@ export default function Admin() {
                     <td>{lang.id}</td>
                     <td>{lang.language}</td>
                     <td><a href={lang.url} target='_blank' rel='noopener noreferrer'>{lang.url}</a></td>
-                    <td>{lang.starttime}</td>
-                    <td>{lang.endtime}</td>
                     <td><button onClick={() => handleSave(lang.id)}>Save</button></td>
                     <td><button onClick={() => deleteVideo(lang.id)}>Delete</button></td>
                 </tr>
@@ -114,8 +113,6 @@ export default function Admin() {
                             <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'id')}>ID</th>
                             <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'language')}>Language</th>
                             <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'url')}>URL</th>
-                            <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'starttime')}>Start Time</th>
-                            <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'endtime')}>End Time</th>
                             <th scope="col">Edit</th>
                             <th scope="col">Delete</th>
                         </tr>
