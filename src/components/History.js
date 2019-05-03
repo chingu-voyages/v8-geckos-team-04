@@ -1,4 +1,5 @@
 import React from 'react';
+import GetData from '../api/GetData';
 
 // Clear localStorage
 // localStorage.clear();
@@ -10,6 +11,12 @@ if (!localStorage.getItem(localStorageKey)) {
 }
 
 function History() {
+  const newGame = () => {
+    GetData(); //fetch new data array from backend.
+    window.location.href = '/game'; //Start a new game.
+  }
+  
+  
   const localScores = JSON.parse(localStorage.getItem(localStorageKey));
   const output = localScores.map((item,index) => <tr key={index}><td>{item.date}</td>
                                             <td>{item.time}</td>
@@ -28,7 +35,12 @@ function History() {
           </tr>
           {output}
         </tbody>
-      </table> 
+      </table>
+      <Route render={() => (
+          <button className='new-game-btn' onClick={newGame}>
+            Next Game
+          </button>
+        )} />
     </div>
   );
 }
