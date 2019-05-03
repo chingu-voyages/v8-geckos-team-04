@@ -1,4 +1,5 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 
 // Clear localStorage
 // localStorage.clear();
@@ -28,7 +29,12 @@ function History() {
           </tr>
           {output}
         </tbody>
-      </table> 
+      </table>
+      <Route render={({history}) => (
+          <button onClick={() => { history.push('/game') }}>
+            Next Game
+          </button>
+        )} />
     </div>
   );
 }
