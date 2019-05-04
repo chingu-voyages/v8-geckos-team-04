@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import * as CRUD from '../api/CRUD.js' // Make the languages array.
-import {VIDEO_URL} from '../api/CRUD.js'
-import AddLanguage from './AddLanguage'
+import * as CRUD from '../api/CRUD.js' // For CRUD operations.
+import {VIDEO_URL} from '../api/CRUD.js' // For base video url.
+import AddLanguage from './AddLanguage' // Add a new record form.
 
 export default function Admin() {
     // Use the useState hooks to manage the  state of the fetched data.

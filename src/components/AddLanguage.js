@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
+import * as CRUD from '../api/CRUD.js' // For CRUD operations.
 
 export default function AddLanguage () {
   const initialFormState = {uuid: '', name: ''}
   const [newLanguage, setNewLanguage] = useState(initialFormState)
+  const [crudError, setcrudError] = useState()
 
   // Handle the user editing the form fields.
   function handleInputChange (event) {
@@ -14,11 +16,35 @@ export default function AddLanguage () {
   // Submit the new record.
   function handleNewRecord (event) {
     event.preventDefault()
+    if (newLanguage.uuid && newLanguage.name) {
+      CRUD.handleCRUD('post', newLanguage.uuid, newLanguage.name)
+      .then(function(res) {
+          if (res.data.error) {
+            let error = res.data.error
+            if (error.uuid[0] === 'is invalid') {
+              setcrudError('You entered an invalid UUID')
+            } else if (error.uuid[0] === 'has already been taken') {
+              setcrudError('There is already a video in the system with the UUID you entered')        
+            } else {
+              setcrudError('Unknown error')       
+            }
+          } else {
+            setcrudError('Successfully added!') 
+          }
+          console.log(res)
+      })
+      .catch(err => console.log(err))
+
+
+    }
     setNewLanguage(initialFormState)
   }
 
   return (
       <form className="mt-3">
+        {
+          crudError && <div className="form-row align-items-center alert alert-danger" role="alert">{crudError}</div>
+        }        
         <div className="form-row align-items-center">
           <div className="col-auto">
             <div className="mb-2">Add a New Language:</div>
