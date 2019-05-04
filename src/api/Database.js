@@ -1,28 +1,33 @@
-import axios from 'axios'; // talk to the backend endpoints.
+import axios from 'axios' // talk to the backend endpoints.
 
 // The base REST url for getting the videos.
-const API_URL = 'https://still-taiga-98730.herokuapp.com/api/languages';
+const API_URL = 'https://still-taiga-98730.herokuapp.com/api/languages'
 // The base URL for YouTube videos.
-const VIDEO_URL = 'https://www.youtube.com/embed/';
+const VIDEO_URL = 'https://www.youtube.com/embed/'
 
 /**
  * Connect to endpoint and return the response for processing.
  * @httpMethod The axios http request method that maps to a CRUD operation at the backend.
  * @return The response from the axios request.
  */
-export function doRemote(httpMethod) {
+export function handleCRUD(httpMethod = '', uuid = '', name = '') {
     switch (httpMethod) {
         case 'get':
             // get all the videos
-            break;
+            axios.get(API_URL)
+            break
         case 'post':
             // add a new video
-            break;
+            let langobj = {uuid, name}
+            axios.post(API_URL, langobj)
+            break
         case 'delete':
             // delete a video
-            break;
+            axios.delete(API_URL + '/' + uuid)
+            break
         case 'patch':
             // update a video
+            axios.patch(API_URL + '/' + uuid, {name})
         default:
             // problem.
     }
@@ -37,9 +42,9 @@ export function doRemote(httpMethod) {
  */ 
 export function sortLanguages(propName) {
     if (propName === 'language') {
-        return (a, b) => a[propName].toLowerCase() === b[propName].toLowerCase() ? 0 : a[propName].toLowerCase() < b[propName].toLowerCase() ? -1 : 1;
+        return (a, b) => a[propName].toLowerCase() === b[propName].toLowerCase() ? 0 : a[propName].toLowerCase() < b[propName].toLowerCase() ? -1 : 1
     }
-    return (a, b) => a[propName] === b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1;
+    return (a, b) => a[propName] === b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
 }
 
 /**
