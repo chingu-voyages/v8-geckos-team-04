@@ -2,7 +2,7 @@ import axios from 'axios' // Talk to the backend endpoints.
 
 // The base REST url for getting the videos.
 const API_URL = 'https://still-taiga-98730.herokuapp.com/api/languages'
-// The base URL for YouTube videos.
+// The base URL for videos.
 export const VIDEO_URL = 'https://www.youtube.com/embed/'
 
 /**
@@ -54,14 +54,14 @@ export async function handleCRUD (httpMethod = '', uuid = '', name = '') {
 }
 
 /**
- * Sort the languages.
- * @param {propName} The property of the languages we want to sort by.
- * @return The sorted languages array. 
+ * Sort the array of objects by the parameter specified by the user.
+ * @param {sortby} The property of the objects we want to sort by. Defaults to 'name'.
+ * @return The sorted array. 
  */ 
-export function sortLanguages (propName) {
-    if (propName === 'language') {
-        return (a, b) => a[propName].toLowerCase() === b[propName].toLowerCase() ? 0 : a[propName].toLowerCase() < b[propName].toLowerCase() ? -1 : 1
+export function sortTable (sortby) {
+    if (sortby === 'name') {
+        return (a, b) => a[sortby].toLowerCase() === b[sortby].toLowerCase() ? 0 : a[sortby].toLowerCase() < b[sortby].toLowerCase() ? -1 : 1
     }
-    return (a, b) => a[propName] === b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1
+    return (a, b) => a[sortby] === b[sortby] ? 0 : a[sortby] < b[sortby] ? -1 : 1
 }
 

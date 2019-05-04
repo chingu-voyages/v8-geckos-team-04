@@ -27,20 +27,7 @@ export default function Admin() {
         return;
     } 
 
-    const sortTable = (sortby) => {
-
-
-
-    }
-
-    // const deleteVideo = (id) => {
-        
-
-
-    // }
-
-
-    // const handleSave = (id) => {
+    // const handleEdits = (uuid) => {
 
 
     // }
@@ -51,6 +38,9 @@ export default function Admin() {
         // Get the languages from the endpoint.
         CRUD.handleCRUD('get')
             .then(function(res) {
+                let languages = res.data.languages
+                // Sort languages.
+                languages.sort(CRUD.sortTable('name'))
                 // Create the admin table.
                 drawAdminTable(res.data.languages)
             })
@@ -66,12 +56,12 @@ export default function Admin() {
                 : <table className='table table-bordered table-striped'>
                     <tbody>
                         <tr>
-                            <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'id')}>#</th>
-                            <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'uuid')}>UUID</th>
-                            <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'name')}>Language</th>
-                            <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'url')}>URL</th>
-                            <th scope="col" className="adminsort">Edit</th>
-                            <th scope="col" className="adminsort">Delete</th>
+                            <th scope="col" className="adminsort" onClick={CRUD.sortTable('id')}>#</th>
+                            <th scope="col" className="adminsort" onClick={CRUD.sortTable('uuid')}>UUID</th>
+                            <th scope="col" className="adminsort" onClick={CRUD.sortTable('name')}>Language</th>
+                            <th scope="col" className="adminsort" onClick={CRUD.sortTable('url')}>URL</th>
+                            <th scope="col" className="adminnosort">Edit</th>
+                            <th scope="col" className="adminnosort">Delete</th>
                         </tr>
                         {languagetable}
                     </tbody>
