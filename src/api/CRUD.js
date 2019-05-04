@@ -1,9 +1,10 @@
-import axios from 'axios' // talk to the backend endpoints.
+import React from 'react'; // So we can export the constants too.
+import axios from 'axios' // Talk to the backend endpoints.
 
 // The base REST url for getting the videos.
 const API_URL = 'https://still-taiga-98730.herokuapp.com/api/languages'
 // The base URL for YouTube videos.
-const VIDEO_URL = 'https://www.youtube.com/embed/'
+export const VIDEO_URL = 'https://www.youtube.com/embed/'
 
 /**
  * Connect to endpoint and return the response for processing.
@@ -23,12 +24,12 @@ export async function handleCRUD (httpMethod = '', uuid = '', name = '') {
             break
         case 'delete':
             // delete a video
-            let params = API_URL + '/' + uuid
+            let params = API_URL + ':' + uuid
             break
         case 'patch':
             // update a video
             let langobj = {uuid, name}
-            let params = API_URL + '/' + uuid + ', ' + langobj
+            let params = API_URL + ':' + uuid + ', ' + langobj
         default:
             // problem.
     }

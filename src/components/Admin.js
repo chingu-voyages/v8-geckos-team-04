@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Languages from '../api/Languages.js'; // Make the languages array.
+import * as CRUD, {VIDEO_URL} from '../api/CRUD.js'; // Make the languages array.
 
 export default function Admin() {
 
@@ -8,24 +8,22 @@ export default function Admin() {
     const [loading, setLoading] = useState(false); // Loading indicator.
 
     // Updates the admin table display after CRUD operations.
-    const redrawAdminTable = (updated_languages) => {
-
+    const drawAdminTable = (updated_languages) => {
+        let nextid = 0;
         if (updated_languages) {
             let languagetable = updated_languages.map(lang => (
-                <tr key={lang.id}>
-                    <td>{lang.id}</td>
-                    <td>{lang.language}</td>
-                    <td><a href={lang.url} target='_blank' rel='noopener noreferrer'>{lang.url}</a></td>
-                    <td><button onClick={() => handleSave(lang.id)}>Save</button></td>
-                    <td><button onClick={() => deleteVideo(lang.id)}>Delete</button></td>
+                <tr key={++nextid}>
+                    <td>{lang.uuid}</td>
+                    <td>{lang.name}</td>
+                    <td><a href={VIDEO_URL + lang.uuid} target='_blank' rel='noopener noreferrer'>{VIDEO_URL + lang.uuid}</a></td>
+                    <td><button onClick={() => CRUD.handleCRUD('patch', lang.uuid, lang.name)}>Save</button></td>
+                    <td><button onClick={() => CRUD.handleCRUD('delete', lang.uuid)}>Delete</button></td>
                 </tr>
             ));
             // Update the language table layout.
             setLanguageTable(languagetable);
         }
-
         return;
-    
     } 
 
     const sortTable = (sortby) => {
@@ -34,17 +32,17 @@ export default function Admin() {
 
     }
 
-    const deleteVideo = (id) => {
+    // const deleteVideo = (id) => {
         
 
 
-    }
+    // }
 
 
-    const handleSave = (id) => {
+    // const handleSave = (id) => {
 
 
-    }
+    // }
 
     // Use the useEffect hook to build the admin table from the languages data.
     useEffect(() => {
@@ -52,10 +50,10 @@ export default function Admin() {
         setLoading(true); // Show loading indicator.
 
         // Get the languages from the endpoint.
-        const Languages = Languages();
+        const languages = CRUD.handleCRUD('get')
 
         // Update the admin table.
-        redrawAdminTable(Languages);
+        drawAdminTable(languages);
 
         setLoading(false); // Don't show loading indicator any more.
 
