@@ -8,7 +8,7 @@ import Game from './Game';
 import Score from './Score';
 import History from './History';
 import Admin from './Admin';
-import Languages from '../api/Languages';
+import GetData from '../api/GetData';
 
 // The App component renders one of the provided
 // Routes. If the route is '/', then we will display
@@ -19,7 +19,7 @@ const App = () => {
 
   // Hydrate the languages array state either from the user browser's localStorage, 
   // or fro YouTube API if localStorage is empty.
-  Languages();
+  GetData();
   
   return (
     <main>

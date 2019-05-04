@@ -32,6 +32,8 @@ defmodule GuessTheLanguageWeb.Router do
 
     resources "language_choices", LanguageChoiceController, param: "uuid"
 
+    resources "language_videos", LanguageVideoController, param: "uuid"
+
   end
   scope "/", GuessTheLanguageWeb do
     pipe_through :browser

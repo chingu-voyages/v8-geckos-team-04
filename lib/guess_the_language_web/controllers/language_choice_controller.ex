@@ -6,7 +6,7 @@ defmodule GuessTheLanguageWeb.LanguageChoiceController do
 
 
 
-    def preload_language_choice(language_choice, assoc \\ [:quiz, :language]) do
+    def preload_language_choice(language_choice, assoc \\ [:language]) do
         Repo.preload(language_choice, assoc)
     end
 

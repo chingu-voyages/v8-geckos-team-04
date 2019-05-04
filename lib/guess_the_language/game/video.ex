@@ -1,11 +1,12 @@
 defmodule GuessTheLanguage.Game.Video do
   use Ecto.Schema
   import Ecto.Changeset
-  alias GuessTheLanguage.Game.{YoutubeVideo, Language, Video, Source}
+  import Ecto.Query
+  alias GuessTheLanguage.Game.{YoutubeVideo, Language, Video, Source, LanguageVideo}
   alias GuessTheLanguage.Accounts.User
   alias GuessTheLanguage.Repo
   
-  @derive {Jason.Encoder, only: [:uuid, :youtube_video, :user, :duration, :source]}
+  @derive {Jason.Encoder, only: [:uuid, :duration, :source, :youtube_video, :language_video]}
   schema "video" do
     field :uuid, Ecto.ShortUUID, autogenerate: true
     field :duration, :integer, default: 0
@@ -13,6 +14,24 @@ defmodule GuessTheLanguage.Game.Video do
     belongs_to :source, Source
     belongs_to :user, User
     many_to_many :language, Language, join_through: "language_video"
+    has_many :language_video, LanguageVideo
+  end
+
+  def preload(video_list) when is_list(video_list) do
+    video_list
+    |> Enum.map(fn video -> preload(video) end)
+  end
+
+  def preload(%Video{} = video_struct) do
+    video = Repo.one from video in Video,
+    where: video.id == ^video_struct.id,
+    left_join: language_video in assoc(video, :language_video),
+    left_join: youtube_video in assoc(video, :youtube_video),
+    left_join: source in assoc(video, :source),
+    left_join: quiz in assoc(language_video, :quiz),
+    left_join: language_choice in assoc(quiz, :language_choice),
+    preload: [language_video: {language_video, quiz: {quiz, language_choice: {language_choice, :language}}},
+     youtube_video: youtube_video, source: source]
   end
 
   #%{"user_id",...} -> %Video{} struct

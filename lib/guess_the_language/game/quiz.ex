@@ -1,17 +1,22 @@
 defmodule GuessTheLanguage.Game.Quiz do
     use Ecto.Schema
     import Ecto.Changeset
-
+    import Ecto.Query, only: [from: 2]
     alias GuessTheLanguage.Game
     alias Game.{Language, Quiz, LanguageVideo, LanguageChoice}
     alias GuessTheLanguage.Repo
     
-    @derive {Jason.Encoder, only: [:uuid, :language, :language_video, :language_choice]}
+    @derive {Jason.Encoder, only: [:uuid, :language_choice]}
     schema "quiz" do
       field :uuid, Ecto.ShortUUID, autogenerate: true
       many_to_many :language, Language, join_through: "language_choice"
       has_many :language_choice, LanguageChoice
       belongs_to :language_video, LanguageVideo
+    end
+
+    def created_before?(language_video) do
+      already_in_db = from q in Quiz, where: q.language_video_id == ^language_video.id, select: q
+      Repo.all(already_in_db)
     end
 
     def valid_insert({:ok, quiz}), do: quiz
