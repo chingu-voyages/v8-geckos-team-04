@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import * as CRUD from '../api/CRUD.js' // Make the languages array.
 import {VIDEO_URL} from '../api/CRUD.js'
+import AddLanguage from './AddLanguage'
 
 export default function Admin() {
     // Use the useState hooks to manage the  state of the fetched data.
-    const [languagetable, setLanguageTable] = useState();
-    const [loading, setLoading] = useState(false); // Loading indicator.
+    const [languageArray, setLanguageArray] = useState([])
+    const [languageTable, setLanguageTable] = useState()
+    const [loading, setLoading] = useState(false) // Loading indicator.
 
     // Updates the admin table display after CRUD operations.
     const drawAdminTable = (updated_languages) => {
-        let nextid = 0;
+        let nextid = 0
         if (updated_languages) {
-            let languagetable = updated_languages.map(lang => (
+            let languageTable = updated_languages.map(lang => (
                 <tr key={++nextid}>
                     <td>{nextid}</td>
                     <td>{lang.uuid}</td>
@@ -20,17 +22,22 @@ export default function Admin() {
                     <td><button onClick={() => CRUD.handleCRUD('patch', lang.uuid, lang.name)}>Save</button></td>
                     <td><button onClick={() => CRUD.handleCRUD('delete', lang.uuid)}>Delete</button></td>
                 </tr>
-            ));
+            ))
             // Update the language table layout.
-            setLanguageTable(languagetable);
+            setLanguageTable(languageTable)
+            setLanguageArray(updated_languages)
         }
-        return;
+        return
     } 
 
     // const handleEdits = (uuid) => {
 
 
     // }
+
+    const sortType = (type) => {
+        languageArray.sort(CRUD.sortTable(type))
+    }
 
     // Use the useEffect hook to build the admin table from the languages data.
     useEffect(() => {
@@ -46,24 +53,25 @@ export default function Admin() {
             })
             .catch(err => console.log(err))
         setLoading(false) // Don't show loading indicator any more.
-    },[]);
+    },[])
 
     // Display the records.   
     return (
         <div className="container">
+            <AddLanguage />
             {loading 
-                ? <div className='text-center'><img src='./images/geckopreloader.gif' width='130' alt='Loading...'/></div> 
-                : <table className='table table-bordered table-striped'>
+                ? <div className='text-center mt-3'><img src='./images/geckopreloader.gif' width='130' alt='Loading...'/></div> 
+                : <table className='table table-bordered table-striped mt-2'>
                     <tbody>
                         <tr>
-                            <th scope="col" className="adminsort" onClick={CRUD.sortTable('id')}>#</th>
-                            <th scope="col" className="adminsort" onClick={CRUD.sortTable('uuid')}>UUID</th>
-                            <th scope="col" className="adminsort" onClick={CRUD.sortTable('name')}>Language</th>
-                            <th scope="col" className="adminsort" onClick={CRUD.sortTable('url')}>URL</th>
+                            <th scope="col" className="adminsort" onClick={sortType('id')}>#</th>
+                            <th scope="col" className="adminsort" onClick={sortType('uuid')}>UUID</th>
+                            <th scope="col" className="adminsort" onClick={sortType('name')}>Language</th>
+                            <th scope="col" className="adminsort" onClick={sortType('url')}>URL</th>
                             <th scope="col" className="adminnosort">Edit</th>
                             <th scope="col" className="adminnosort">Delete</th>
                         </tr>
-                        {languagetable}
+                        {languageTable}
                     </tbody>
                 </table>
             }
