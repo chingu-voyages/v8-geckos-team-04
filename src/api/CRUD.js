@@ -44,13 +44,13 @@ export async function handleCRUD (httpMethod = '', uuid = '', name = '') {
                 url,
                 data
               })
+            return response.data.languages;
        } catch (err) {
-            response = err
+            return err
        }
     } else {
-        response = 'Invalid http method'
+        return 'Invalid http method'
     }
-    return response
 }
 
 /**

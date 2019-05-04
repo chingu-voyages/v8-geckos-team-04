@@ -57,7 +57,6 @@ export default function Admin() {
         //drawAdminTable(languages);
 
         console.log(languages);
-        
         setLoading(false); // Don't show loading indicator any more.
 
     },[]);
@@ -66,10 +65,9 @@ export default function Admin() {
     return (
 
         <div className="container">
-
-            {loading ? <div>Loading...</div> : 
-
-                <table className='table table-bordered table-striped'>
+            {loading 
+                ? <div className='text-center'><img src='./images/geckopreloader.gif' width='130' alt='Loading...'/></div> 
+                : <table className='table table-bordered table-striped'>
                     <tbody>
                         <tr>
                             <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'id')}>ID</th>
@@ -83,7 +81,6 @@ export default function Admin() {
 
                     </tbody>
                 </table>
-
             }
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossOrigin="anonymous">
