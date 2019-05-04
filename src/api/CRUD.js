@@ -27,11 +27,11 @@ export async function handleCRUD (httpMethod = '', uuid = '', name = '') {
             break
         case 'delete':
             // delete a video
-            url = API_URL + ':' + uuid
+            url = API_URL + '/' + uuid
             break
         case 'patch':
             // update a video
-            url = API_URL + ':' + uuid
+            url = API_URL + '/' + uuid
             data = langobj
             break
         default:
