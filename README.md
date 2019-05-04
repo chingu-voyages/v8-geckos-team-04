@@ -45,14 +45,13 @@ Front End (Sabrina, Susanna, Ying)
 - Enzyme
 - HTML5
 - CSS
-- YouTube API
 - Node.js
 - Bundler (ie. Webpack)
 - Axios
 
 Back End (Carlos)
 - Elixir
-- Phoenix
+- Phoenix Framework
 
 # Team members
 
