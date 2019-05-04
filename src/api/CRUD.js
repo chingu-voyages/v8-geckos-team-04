@@ -1,4 +1,3 @@
-import React from 'react'; // So we can export the constants too.
 import axios from 'axios' // Talk to the backend endpoints.
 
 // The base REST url for getting the videos.
@@ -12,31 +11,39 @@ export const VIDEO_URL = 'https://www.youtube.com/embed/'
  * @return The response from the axios request.
  */
 export async function handleCRUD (httpMethod = '', uuid = '', name = '') {
-    let params = ''
+    let url = ''
+    let data = ''
     let response = ''
     const langobj = {uuid, name}
     switch (httpMethod) {
         case 'get':
             // get all the videos
-            params = API_URL
+            url = API_URL
             break
         case 'post':
             // add a new video
-            params = API_URL + ', ' + langobj
+            url = API_URL
+            data = langobj
             break
         case 'delete':
             // delete a video
-            params = API_URL + ':' + uuid
+            url = API_URL + ':' + uuid
             break
         case 'patch':
             // update a video
-            params = API_URL + ':' + uuid + ', ' + langobj
+            url = API_URL + ':' + uuid
+            data = langobj
+            break
         default:
-            params = ''
+            httpMethod = ''
     }
-    if (params) {
+    if (httpMethod) {
        try {
-            response = await axios.httpMethod(params)
+            response = await axios({
+                method: httpMethod,
+                url,
+                data
+              })
        } catch (err) {
             response = err
        }

@@ -54,8 +54,10 @@ export default function Admin() {
         const languages = CRUD.handleCRUD('get')
 
         // Update the admin table.
-        drawAdminTable(languages);
+        //drawAdminTable(languages);
 
+        console.log(languages);
+        
         setLoading(false); // Don't show loading indicator any more.
 
     },[]);
