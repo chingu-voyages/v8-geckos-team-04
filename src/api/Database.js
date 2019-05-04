@@ -10,29 +10,38 @@ const VIDEO_URL = 'https://www.youtube.com/embed/'
  * @httpMethod The axios http request method that maps to a CRUD operation at the backend.
  * @return The response from the axios request.
  */
-export function handleCRUD(httpMethod = '', uuid = '', name = '') {
+export async function handleCRUD (httpMethod = '', uuid = '', name = '') {
     switch (httpMethod) {
         case 'get':
             // get all the videos
-            axios.get(API_URL)
+            let params = API_URL
             break
         case 'post':
             // add a new video
             let langobj = {uuid, name}
-            axios.post(API_URL, langobj)
+            let params = API_URL + ', ' + langobj
             break
         case 'delete':
             // delete a video
-            axios.delete(API_URL + '/' + uuid)
+            let params = API_URL + '/' + uuid
             break
         case 'patch':
             // update a video
-            axios.patch(API_URL + '/' + uuid, {name})
+            let langobj = {uuid, name}
+            let params = API_URL + '/' + uuid + ', ' + langobj
         default:
             // problem.
     }
-
-
+    if (params) {
+       try {
+            const response = await axios.httpMethod(params)
+       } catch (err) {
+            const response = err
+       }
+    } else {
+        const response = 'Invalid http method'
+    }
+    return response
 }
 
 /**
@@ -40,7 +49,7 @@ export function handleCRUD(httpMethod = '', uuid = '', name = '') {
  * @param {propName} The property of the languages we want to sort by.
  * @return The sorted languages array. 
  */ 
-export function sortLanguages(propName) {
+export function sortLanguages (propName) {
     if (propName === 'language') {
         return (a, b) => a[propName].toLowerCase() === b[propName].toLowerCase() ? 0 : a[propName].toLowerCase() < b[propName].toLowerCase() ? -1 : 1
     }
@@ -51,7 +60,7 @@ export function sortLanguages(propName) {
  * Get the list of all languages.
  * @return The array of languages.
  */ 
-export function getAllLanguages() {
+export function getAllLanguages () {
 
 }
 
@@ -59,7 +68,7 @@ export function getAllLanguages() {
  * Create a new language. Will return an error if the ID already exists.
  * @return JSON from a successful create operation.
  */ 
-export function addLanguage() {
+export function addLanguage () {
 
 
 }
@@ -69,7 +78,7 @@ export function addLanguage() {
  * @return JSON from a successful delete operation.
  * @param {id} The uuid of the language to delete.
  */ 
-export function deleteLanguage(uuid) {
+export function deleteLanguage (uuid) {
 
 
 }
@@ -79,7 +88,7 @@ export function deleteLanguage(uuid) {
  * @return JSON from a successful update operation.
  * @param {id} The uuid of the language to save.
  */ 
-export function updateLanguage(uuid) {
+export function updateLanguage (uuid) {
 
 
 }
