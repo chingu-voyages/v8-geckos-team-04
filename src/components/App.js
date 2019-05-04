@@ -17,8 +17,7 @@ import GetData from '../api/GetData';
 
 const App = () => {
 
-  // Hydrate the languages array state either from the user browser's localStorage, 
-  // or fro YouTube API if localStorage is empty.
+  // Get the videos to be used within the game from the Phoenix endpoint.
   GetData();
   
   return (

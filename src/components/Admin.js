@@ -1,137 +1,81 @@
-import React, { useState, useEffect } from 'react';
-import { sortLanguages } from '../api/Helpers.js'; // Admin helper functions.
+import React, { useState, useEffect } from 'react'
+import * as CRUD from '../api/CRUD.js' // For CRUD operations.
+import {VIDEO_URL} from '../api/CRUD.js' // For base video url.
+import AddLanguage from './AddLanguage' // Add a new record form.
 
 export default function Admin() {
-
     // Use the useState hooks to manage the  state of the fetched data.
-    const [languagetable, setLanguageTable] = useState();
-    const [loading, setLoading] = useState(false); // Loading indicator.
-
-    // The localStorage key for the languages array.
-    const localStorageKey = 'stored_languages';
-
-    // Updates the admin table display after CRUD operations.
-    const redrawAdminTable = (updated_languages) => {
-
-        if (updated_languages) {
-    
-            let languagetable = updated_languages.map(lang => (
-                
-                <tr key={lang.id}>
-                    <td>{lang.id}</td>
-                    <td>{lang.language}</td>
-                    <td><a href={lang.url} target='_blank' rel='noopener noreferrer'>{lang.url}</a></td>
-                    <td>{lang.starttime}</td>
-                    <td>{lang.endtime}</td>
-                    <td><button onClick={() => handleSave(lang.id)}>Save</button></td>
-                    <td><button onClick={() => deleteVideo(lang.id)}>Delete</button></td>
-                </tr>
-    
-            ));
-    
-            // Update the language table layout.
-            setLanguageTable(languagetable);
-   
-        }
-
-        return;
-    
-    } 
-
-    const sortTable = (sortby) => {
-
-        // Return the list of languages from the localStore.
-        const new_languages = JSON.parse(localStorage.getItem(localStorageKey));
-        
-        new_languages.sort(sortLanguages(sortby));
-
-        // Update the languages array in localStorage to reflect the deletion.
-        localStorage.setItem(localStorageKey, JSON.stringify(new_languages));
-
-        // Update the admin table.
-        redrawAdminTable(new_languages);
-
+    const [languageArray, setLanguageArray] = useState([])
+    const [loading, setLoading] = useState(false) // Loading indicator.
+    let nextid = 0
+  
+    // Handle the user editing the form fields.
+    const handleEdits = (event) => {
+        console.log(event.target.value)
+        // Object destructuring will allow us to easily get the names and values from the form.
+        const {name, value} = event.target
+        // setNewLanguage({...languageArray, [name]: value })
     }
 
-    const deleteVideo = (id) => {
-        
-        // Get the current languages array from the browser's localStorage.
-        const local_languages = JSON.parse(localStorage.getItem(localStorageKey));
-
-        // Create a new array without the deleted language.
-        const updated_languages = local_languages.filter(lang => lang.id !== id);
-
-        // Update the languages array in localStorage to reflect the deletion.
-        localStorage.setItem(localStorageKey, JSON.stringify(updated_languages));
-
-        // Update the admin table.
-        redrawAdminTable(updated_languages);
-
-    }
-
-
-    const handleSave = (id) => {
-
-        // Get the current languages array from the browser's localStorage.
-        const local_languages = JSON.parse(localStorage.getItem(localStorageKey));
-
-        // Create a new array that reflects the edits made to a language.
-        const updated_languages = local_languages.filter(lang => lang.id !== id);
-
-        // Update the languages array in localStorage to reflect the changes to a language.
-        localStorage.setItem(localStorageKey, JSON.stringify(updated_languages));
-
-        // Update the admin table.
-        redrawAdminTable(updated_languages);
-
+    const sortType = (type) => {
+        languageArray.sort(CRUD.sortTable(type))
     }
 
     // Use the useEffect hook to build the admin table from the languages data.
     useEffect(() => {
-
-        setLoading(true); // Show loading indicator.
-
-        // Get the languages data from the browser's localStorage.
-        const localLanguages = JSON.parse(localStorage.getItem(localStorageKey));
-
-        // Update the admin table.
-        redrawAdminTable(localLanguages);
-
-        setLoading(false); // Don't show loading indicator any more.
-
-    },[]);
+        setLoading(true) // Show loading indicator.
+        // Get the languages from the endpoint.
+        CRUD.handleCRUD('get')
+            .then(function(res) {
+                let languages = res.data.languages
+                // Sort languages.
+                languages.sort(CRUD.sortTable('name'))
+                // Create the admin table.
+                setLanguageArray(languages)
+            })
+            .catch(err => console.log(err))
+        setLoading(false) // Don't show loading indicator any more.
+    },[])
 
     // Display the records.   
     return (
-
         <div className="container">
-
-            {loading ? <div>Loading...</div> : 
-
-                <table className='table table-bordered table-striped'>
+            <AddLanguage />
+            {loading 
+                ? <div className='text-center mt-3'><img src='./images/geckopreloader.gif' width='130' alt='Loading...'/></div> 
+                : <table className='table table-bordered table-striped mt-2'>
                     <tbody>
                         <tr>
-                            <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'id')}>ID</th>
-                            <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'language')}>Language</th>
-                            <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'url')}>URL</th>
-                            <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'starttime')}>Start Time</th>
-                            <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'endtime')}>End Time</th>
-                            <th scope="col">Edit</th>
-                            <th scope="col">Delete</th>
+                            <th scope="col" className="adminsort" onClick={sortType('id')}>#</th>
+                            <th scope="col" className="adminsort" onClick={sortType('uuid')}>UUID</th>
+                            <th scope="col" className="adminsort" onClick={sortType('name')}>Language</th>
+                            <th scope="col" className="adminsort" onClick={sortType('url')}>URL</th>
+                            <th scope="col" className="adminnosort">Edit</th>
+                            <th scope="col" className="adminnosort">Delete</th>
                         </tr>
-
-                        {languagetable}
-
+                        {
+                            languageArray.map(lang => (
+                                <tr key={++nextid}>
+                                    <td>{nextid}</td>
+                                    <td>
+                                        <input type="text" className="form-control" name="uuid" id="uuid" placeholder="Video UUID" required value={lang.uuid} onChange={handleEdits}/>
+                                    </td>
+                                    <td>
+                                        <input type="text" className="form-control" name="name" id="name" placeholder="Language Name" required value={lang.name} onChange={handleEdits}/>
+                                    </td>
+                                    <td><a href={VIDEO_URL + lang.uuid} target='_blank' rel='noopener noreferrer'>{VIDEO_URL + lang.uuid}</a></td>
+                                    <td><button onClick={() => CRUD.handleCRUD('patch', lang.uuid, lang.name)}>Save</button></td>
+                                    <td><button onClick={() => CRUD.handleCRUD('delete', lang.uuid, lang.name)}>Delete</button></td>
+                                </tr>
+                            ))                            
+                        }
                     </tbody>
                 </table>
-
             }
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossOrigin="anonymous">
             </link>
         </div>
-
     )
-
 }
 
