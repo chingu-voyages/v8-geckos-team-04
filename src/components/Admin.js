@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import * as CRUD, {VIDEO_URL} from '../api/CRUD.js'; // Make the languages array.
+import React, { useState, useEffect } from 'react'
+import * as CRUD from '../api/CRUD.js' // Make the languages array.
+import {VIDEO_URL} from '../api/CRUD.js'
 
 export default function Admin() {
 

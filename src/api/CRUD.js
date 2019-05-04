@@ -12,35 +12,36 @@ export const VIDEO_URL = 'https://www.youtube.com/embed/'
  * @return The response from the axios request.
  */
 export async function handleCRUD (httpMethod = '', uuid = '', name = '') {
+    let params = ''
+    let response = ''
+    const langobj = {uuid, name}
     switch (httpMethod) {
         case 'get':
             // get all the videos
-            let params = API_URL
+            params = API_URL
             break
         case 'post':
             // add a new video
-            let langobj = {uuid, name}
-            let params = API_URL + ', ' + langobj
+            params = API_URL + ', ' + langobj
             break
         case 'delete':
             // delete a video
-            let params = API_URL + ':' + uuid
+            params = API_URL + ':' + uuid
             break
         case 'patch':
             // update a video
-            let langobj = {uuid, name}
-            let params = API_URL + ':' + uuid + ', ' + langobj
+            params = API_URL + ':' + uuid + ', ' + langobj
         default:
-            // problem.
+            params = ''
     }
     if (params) {
        try {
-            const response = await axios.httpMethod(params)
+            response = await axios.httpMethod(params)
        } catch (err) {
-            const response = err
+            response = err
        }
     } else {
-        const response = 'Invalid http method'
+        response = 'Invalid http method'
     }
     return response
 }
