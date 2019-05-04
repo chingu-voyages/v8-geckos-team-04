@@ -4,7 +4,7 @@ import * as CRUD from '../api/CRUD.js' // For CRUD operations.
 export default function AddLanguage () {
   const initialFormState = {uuid: '', name: ''}
   const [newLanguage, setNewLanguage] = useState(initialFormState)
-  const [crudError, setcrudError] = useState()
+  const [crudError, setCrudError] = useState()
 
   // Handle the user editing the form fields.
   function handleInputChange (event) {
@@ -22,20 +22,20 @@ export default function AddLanguage () {
           if (res.data.error) {
             let error = res.data.error
             if (error.uuid[0] === 'is invalid') {
-              setcrudError('You entered an invalid UUID.')
+              setCrudError('You entered an invalid UUID.')
             } else if (error.uuid[0] === 'has already been taken') {
-              setcrudError('There is already a video in the system with the UUID you entered.')        
+              setCrudError('There is already a video in the system with the UUID you entered.')        
             } else {
-              setcrudError('An unknown error occurred.')       
+              setCrudError('An unknown error occurred.')       
             }
           } else {
-            setcrudError('Successfully added!') 
+            setCrudError('Successfully added!') 
           }
           //console.log(res)
       })
       .catch(err => console.log(err))
     } else {
-      setcrudError('Please complete both the UUID and language name form fields.')
+      setCrudError('Please complete both the UUID and language name form fields.')
     }
     // Reset the form.
     setNewLanguage(initialFormState)

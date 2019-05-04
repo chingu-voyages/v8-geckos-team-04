@@ -58,7 +58,7 @@ export default function Admin() {
                                     <td>{lang.name}</td>
                                     <td><a href={VIDEO_URL + lang.uuid} target='_blank' rel='noopener noreferrer'>{VIDEO_URL + lang.uuid}</a></td>
                                     <td><button onClick={() => CRUD.handleCRUD('patch', lang.uuid, lang.name)}>Save</button></td>
-                                    <td><button onClick={() => CRUD.handleCRUD('delete', lang.uuid)}>Delete</button></td>
+                                    <td><button onClick={() => CRUD.handleCRUD('delete', lang.uuid, lang.name)}>Delete</button></td>
                                 </tr>
                             ))                            
                         }
