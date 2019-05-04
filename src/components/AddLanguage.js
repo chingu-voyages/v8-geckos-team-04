@@ -22,11 +22,11 @@ export default function AddLanguage () {
           if (res.data.error) {
             let error = res.data.error
             if (error.uuid[0] === 'is invalid') {
-              setcrudError('You entered an invalid UUID')
+              setcrudError('You entered an invalid UUID.')
             } else if (error.uuid[0] === 'has already been taken') {
-              setcrudError('There is already a video in the system with the UUID you entered')        
+              setcrudError('There is already a video in the system with the UUID you entered.')        
             } else {
-              setcrudError('Unknown error')       
+              setcrudError('An unknown error occurred.')       
             }
           } else {
             setcrudError('Successfully added!') 
@@ -34,6 +34,8 @@ export default function AddLanguage () {
           //console.log(res)
       })
       .catch(err => console.log(err))
+    } else {
+      setcrudError('Please complete both the UUID and language name form fields.')
     }
     // Reset the form.
     setNewLanguage(initialFormState)
@@ -53,12 +55,12 @@ export default function AddLanguage () {
           </div>
           <div className="col-auto">
             <label className="sr-only" htmlFor="uuid">Name</label>
-            <input type="text" className="form-control mb-2" name="uuid" id="uuid" placeholder="Video UUID" value={newLanguage.uuid} onChange={handleInputChange}/>
+            <input type="text" className="form-control mb-2" name="uuid" id="uuid" placeholder="Video UUID" required value={newLanguage.uuid} onChange={handleInputChange}/>
           </div>
           <div className="col-auto">
             <label className="sr-only" htmlFor="name">Username</label>
             <div className="input-group mb-2">
-              <input type="text" className="form-control" name="name" id="name" placeholder="Language Name" value={newLanguage.name} onChange={handleInputChange}/>
+              <input type="text" className="form-control" name="name" id="name" placeholder="Language Name" required value={newLanguage.name} onChange={handleInputChange}/>
             </div>
           </div>
           <div className="col-auto">
