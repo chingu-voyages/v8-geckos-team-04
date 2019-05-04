@@ -6,30 +6,9 @@ import AddLanguage from './AddLanguage' // Add a new record form.
 export default function Admin() {
     // Use the useState hooks to manage the  state of the fetched data.
     const [languageArray, setLanguageArray] = useState([])
-    const [languageTable, setLanguageTable] = useState()
     const [loading, setLoading] = useState(false) // Loading indicator.
-
-    // Updates the admin table display after CRUD operations.
-    const drawAdminTable = (updated_languages) => {
-        let nextid = 0
-        if (updated_languages) {
-            let languageTable = updated_languages.map(lang => (
-                <tr key={++nextid}>
-                    <td>{nextid}</td>
-                    <td>{lang.uuid}</td>
-                    <td>{lang.name}</td>
-                    <td><a href={VIDEO_URL + lang.uuid} target='_blank' rel='noopener noreferrer'>{VIDEO_URL + lang.uuid}</a></td>
-                    <td><button onClick={() => CRUD.handleCRUD('patch', lang.uuid, lang.name)}>Save</button></td>
-                    <td><button onClick={() => CRUD.handleCRUD('delete', lang.uuid)}>Delete</button></td>
-                </tr>
-            ))
-            // Update the language table layout.
-            setLanguageTable(languageTable)
-            setLanguageArray(updated_languages)
-        }
-        return
-    } 
-
+    let nextid = 0
+  
     // const handleEdits = (uuid) => {
 
 
@@ -49,7 +28,7 @@ export default function Admin() {
                 // Sort languages.
                 languages.sort(CRUD.sortTable('name'))
                 // Create the admin table.
-                drawAdminTable(res.data.languages)
+                setLanguageArray(languages)
             })
             .catch(err => console.log(err))
         setLoading(false) // Don't show loading indicator any more.
@@ -71,7 +50,18 @@ export default function Admin() {
                             <th scope="col" className="adminnosort">Edit</th>
                             <th scope="col" className="adminnosort">Delete</th>
                         </tr>
-                        {languageTable}
+                        {
+                            languageArray.map(lang => (
+                                <tr key={++nextid}>
+                                    <td>{nextid}</td>
+                                    <td>{lang.uuid}</td>
+                                    <td>{lang.name}</td>
+                                    <td><a href={VIDEO_URL + lang.uuid} target='_blank' rel='noopener noreferrer'>{VIDEO_URL + lang.uuid}</a></td>
+                                    <td><button onClick={() => CRUD.handleCRUD('patch', lang.uuid, lang.name)}>Save</button></td>
+                                    <td><button onClick={() => CRUD.handleCRUD('delete', lang.uuid)}>Delete</button></td>
+                                </tr>
+                            ))                            
+                        }
                     </tbody>
                 </table>
             }
