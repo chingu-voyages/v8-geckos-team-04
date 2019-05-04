@@ -3,7 +3,6 @@ import * as CRUD from '../api/CRUD.js' // Make the languages array.
 import {VIDEO_URL} from '../api/CRUD.js'
 
 export default function Admin() {
-
     // Use the useState hooks to manage the  state of the fetched data.
     const [languagetable, setLanguageTable] = useState();
     const [loading, setLoading] = useState(false); // Loading indicator.
@@ -14,6 +13,7 @@ export default function Admin() {
         if (updated_languages) {
             let languagetable = updated_languages.map(lang => (
                 <tr key={++nextid}>
+                    <td>{nextid}</td>
                     <td>{lang.uuid}</td>
                     <td>{lang.name}</td>
                     <td><a href={VIDEO_URL + lang.uuid} target='_blank' rel='noopener noreferrer'>{VIDEO_URL + lang.uuid}</a></td>
@@ -47,38 +47,33 @@ export default function Admin() {
 
     // Use the useEffect hook to build the admin table from the languages data.
     useEffect(() => {
-
-        setLoading(true); // Show loading indicator.
-
+        setLoading(true) // Show loading indicator.
         // Get the languages from the endpoint.
-        const languages = CRUD.handleCRUD('get')
-
-        // Update the admin table.
-        //drawAdminTable(languages);
-
-        console.log(languages);
-        setLoading(false); // Don't show loading indicator any more.
-
+        CRUD.handleCRUD('get')
+            .then(function(res) {
+                // Create the admin table.
+                drawAdminTable(res.data.languages)
+            })
+            .catch(err => console.log(err))
+        setLoading(false) // Don't show loading indicator any more.
     },[]);
 
     // Display the records.   
     return (
-
         <div className="container">
             {loading 
                 ? <div className='text-center'><img src='./images/geckopreloader.gif' width='130' alt='Loading...'/></div> 
                 : <table className='table table-bordered table-striped'>
                     <tbody>
                         <tr>
-                            <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'id')}>ID</th>
-                            <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'language')}>Language</th>
+                            <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'id')}>#</th>
+                            <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'uuid')}>UUID</th>
+                            <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'name')}>Language</th>
                             <th scope="col" className="adminsort" onClick={sortTable.bind(sortTable, 'url')}>URL</th>
-                            <th scope="col">Edit</th>
-                            <th scope="col">Delete</th>
+                            <th scope="col" className="adminsort">Edit</th>
+                            <th scope="col" className="adminsort">Delete</th>
                         </tr>
-
                         {languagetable}
-
                     </tbody>
                 </table>
             }
@@ -86,8 +81,6 @@ export default function Admin() {
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossOrigin="anonymous">
             </link>
         </div>
-
     )
-
 }
 
