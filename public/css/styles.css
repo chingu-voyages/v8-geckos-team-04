@@ -183,6 +183,12 @@ iframe {
 	top: 20px;
 }
 
+.adminnosort {
+	background-color: transparent;
+	border: none;
+	color: #000;
+}
+
 .adminsort {
 	background-color: transparent;
 	border: none;
