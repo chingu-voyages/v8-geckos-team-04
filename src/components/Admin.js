@@ -9,10 +9,13 @@ export default function Admin() {
     const [loading, setLoading] = useState(false) // Loading indicator.
     let nextid = 0
   
-    // const handleEdits = (uuid) => {
-
-
-    // }
+    // Handle the user editing the form fields.
+    const handleEdits = (event) => {
+        console.log(event.target.value)
+        // Object destructuring will allow us to easily get the names and values from the form.
+        const {name, value} = event.target
+        // setNewLanguage({...languageArray, [name]: value })
+    }
 
     const sortType = (type) => {
         languageArray.sort(CRUD.sortTable(type))
@@ -54,8 +57,12 @@ export default function Admin() {
                             languageArray.map(lang => (
                                 <tr key={++nextid}>
                                     <td>{nextid}</td>
-                                    <td>{lang.uuid}</td>
-                                    <td>{lang.name}</td>
+                                    <td>
+                                        <input type="text" className="form-control" name="uuid" id="uuid" placeholder="Video UUID" required value={lang.uuid} onChange={handleEdits}/>
+                                    </td>
+                                    <td>
+                                        <input type="text" className="form-control" name="name" id="name" placeholder="Language Name" required value={lang.name} onChange={handleEdits}/>
+                                    </td>
                                     <td><a href={VIDEO_URL + lang.uuid} target='_blank' rel='noopener noreferrer'>{VIDEO_URL + lang.uuid}</a></td>
                                     <td><button onClick={() => CRUD.handleCRUD('patch', lang.uuid, lang.name)}>Save</button></td>
                                     <td><button onClick={() => CRUD.handleCRUD('delete', lang.uuid, lang.name)}>Delete</button></td>

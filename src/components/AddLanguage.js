@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import * as CRUD from '../api/CRUD.js' // For CRUD operations.
 
 export default function AddLanguage () {
+  const [languageArray, setLanguageArray] = useState([])
   const initialFormState = {uuid: '', name: ''}
   const [newLanguage, setNewLanguage] = useState(initialFormState)
   const [crudError, setCrudError] = useState()
@@ -29,6 +30,7 @@ export default function AddLanguage () {
               setCrudError('An unknown error occurred.')       
             }
           } else {
+            // setLanguageArray([...languageArray, newLanguage])
             setCrudError('Successfully added!') 
           }
           //console.log(res)

@@ -44,9 +44,12 @@ export async function handleCRUD (httpMethod = '', uuid = '', name = '') {
                 url,
                 data
               })
-            //console.log(response)
+            console.log(response)
             if (response.data.deleted_language) {
-                console.log('Deleted video ' + uuid + ' with language ' + name)
+                alert('Deleted video ' + uuid + ' with language ' + name) // change to show error nicely on page instead.
+            }
+            if (response.data.updated_language) {
+                alert('Updated video ' + uuid + ' with language ' + name) // change to show error nicely on page instead.
             }
             return response
        } catch (err) {
