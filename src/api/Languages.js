@@ -1,7 +1,25 @@
-import { sortLanguages } from './Helpers'; // Admin helper functions.
 import axios from 'axios'; // Axios for talking to the YouTube API.
-        
-export default async function Languages(next) {
+ 
+/**
+ * Sort the languages array.
+ * @param {propName} The property of the languages we want to sort by.
+ * @return The sorted languages array. 
+ */ 
+export function sortLanguages(propName) {
+
+    if (propName === 'language') {
+
+        return (a, b) => a[propName].toLowerCase() === b[propName].toLowerCase() ? 0 : a[propName].toLowerCase() < b[propName].toLowerCase() ? -1 : 1;
+
+    }
+
+    return (a, b) => a[propName] === b[propName] ? 0 : a[propName] < b[propName] ? -1 : 1;
+
+}
+
+
+
+export async function Languages() {
 
     // The REST endpoint for getting the videos.
     const API_URL = 'https://still-taiga-98730.herokuapp.com/api/languages';
@@ -19,39 +37,7 @@ export default async function Languages(next) {
 
             if (response) {
 
-                // The endpoint returns a collection of search results (i.e. an array of objects, data.items).
-
-                let videoslength = response.languages.length; // Number of results returned this axios call.
-
-                let nextid = 1; // Simple way to get a unique id to act as the key in the list of languages.
-
-                let uuid = null, url = '', language = '';
-
-                for (let i = 0; i < videoslength; i++) {
-
-                    uuid = response.language.uuid; // Get the youtube uuid for the video.
-                    url = VIDEO_URL + uuid; // Build the video url given its uuid.
-                    language = response.language.name; // Get the language name of the video.
-
-                    // Add the language to the new_languages array.
-                    if (!empty(language) && !empty(uuid)) {
-
-                        new_languages.push({
-                            id: nextid++,
-                            url,
-                            language
-                        });
-
-                    }
-
-                }
-
-                // Sort the languages.
-                new_languages.sort(sortLanguages('id'));
-                //console.log("By id", new_languages);
-
-                // Return the updated list of languages.
-                return new_languages;
+console.log('durr');
 
             } else {
 
