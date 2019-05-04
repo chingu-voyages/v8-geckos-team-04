@@ -43,7 +43,10 @@ export default function AddLanguage () {
   return (
       <form className="mt-3">
         {
-          crudError && <div className="form-row align-items-center alert alert-danger" role="alert">{crudError}</div>
+          crudError
+          && ((crudError === 'Successfully added!')
+            ? <div className="form-row align-items-center alert alert-success" role="alert">{crudError}</div>
+            : <div className="form-row align-items-center alert alert-danger" role="alert">{crudError}</div>)
         }        
         <div className="form-row align-items-center">
           <div className="col-auto">
