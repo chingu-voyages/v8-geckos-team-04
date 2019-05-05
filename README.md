@@ -44,6 +44,8 @@
 ## Back End (Carlos)
 - Elixir
 - Phoenix Framework
+- Ecto
+- Postgresql
 
 # Project management tool
 [Trello](https://trello.com)
