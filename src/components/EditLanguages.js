@@ -17,9 +17,7 @@ export default function EditLanguages (props) {
   return (
     <tr>
       <td>{props.nextid}</td>
-      <td>
-          <input type="text" className="form-control" name="uuid" id="uuid" placeholder="Video UUID" required value={editedLanguage.uuid} onChange={handleInputChange}/>
-      </td>
+      <td>{editedLanguage.uuid}</td>
       <td>
           <input type="text" className="form-control" name="name" id={props.nextid} placeholder="Language Name" required value={editedLanguage.name} onChange={handleInputChange}/>
       </td>
