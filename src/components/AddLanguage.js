@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import * as CRUD from '../api/CRUD.js' // For CRUD operations.
 
 export default function AddLanguage () {
-  const [languageArray, setLanguageArray] = useState([])
+  // const [languageArray, setLanguageArray] = useState([])
   const initialFormState = {uuid: '', name: ''}
   const [newLanguage, setNewLanguage] = useState(initialFormState)
   const [crudError, setCrudError] = useState()

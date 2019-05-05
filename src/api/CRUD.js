@@ -44,12 +44,12 @@ export async function handleCRUD (httpMethod = '', uuid = '', name = '') {
                 url,
                 data
               })
-            console.log(response)
+            //console.log(response)
             if (response.data.deleted_language) {
-                alert('Deleted video ' + uuid + ' with language ' + name) // change to show error nicely on page instead.
+                alert('Successfully deleted video ' + uuid + ' with language ' + name) // change to show error nicely on page instead.
             }
             if (response.data.updated_language) {
-                alert('Updated video ' + uuid + ' with language ' + name) // change to show error nicely on page instead.
+                alert('Successfully updated video ' + uuid + ' with language ' + name) // change to show error nicely on page instead.
             }
             return response
        } catch (err) {
@@ -71,4 +71,5 @@ export function sortTable (sortby) {
     }
     return (a, b) => a[sortby] === b[sortby] ? 0 : a[sortby] < b[sortby] ? -1 : 1
 }
+
 
