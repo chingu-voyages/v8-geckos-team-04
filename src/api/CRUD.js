@@ -72,4 +72,3 @@ export function sortTable (sortby) {
     return (a, b) => a[sortby] === b[sortby] ? 0 : a[sortby] < b[sortby] ? -1 : 1
 }
 
-
