@@ -2,7 +2,7 @@
   <img width="300" height="249" src="teamgecko.png" alt="Chingu Voyage 8 - Team Gecko 4!">
 </p>
 
-# Guess the Language! - A Language Guessing Game | https://guessthelanguage.com
+# Guess the Language! - A Language Guessing Game | https://guessthelanguage.com <br> https://guessthelanguage.com/admin
 - This project is associated with [Chingu](https://chingu.io/)
 
 # Installation and Setup
@@ -45,7 +45,7 @@
 - Elixir
 - Phoenix Framework
 - Ecto
-- Postgresql
+- Postgresq
 
 # Project management tool
 [Trello](https://trello.com)
@@ -57,4 +57,5 @@
 
 # Deployment
 - http://guessthelanguage.com
+- Admin area http://guessthelanguage.com/admin
 - https://geckos-guess-the-language-game.netlify.com
