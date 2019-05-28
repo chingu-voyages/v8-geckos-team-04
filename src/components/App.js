@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect }  from 'react';
 
 // routing so we can visit an admin page or other navigation within the app.
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
@@ -18,7 +18,10 @@ import GetData from '../api/GetData';
 const App = () => {
 
   // Get the videos to be used within the game from the Phoenix endpoint.
-  GetData();
+  // Use useEffect to get data to start the game.
+  useEffect(() => {
+    GetData();
+  },[]);
   
   return (
     <main>
