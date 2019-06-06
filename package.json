@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.19.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-router-dom": "^5.0",
-    "react-scripts": "2.1.8",
-    "reactn": "^1.0.0"
+    "react-scripts": "^3.0.1",
+    "reactn": "^2.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -30,6 +30,6 @@
     "enzyme-adapter-react-16": "^1.11.2",
     "react-addons-test-utils": "^15.6.2",
     "react-test-renderer": "^16.8.4",
-    "react-testing-library": "^7.0.0"
+    "react-testing-library": "^8.0.1"
   }
 }
