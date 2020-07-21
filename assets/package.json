@@ -6,8 +6,14 @@
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {
+    "js-yaml": "^3.14.0",
+    "kind-of": "^6.0.3",
+    "mem": "^4.3.0",
+    "minimist": "^1.2.5",
     "phoenix": "file:../deps/phoenix",
-    "phoenix_html": "file:../deps/phoenix_html"
+    "phoenix_html": "file:../deps/phoenix_html",
+    "serialize-javascript": "^2.1.2",
+    "set-value": "^2.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
@@ -21,7 +27,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "uglifyjs-webpack-plugin": "^1.2.4",
-    "webpack": "4.4.0",
+    "webpack": "^4.43.0",
     "webpack-cli": "^2.0.10"
   }
 }
