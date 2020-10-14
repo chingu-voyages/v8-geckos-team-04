@@ -15,9 +15,14 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.3",
     "reactn": "^2.1.2",
+<<<<<<< HEAD
     "serialize-javascript": "^2.1.2",
     "set-value": "^2.0.1",
     "yargs-parser": "^13.1.2"
+=======
+    "serialize-javascript": "^3.1.0",
+    "set-value": "^2.0.1"
+>>>>>>> 8691b498e8acea4d1be579e943ea7387b427b30d
   },
   "scripts": {
     "start": "react-scripts start",
